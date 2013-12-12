@@ -7,6 +7,7 @@ import datetime as date
 import signal
 import sys
 from MLEOneVsAll import mleonevsall
+from softZeroOneLoss import softzeroone
 
 class logisticregression():
     NOTES = "using approximated sigmoid, oneVSall, noBasis"
@@ -19,15 +20,20 @@ class logisticregression():
     LEARNING_RATE = 1e-5
     SHRINKAGE = 0.95
 
-    MAX_STEPS = 200
+    MAX_STEPS = 100000000
     UPDATE_THRESHOLD = 1e-10
     MAX_NONCHANGING_STEPS = 100000000
+
+    beta = 2
+    gradientstepsize = 0.1
+    regularizer = 0 #lambda
 
     start = time.time()
     learnMethod = None
 
     def __init__(self, learnMethod):
-        self.learnMethod = learnMethod(self.CLASSES, self.LEARNING_RATE, self.SHRINKAGE, self.MAX_STEPS, self.MAX_NONCHANGING_STEPS, self.UPDATE_THRESHOLD, self.start, self)
+        #self.learnMethod = learnMethod(self.CLASSES, self.LEARNING_RATE, self.SHRINKAGE, self.MAX_STEPS, self.MAX_NONCHANGING_STEPS, self.UPDATE_THRESHOLD, self.start, self)
+        self.learnMethod = learnMethod(self.CLASSES, self.LEARNING_RATE, self.SHRINKAGE, self.MAX_STEPS, self.MAX_NONCHANGING_STEPS, self.UPDATE_THRESHOLD, self.start, self, self.beta, self.regularizer, self.gradientstepsize)
 
     #read the data from an ARFF file.
     def readData(self, filename):
@@ -50,7 +56,7 @@ class logisticregression():
 
     def writeToCSV(self,filename):
         runtimeSeconds = time.time() - self.start
-        metaValues = [date.datetime.fromtimestamp(self.start), runtimeSeconds, learnMethod.fitness[learnMethod.maxFitnessIndex], self.LEARNING_RATE, self.SHRINKAGE, self.MAX_STEPS, self.MAX_NONCHANGING_STEPS, self.NOTES]
+        metaValues = [date.datetime.fromtimestamp(self.start), runtimeSeconds, learnMethod.fitness[learnMethod.maxFitnessIndex], self.LEARNING_RATE, self.SHRINKAGE, self.MAX_STEPS, self.MAX_NONCHANGING_STEPS, self.NOTES, self.beta, self.regularizer, str(self.learnMethod), self.gradientstepsize]
 
         with open(filename, "a") as file:
             csvwriter = csv.writer(file, delimiter=";", quotechar='"')
@@ -65,7 +71,7 @@ class logisticregression():
             csvwriter = csv.writer(file, delimiter=";", quotechar='"')
 
             for i in range(len(self.CLASSES)):
-                csvwriter.writerow([self.CLASSES[i]] + self.maxWeights[i].tolist())
+                csvwriter.writerow([self.CLASSES[i]] + learnMethod.maxWeights[i].tolist())
 
     def calcTotalError(self, weights, trainingSamples):
         curRight = 0
@@ -184,25 +190,28 @@ class logisticregression():
     #general control flow section
     ################################
 
-learnMethod = mleonevsall
+#learnMethod = mleonevsall
+learnMethod = softzeroone
 logisticregressionHelper = logisticregression(learnMethod)
+
 
 originalData = logisticregressionHelper.readData("../data/dataset-complete_90PercentTrainingSet_mini10Percent.arff")
 signal.signal(signal.SIGINT, logisticregressionHelper.signal_handler)
 
+
 print("Test reading: " + str(originalData[0]))
 
 logisticregressionHelper.train(originalData)
+logisticregressionHelper.signal_handler(None, None)
 
-currentError = logisticregressionHelper.calcTotalError(logisticregressionHelper.maxWeights,originalData)
+currentError = logisticregressionHelper.calcTotalError(logisticregressionHelper.learnMethod.maxWeights,originalData)
 print("Best Error on training: " + str(currentError) + logisticregressionHelper.runtime())
 print("Best Accuracy on training: " + str(1-currentError) + logisticregressionHelper.runtime())
 
 print("____________________________")
-print(logisticregressionHelper.maxWeights)
+print(logisticregressionHelper.learnMethod.maxWeights)
 print("____________________________")
 
-logisticregressionHelper.signal_handler(None, None)
 
 input("stopped")
 
