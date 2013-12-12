@@ -5,8 +5,8 @@ import time
 
 #The possible classes, we will use the index to identify the classes in the classifier
 CLASSES = ["sitting", "walking", "standing", "standingup", "sittingdown"]
-LEARNING_RATE = 1
-MAX_STEPS = 5
+LEARNING_RATE = 0.001
+MAX_STEPS = 50
 UPDATE_THRESHOLD = 1e-10
 start = time.time()
 
@@ -40,7 +40,7 @@ def calcTotalError(weights, trainingSamples):
             curRight += 1
 
 
-    print("Correctly Classified Samples: " + str(curRight))
+    #print("Correctly Classified Samples: " + str(curRight))
 
     return 1-float(curRight)/len(trainingSamples)
 
@@ -124,16 +124,17 @@ def optimizeAllWeights(currentWeights, trainingSamples):
     for i in range(MAX_STEPS):
         tempWeightsOld = currentWeights
         for c in range(len(CLASSES)):
-
             currentWeights[c] = updateWeightsPerClasStep(tempWeightsOld[c], trainingSamples, CLASSES[c])
 
         #print(tempWeightsOld)
-        print("Weights: ")
-        print(currentWeights)
+        #print("Weights: ")
+        #print(currentWeights)
         #if(np.array(tempWeightsOld) - np.array(currentWeights) < UPDATE_THRESHOLD * np.ones(len(currentWeights))):
           #  return currentWeights
 
-        print("Progress Global Weight: " + str(i) + runtime())
+        currentGeneralError = calcTotalError(currentWeights, trainingSamples)
+        print("Progress Global Weight: " + str(i) + " Right: " + str(1-currentGeneralError) + runtime())
+
 
     return currentWeights
 
@@ -141,8 +142,9 @@ def optimizeAllWeights(currentWeights, trainingSamples):
 #CurrentWeightsPerClass is the vector contining the weights for this class logistic regression. Training Samples is a list of training samples. Current Class is nominal (string) class value.
 def updateWeightsPerClasStep(currentWeightsPerClass, trainingSamples, currentClass):
     newWeights = currentWeightsPerClass
+    deltaW = np.zeros(len(currentWeightsPerClass))
+
     for sample in trainingSamples:
-        deltaW = np.zeros(len(currentWeightsPerClass))
         sampleInput = sample[0]
         sampleTarget = sample[1]
         prediction = classifySampleSingleClass(sampleInput, newWeights)
@@ -150,16 +152,19 @@ def updateWeightsPerClasStep(currentWeightsPerClass, trainingSamples, currentCla
         if sampleTarget == currentClass:
             target = 1
         for j in range(len(currentWeightsPerClass)):
-            deltaW[j] += abs(prediction[0] - target) * prediction[1] * getBasisOutput(sampleInput, j)
+            #deltaW[j] += abs(prediction[0] - target) * prediction[1] * getBasisOutput(sampleInput, j)
+            deltaW[j] += (target - prediction[0]) * getBasisOutput(sampleInput, j)
 
     #update w with learning rate of its gradient.
-        newWeights = newWeights + deltaW * LEARNING_RATE
-    if(currentClass == "sitting"):
-        print("deltaW")
-        print(deltaW)
+    #change1 weights can only be updated with complete gradient
+    newWeights = newWeights + deltaW * LEARNING_RATE
 
-        print "new weights"
-        print(newWeights)
+    #if(currentClass == "sitting"):
+        #print("deltaW")
+        #print(deltaW)
+
+        #print "new weights"
+        #print(newWeights)
     return newWeights
 
 # #accepts y(currentPrediction) in nominal, t(labeled value) in nominal and classValue(class we optimize for) in nominal (string) form.
@@ -194,3 +199,6 @@ optimizedWeights = optimizeAllWeights(zeroWeights,originalData)
 currentError = calcTotalError(optimizedWeights,originalData)
 
 print("Current Error on Training: " + str(currentError) + runtime())
+
+print("____________________________")
+print(optimizedWeights)
