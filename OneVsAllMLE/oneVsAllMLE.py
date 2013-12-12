@@ -2,13 +2,20 @@ import csv
 import numpy as np
 import math
 import time
+import matplotlib.pyplot as plt
 
 #The possible classes, we will use the index to identify the classes in the classifier
 CLASSES = ["sitting", "walking", "standing", "standingup", "sittingdown"]
-LEARNING_RATE = 0.001
-MAX_STEPS = 50
+LEARNING_RATE = 1e-5
+MAX_STEPS = 100000000
 UPDATE_THRESHOLD = 1e-10
+MAX_NONCHANGING_STEPS = 10
+
 start = time.time()
+
+fitness = []
+maxFitnessIndex = 0
+maxWeights = None
 
 #read the data from an ARFF file.
 def readData(filename):
@@ -133,8 +140,28 @@ def optimizeAllWeights(currentWeights, trainingSamples):
           #  return currentWeights
 
         currentGeneralError = calcTotalError(currentWeights, trainingSamples)
-        print("Progress Global Weight: " + str(i) + " Right: " + str(1-currentGeneralError) + runtime())
+        currentAccuracy = 1- currentGeneralError
 
+
+        global maxFitnessIndex
+        global maxWeights
+        global fitness
+        print("Progress Global Weight: " + str(i) + " Right: " + str(1-currentGeneralError) + runtime())
+        fitness.append(currentAccuracy)
+
+        #create a plot
+        plt.clf()
+        plt.plot(fitness)
+        plt.draw()
+        plt.show(block=False)
+
+
+        if(currentAccuracy > fitness[maxFitnessIndex]):
+            maxFitnessIndex = i
+            maxWeights = currentWeights
+
+        if(i - maxFitnessIndex > MAX_NONCHANGING_STEPS):
+            return maxWeights
 
     return currentWeights
 
