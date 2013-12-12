@@ -14,7 +14,7 @@ TEST_AND_PLOT_FITNESS = False
 CLASSES = ["sitting", "walking", "standing", "standingup", "sittingdown"]
 
 LEARNING_RATE = 1e-5
-SHRINKAGE = 0.99
+SHRINKAGE = 0.999
 
 MAX_STEPS = 100000000
 UPDATE_THRESHOLD = 1e-10
@@ -248,6 +248,8 @@ def signal_handler(signal, frame):
     plt.plot(fitness)
     plt.axis([0,len(fitness),0,1])
     plt.draw()
+    plt.savefig("../output/plots/run_" + str(date.datetime.fromtimestamp(start)) + ".png")
+    plt.savefig("../output/plots/run_" + str(date.datetime.fromtimestamp(start)) + ".pdf")
     plt.show(block=True)
 
     sys.exit(0)
@@ -289,6 +291,8 @@ plt.plot(fitness)
 plt.axis([0,len(fitness),0,1])
 plt.draw()
 plt.show(block=True)
+plt.savefig("../output/plots/run_" + str(date.datetime.fromtimestamp(start)) + ".png")
+plt.savefig("../output/plots/run_" + str(date.datetime.fromtimestamp(start)) + ".pdf")
 
 input("stopped")
 
