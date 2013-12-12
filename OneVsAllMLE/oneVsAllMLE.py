@@ -3,16 +3,22 @@ import numpy as np
 import math
 import time
 import matplotlib.pyplot as plt
+import datetime as date
+import signal
+import sys
+
+NOTES = "using approximated sigmoid, oneVSall, noBasis"
+TEST_AND_PLOT_FITNESS = False
 
 #The possible classes, we will use the index to identify the classes in the classifier
 CLASSES = ["sitting", "walking", "standing", "standingup", "sittingdown"]
 
-LEARNING_RATE = 1e-4
+LEARNING_RATE = 1e-5
 SHRINKAGE = 0.99
 
 MAX_STEPS = 100000000
 UPDATE_THRESHOLD = 1e-10
-MAX_NONCHANGING_STEPS = 37
+MAX_NONCHANGING_STEPS = 100000000
 
 start = time.time()
 
@@ -38,6 +44,25 @@ def readData(filename):
                 dataRow.append(row[-1])
                 data.append(dataRow)
     return data
+
+def writeToCSV(filename):
+    runtimeSeconds = time.time() - start
+    metaValues = [date.datetime.fromtimestamp(start), runtimeSeconds, fitness[maxFitnessIndex], LEARNING_RATE, SHRINKAGE, MAX_STEPS, MAX_NONCHANGING_STEPS, NOTES]
+
+    with open(filename, "a") as file:
+        csvwriter = csv.writer(file, delimiter=";", quotechar='"')
+        csvwriter.writerow(metaValues)
+        csvwriter.writerow([""]+fitness)
+        csvwriter.writerow([])
+
+
+def writeWeights(filenameTemplate):
+    filename = filenameTemplate + str(date.datetime.fromtimestamp(start)) + ".csv"
+    with open(filename, "a") as file:
+        csvwriter = csv.writer(file, delimiter=";", quotechar='"')
+
+        for i in range(len(CLASSES)):
+            csvwriter.writerow([CLASSES[i]] + maxWeights[i].tolist())
 
 def calcTotalError(weights, trainingSamples):
     curRight = 0
@@ -152,19 +177,19 @@ def optimizeAllWeights(currentWeights, trainingSamples):
         print("Progress Global Weight: " + str(i) + " Right: " + str(1-currentGeneralError) + runtime())
         fitness.append(currentAccuracy)
 
-        #create a plot
-        plt.clf()
-        plt.plot(fitness)
-        plt.axis([0,i,0,1])
-        plt.draw()
-        plt.show(block=False)
-
+        if TEST_AND_PLOT_FITNESS:
+            #create a plot
+            plt.clf()
+            plt.plot(fitness)
+            plt.axis([0,i,0,1])
+            plt.draw()
+            plt.show(block=False)
 
         if(currentAccuracy > fitness[maxFitnessIndex]):
             maxFitnessIndex = i
             maxWeights = currentWeights
 
-        if(i - maxFitnessIndex > MAX_NONCHANGING_STEPS):
+        if(i - maxFitnessIndex >= MAX_NONCHANGING_STEPS and maxWeights != None):
             return maxWeights
 
     return currentWeights
@@ -214,11 +239,29 @@ def updateWeightsPerClasStep(currentWeightsPerClass, trainingSamples, currentCla
 def runtime():
     return " runtime(s): " + str(time.time() - start)
 
+def signal_handler(signal, frame):
+    writeToCSV("../output/experiments.csv")
+    writeWeights("../output/weights/run_")
+
+    #create a plot
+    plt.clf()
+    plt.plot(fitness)
+    plt.axis([0,len(fitness),0,1])
+    plt.draw()
+    plt.show(block=True)
+
+    sys.exit(0)
+
+
+
 ################################
 #general control flow section
 ################################
 
 originalData = readData("../data/dataset-complete_90PercentTrainingSet_mini10Percent.arff")
+
+signal.signal(signal.SIGINT, signal_handler)
+
 print("Test reading: " + str(originalData[0]))
 
 zeroWeights = []
@@ -227,9 +270,25 @@ for i in range(len(CLASSES)):
     zeroWeights.append(dummyWeight)
 
 optimizedWeights = optimizeAllWeights(zeroWeights,originalData)
-currentError = calcTotalError(optimizedWeights,originalData)
 
-print("Current Error on Training: " + str(currentError) + runtime())
+
+currentError = calcTotalError(maxWeights,originalData)
+print("Best Error on training: " + str(currentError) + runtime())
+print("Best Accuracy on training: " + str(1-currentError) + runtime())
 
 print("____________________________")
-print(optimizedWeights)
+print(maxWeights)
+print("____________________________")
+
+writeToCSV("../output/experiments.csv")
+writeWeights("../output/weights/run_")
+
+#create a plot
+plt.clf()
+plt.plot(fitness)
+plt.axis([0,len(fitness),0,1])
+plt.draw()
+plt.show(block=True)
+
+input("stopped")
+
