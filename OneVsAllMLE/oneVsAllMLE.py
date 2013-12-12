@@ -6,10 +6,13 @@ import matplotlib.pyplot as plt
 
 #The possible classes, we will use the index to identify the classes in the classifier
 CLASSES = ["sitting", "walking", "standing", "standingup", "sittingdown"]
-LEARNING_RATE = 1e-5
+
+LEARNING_RATE = 1e-4
+SHRINKAGE = 0.99
+
 MAX_STEPS = 100000000
 UPDATE_THRESHOLD = 1e-10
-MAX_NONCHANGING_STEPS = 10
+MAX_NONCHANGING_STEPS = 37
 
 start = time.time()
 
@@ -131,7 +134,7 @@ def optimizeAllWeights(currentWeights, trainingSamples):
     for i in range(MAX_STEPS):
         tempWeightsOld = currentWeights
         for c in range(len(CLASSES)):
-            currentWeights[c] = updateWeightsPerClasStep(tempWeightsOld[c], trainingSamples, CLASSES[c])
+            currentWeights[c] = updateWeightsPerClasStep(tempWeightsOld[c], trainingSamples, CLASSES[c], LEARNING_RATE * (SHRINKAGE ** i))
 
         #print(tempWeightsOld)
         #print("Weights: ")
@@ -152,6 +155,7 @@ def optimizeAllWeights(currentWeights, trainingSamples):
         #create a plot
         plt.clf()
         plt.plot(fitness)
+        plt.axis([0,i,0,1])
         plt.draw()
         plt.show(block=False)
 
@@ -167,7 +171,7 @@ def optimizeAllWeights(currentWeights, trainingSamples):
 
 #Will optimize the weights for one class only. Thereby this will only do one step of gradient decent.
 #CurrentWeightsPerClass is the vector contining the weights for this class logistic regression. Training Samples is a list of training samples. Current Class is nominal (string) class value.
-def updateWeightsPerClasStep(currentWeightsPerClass, trainingSamples, currentClass):
+def updateWeightsPerClasStep(currentWeightsPerClass, trainingSamples, currentClass, shrinkedLearningRate):
     newWeights = currentWeightsPerClass
     deltaW = np.zeros(len(currentWeightsPerClass))
 
@@ -184,7 +188,7 @@ def updateWeightsPerClasStep(currentWeightsPerClass, trainingSamples, currentCla
 
     #update w with learning rate of its gradient.
     #change1 weights can only be updated with complete gradient
-    newWeights = newWeights + deltaW * LEARNING_RATE
+    newWeights = newWeights + deltaW * shrinkedLearningRate
 
     #if(currentClass == "sitting"):
         #print("deltaW")
