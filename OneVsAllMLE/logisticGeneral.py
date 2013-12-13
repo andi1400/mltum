@@ -53,9 +53,9 @@ class logisticregression():
             csvwriter = csv.writer(file, delimiter=";", quotechar='"')
 
             #write all that has been given
-            csvwriter.writerow([self.learnMethod.getStartTime()] + self.learnMethod.getParameterNameList())
-            csvwriter.writerow([] + self.learnMethod.getParameterList())
-            csvwriter.writerow([] + self.learnMethod.getAccuracy())
+            csvwriter.writerow([date.datetime.fromtimestamp(self.learnMethod.getStartTime())] + self.learnMethod.getParameterNameList())
+            csvwriter.writerow([" "] + self.learnMethod.getParameterList())
+            csvwriter.writerow([" "] + self.learnMethod.getAccuracy())
 
             #a new line
             csvwriter.writerow([])
@@ -80,10 +80,10 @@ class logisticregression():
             self.writeWeights(self.csvWeightsFilename + str(self.learnMethod.getStartTime()) + str(self.learnMethod) +".csv", self.learnMethod.getWeights())
 
             #create a plot
-            plt.savefig("../output/plots/run_" + str(date.datetime.fromtimestamp(self.learnMethod.getStartTime)) + ".png")
-            plt.savefig("../output/plots/run_" + str(date.datetime.fromtimestamp(self.learnMethod.getStartTime)) + ".pdf")
+            plt.savefig("../output/plots/run_" + str(date.datetime.fromtimestamp(self.learnMethod.getStartTime())) + ".png")
+            plt.savefig("../output/plots/run_" + str(date.datetime.fromtimestamp(self.learnMethod.getStartTime())) + ".pdf")
 
-        currentError = helper.calcTotalError(self.learnMethod, originalData)
+        currentError = helper.calcTotalError(self.learnMethod, originalData, self.learnMethod.getWeights())
         print("Best Error on training: " + str(currentError))
         print("Best Accuracy on training: " + str(1-currentError))
 

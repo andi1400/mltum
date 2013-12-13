@@ -19,11 +19,11 @@ class softzeroone():
     maxWeights = None
 
     #hyper parameters for soft zero one loss
-    LEARNING_RATE = 1e-0
+    LEARNING_RATE = 1e-2
     SHRINKAGE = 1
-    BETA = 2
-    REGULARIZER = 0 #lambda
-    GRADIENTSTEPSIZE = 0.1
+    BETA = 5
+    REGULARIZER = 1e-20 #lambda
+    GRADIENTSTEPSIZE = 0.01
     BASIS_FUNCTION = helper.getXDirectly
     SIGMOID = helper.pseudoSigmoid
     parameterNames = ["Alpha", "Shrinkage", "Beta", "Lambda", "H", "BASIS_FUNCTION", "SIGMOID"]
@@ -72,7 +72,6 @@ class softzeroone():
         for i in range(self.MAX_STEPS):
             curWeights = self.optimizeAllWeights(curWeights, trainingSamples, i)
 
-            print(curWeights)
             #termination check on no improvement
             if(i - self.maxAccuracyIndex >= self.MAX_NONCHANGING_STEPS and self.maxWeights != None):
                 break
@@ -80,14 +79,12 @@ class softzeroone():
 
     #Will optimize all the weights for every class. Thereby it does one step for every class and then contiues to the next step.
     def optimizeAllWeights(self, currentWeights, trainingSamples, step):
-        tempWeightsOld = currentWeights
-
         for c in range(len(self.CLASSES)):
-            currentWeights[c] = self.updateWeightsPerClasStep(tempWeightsOld[c], trainingSamples, self.CLASSES[c], self.LEARNING_RATE * (self.SHRINKAGE ** step))
+            currentWeights[c] = self.updateWeightsPerClasStep(currentWeights[c], trainingSamples, self.CLASSES[c], self.LEARNING_RATE * (self.SHRINKAGE ** step))
 
 
         #check the current error and compute accuracy, then do a debug output to see the progress
-        currentGeneralError = self.helper.calcTotalError(self, trainingSamples)
+        currentGeneralError = self.helper.calcTotalError(self, trainingSamples, currentWeights)
         currentAccuracy = 1- currentGeneralError
         print("Progress Global Weight: " + str(step) + " Right: " + str(1-currentGeneralError) + self.helper.strRuntime(self.start))
         self.accuracy.append(currentAccuracy) #save accuracy for later result printing
@@ -128,9 +125,11 @@ class softzeroone():
                 deltaW[j] += (errorOriginal - errorNew)/self.GRADIENTSTEPSIZE #TODO Minus right?
 
                 weightsPlusH[j] -= self.GRADIENTSTEPSIZE
+
+
         #update w with learning rate of its gradient.
         #change1 weights can only be updated with complete gradient
-        newWeights = newWeights + deltaW * shrinkedLearningRate
+        newWeights = newWeights + deltaW * float(shrinkedLearningRate)
 
         return newWeights
 

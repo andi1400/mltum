@@ -2,10 +2,10 @@ import numpy as np
 import time
 
 class helper():
-    def calcTotalError(self, classifier, trainingSamples):
+    def calcTotalError(self, classifier, trainingSamples, currentWeights):
         curRight = 0
         for i in range(len(trainingSamples)):
-            if classifier.classifySample(trainingSamples[i][0], classifier.getWeights())[0] == trainingSamples[i][1]:
+            if classifier.classifySample(trainingSamples[i][0], currentWeights)[0] == trainingSamples[i][1]:
                 curRight += 1
 
         #print("Correctly Classified Samples: " + str(curRight))
