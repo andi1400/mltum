@@ -4,13 +4,21 @@ import time
 class helper():
     def calcTotalError(self, classifier, trainingSamples, currentWeights):
         curRight = 0
+        confusionMatrix = []
+        for i in range(len(classifier.CLASSES)):
+            confusionMatrix.append([])
+            for j in range(len(classifier.CLASSES)):
+                confusionMatrix[i].append(0)
+
+
         for i in range(len(trainingSamples)):
-            if classifier.classifySample(trainingSamples[i][0], currentWeights)[0] == trainingSamples[i][1]:
+            result = classifier.classifySample(trainingSamples[i][0], currentWeights)[0]
+            target = trainingSamples[i][1]
+            if (result == target):
                 curRight += 1
+            confusionMatrix[classifier.CLASSES.index(result)][classifier.CLASSES.index(target)] += 1
 
-        #print("Correctly Classified Samples: " + str(curRight))
-
-        return 1-float(curRight)/len(trainingSamples)
+        return 1-float(curRight)/len(trainingSamples), confusionMatrix
 
 
     #returns a vector containing as first element the bias b and the others are the features for sample x derived by applying

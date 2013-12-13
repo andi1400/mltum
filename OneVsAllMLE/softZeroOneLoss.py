@@ -20,9 +20,9 @@ class softzeroone():
 
     #hyper parameters for soft zero one loss
     LEARNING_RATE = 1e-2
-    SHRINKAGE = 1
-    BETA = 5
-    REGULARIZER = 1e-20 #lambda
+    SHRINKAGE = 0.98
+    BETA = 2
+    REGULARIZER = 0#1e-10 #lambda
     GRADIENTSTEPSIZE = 0.01
     BASIS_FUNCTION = helper.getXDirectly
     SIGMOID = helper.pseudoSigmoid
@@ -84,7 +84,7 @@ class softzeroone():
 
 
         #check the current error and compute accuracy, then do a debug output to see the progress
-        currentGeneralError = self.helper.calcTotalError(self, trainingSamples, currentWeights)
+        currentGeneralError = self.helper.calcTotalError(self, trainingSamples, currentWeights)[0]
         currentAccuracy = 1- currentGeneralError
         print("Progress Global Weight: " + str(step) + " Right: " + str(1-currentGeneralError) + self.helper.strRuntime(self.start))
         self.accuracy.append(currentAccuracy) #save accuracy for later result printing
@@ -101,6 +101,48 @@ class softzeroone():
     #Will optimize the weights for one class only. Thereby this will only do one step of gradient decent.
     #CurrentWeightsPerClass is the vector contining the weights for this class logistic regression. Training Samples is a list of training samples. Current Class is nominal (string) class value.
     def updateWeightsPerClasStep(self, currentWeightsPerClass, trainingSamples, currentClass, shrinkedLearningRate):
+        newWeights = currentWeightsPerClass
+        deltaW = np.zeros(len(currentWeightsPerClass))
+
+        for sample in trainingSamples:
+            sampleInput = sample[0]
+            sampleTarget = sample[1]
+            prediction = self.classifySampleSingleClass(sampleInput, newWeights)
+
+            target = 0
+            if sampleTarget == currentClass:
+                target = 1
+
+            #a = e^(Beta * w^T * x)
+
+            phi = self.helper.getPhi(sampleInput, self.BASIS_FUNCTION)
+            dotprd = np.dot(np.transpose(currentWeightsPerClass), phi)
+            a = np.exp(self.BETA * dotprd)
+
+
+            #print deltaWScalars
+            if (a <= 1e100):
+                deltaWScalars = np.float64(2 * self.BETA * ((target - 1) * a + target))
+                deltaWScalars /= ((a+1)**3)
+            else:
+                deltaWScalars = 0 #Correction for overflows.
+            #print(deltaWScalars)
+            #print(a)
+            deltaW += -1 * np.multiply(deltaWScalars, phi)
+
+        #print(deltaW)
+
+        deltaW += 0.5 * self.REGULARIZER * currentWeightsPerClass
+
+        #update w with learning rate of its gradient.
+        #change1 weights can only be updated with complete gradient
+        newWeights = newWeights - deltaW * shrinkedLearningRate
+
+        return newWeights
+
+        #Will optimize the weights for one class only. Thereby this will only do one step of gradient decent.
+    #CurrentWeightsPerClass is the vector contining the weights for this class logistic regression. Training Samples is a list of training samples. Current Class is nominal (string) class value.
+    def updateWeightsPerClasStepHMethod(self, currentWeightsPerClass, trainingSamples, currentClass, shrinkedLearningRate):
         newWeights = currentWeightsPerClass
         deltaW = np.zeros(len(currentWeightsPerClass))
 

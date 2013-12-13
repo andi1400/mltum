@@ -1,13 +1,13 @@
 import time
 import numpy as np
+import copy
 import math
 from helper import helper
-import copy
 
-class mleonevsall():
+class hinge():
     CLASSES = None
 
-    MAX_STEPS = 10000000
+    MAX_STEPS = 1000000
     UPDATE_THRESHOLD = None
     MAX_NONCHANGING_STEPS = 100000
 
@@ -19,8 +19,8 @@ class mleonevsall():
     maxWeights = None
 
     #hyper parameters for soft zero one loss
-    LEARNING_RATE = 1e-4
-    SHRINKAGE = 0.99
+    LEARNING_RATE = 1e-2
+    SHRINKAGE = 0.98
 
     BASIS_FUNCTION = helper.getXDirectly
     SIGMOID = helper.pseudoSigmoid
@@ -35,7 +35,6 @@ class mleonevsall():
 
     def classifySample(self, x, ClassWeights):
         classPercentages = np.zeros(len(self.CLASSES))
-
         for i in range(len(self.CLASSES)):
             currentWeightVector = ClassWeights[i]
 
@@ -54,17 +53,14 @@ class mleonevsall():
     def classifySampleSingleClass(self, x, ClassWeight):
         currentFeatureVector = self.helper.getPhi(x, self.BASIS_FUNCTION)
 
-        #print "currentFeatureVec" + str(currentFeatureVector)
-        #print "ClassWeights" + str(ClassWeight)
         wTimesPhi = np.dot(np.transpose(ClassWeight), currentFeatureVector)
-        #print "wTimesPhi" + str(wTimesPhi)
+
         regressionResult = self.SIGMOID(self.helper, wTimesPhi)
 
         if(regressionResult >= 0.5):
             return 1, regressionResult
 
         return 0, regressionResult
-
 
     def learn(self, startWeights, trainingSamples):
         self.start = time.time()
@@ -74,7 +70,6 @@ class mleonevsall():
         for i in range(self.MAX_STEPS):
             curWeights = self.optimizeAllWeights(curWeights, trainingSamples, i)
 
-            #print(curWeights)
             #termination check on no improvement
             if(i - self.maxAccuracyIndex >= self.MAX_NONCHANGING_STEPS and self.maxWeights != None):
                 break
@@ -82,7 +77,6 @@ class mleonevsall():
 
     #Will optimize all the weights for every class. Thereby it does one step for every class and then contiues to the next step.
     def optimizeAllWeights(self, currentWeights, trainingSamples, step):
-
         for c in range(len(self.CLASSES)):
             currentWeights[c] = self.updateWeightsPerClasStep(currentWeights[c], trainingSamples, self.CLASSES[c], self.LEARNING_RATE * (self.SHRINKAGE ** step))
 
@@ -102,7 +96,6 @@ class mleonevsall():
 
         return currentWeights
 
-
     #Will optimize the weights for one class only. Thereby this will only do one step of gradient decent.
     #CurrentWeightsPerClass is the vector contining the weights for this class logistic regression. Training Samples is a list of training samples. Current Class is nominal (string) class value.
     def updateWeightsPerClasStep(self, currentWeightsPerClass, trainingSamples, currentClass, shrinkedLearningRate):
@@ -114,17 +107,38 @@ class mleonevsall():
             sampleTarget = sample[1]
             prediction = self.classifySampleSingleClass(sampleInput, newWeights)
 
-            target = 0
+            target = -1
             if sampleTarget == currentClass:
                 target = 1
-            for j in range(len(currentWeightsPerClass)):
-                deltaW[j] += (target - prediction[0]) * self.BASIS_FUNCTION(self.helper, sampleInput, j)
+
+            phi = self.helper.getPhi(sampleInput, self.BASIS_FUNCTION)
+            wTimesPhi = np.dot(np.transpose(currentWeightsPerClass), phi) * target
+
+            if wTimesPhi < 1:
+                deltaW += np.multiply(-1 * target, phi)
+
+
+        #print(deltaW)
+
+#        deltaW += 0.5 * self.REGULARIZER * currentWeightsPerClass
 
         #update w with learning rate of its gradient.
         #change1 weights can only be updated with complete gradient
-        newWeights = newWeights + deltaW * shrinkedLearningRate
+        newWeights = newWeights - deltaW * shrinkedLearningRate
 
         return newWeights
+
+    #calculates the error for one input, the one with the result target.
+    def calcError(self, target, inputVector, weights, regParameter):
+        basis = self.BASIS_FUNCTION
+        currentFeatureVector = self.helper.getPhi(inputVector, basis)
+
+        #calc (sigmoid(BETA* (w * phi) - target))^2 + lambda * w^2
+        wTimesPhi = np.dot(np.transpose(weights), currentFeatureVector)
+        result = (self.SIGMOID(self.helper, self.BETA * wTimesPhi) - target)**2
+        result += regParameter * np.dot(np.transpose(weights), weights)
+
+        return result
 
     def getAccuracy(self):
         return self.accuracy

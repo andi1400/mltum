@@ -9,10 +9,11 @@ import sys
 from MLEOneVsAll import mleonevsall
 from softZeroOneLoss import softzeroone
 from helper import *
+from hingeLoss import hinge
 
 class logisticregression():
     NOTES = "using approximated sigmoid, oneVSall, noBasis"
-    TEST_AND_PLOT_FITNESS = False
+    TEST_AND_PLOT_FITNESS = True
     STORERESULTS = True
 
     #The possible classes, we will use the index to identify the classes in the classifier
@@ -83,13 +84,29 @@ class logisticregression():
             plt.savefig("../output/plots/run_" + str(date.datetime.fromtimestamp(self.learnMethod.getStartTime())) + ".png")
             plt.savefig("../output/plots/run_" + str(date.datetime.fromtimestamp(self.learnMethod.getStartTime())) + ".pdf")
 
-        currentError = helper.calcTotalError(self.learnMethod, originalData, self.learnMethod.getWeights())
+        currentError, confusionMatrix = helper.calcTotalError(self.learnMethod, originalData, self.learnMethod.getWeights())
         print("Best Error on training: " + str(currentError))
         print("Best Accuracy on training: " + str(1-currentError))
 
         print("____________________________")
         print(self.learnMethod.getWeights())
         print("____________________________")
+
+        print("____________________________")
+        printing = "\t"
+        for j in range(len(self.CLASSES)):
+            printing += "\t" + self.CLASSES[j]
+        print(printing)
+
+        for i in range(len(self.CLASSES)):
+            printing = self.CLASSES[i]
+            if len(printing) < 8:
+                    printing += "\t"
+            for j in range(len(self.CLASSES)):
+                printing += "\t" + str(confusionMatrix[i][j])
+            print(printing)
+        print("____________________________")
+
         plt.show(block=True)
 
     def train(self, trainingSamples):
@@ -106,9 +123,14 @@ class logisticregression():
 
 helper = helper()
 #learnMethod = mleonevsall
-learnMethod = softzeroone
+#learnMethod = softzeroone
+learnMethod = hinge
 
 logisticregressionHelper = logisticregression(learnMethod)
+
+print("Running " + str(learnMethod))
+print(logisticregressionHelper.learnMethod.getParameterNameList())
+print(logisticregressionHelper.learnMethod.getParameterList())
 
 #read the data
 originalData = logisticregressionHelper.readData("../data/dataset-complete_90PercentTrainingSet_mini10Percent.arff")
