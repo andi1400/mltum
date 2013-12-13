@@ -74,6 +74,9 @@ class mleonevsall():
         for i in range(self.MAX_STEPS):
             curWeights = self.optimizeAllWeights(curWeights, trainingSamples, i)
 
+            if(i % 10 == 0):
+                self.helper.writeWeightsDebug("../output/weights/debug/" + str(self.start) + "_step" + str(i) + ".csv", curWeights)
+
             #print(curWeights)
             #termination check on no improvement
             if(i - self.maxAccuracyIndex >= self.MAX_NONCHANGING_STEPS and self.maxWeights != None):

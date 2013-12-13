@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 import datetime as date
 import signal
 import sys
+import getopt
 from MLEOneVsAll import mleonevsall
 from softZeroOneLoss import softzeroone
 from helper import *
@@ -13,20 +14,22 @@ from hingeLoss import hinge
 
 class logisticregression():
     NOTES = "using approximated sigmoid, oneVSall, noBasis"
-    TEST_AND_PLOT_FITNESS = True
-    STORERESULTS = True
+    TEST_AND_PLOT_FITNESS = False
+    STORERESULTS = False
 
     #The possible classes, we will use the index to identify the classes in the classifier
     CLASSES = ["sitting", "walking", "standing", "standingup", "sittingdown"]
 
     learnMethod = None
+    helper = None
+
 
     csvRunFilename = "../output/experiments.csv"
     csvWeightsFilename = "../output/weights/run_"
 
 
-
-    def __init__(self, learnMethod):
+    def __init__(self, learnMethod, helper):
+        self.helper = helper
         self.learnMethod = learnMethod(self.CLASSES)
 
     #read the data from an ARFF file.
@@ -62,14 +65,6 @@ class logisticregression():
             csvwriter.writerow([])
 
 
-    def writeWeights(self, filename, weights):
-        with open(filename, "a") as file:
-            csvwriter = csv.writer(file, delimiter=";", quotechar='"')
-
-            for i in range(len(self.CLASSES)):
-                csvwriter.writerow([self.CLASSES[i]] + weights[i].tolist())
-
-
     def printRunInformation(self):
         plt.clf()
         plt.plot(self.learnMethod.getAccuracy())
@@ -78,7 +73,7 @@ class logisticregression():
 
         if self.STORERESULTS:
             self.writeToCSV(self.csvRunFilename)
-            self.writeWeights(self.csvWeightsFilename + str(self.learnMethod.getStartTime()) + str(self.learnMethod) +".csv", self.learnMethod.getWeights())
+            self.helper.writeWeights(self.csvWeightsFilename + str(self.learnMethod.getStartTime()) + str(self.learnMethod) +".csv", self.CLASSES, self.learnMethod.getWeights(), True)
 
             #create a plot
             plt.savefig("../output/plots/run_" + str(date.datetime.fromtimestamp(self.learnMethod.getStartTime())) + ".png")
@@ -109,28 +104,44 @@ class logisticregression():
 
         plt.show(block=True)
 
-    def train(self, trainingSamples):
-        curWeights = []
-        for i in range(len(self.CLASSES)):
-            dummyWeight = np.zeros(17)
-            curWeights.append(dummyWeight)
-
-        self.learnMethod.learn(curWeights, trainingSamples)
+    def train(self, trainingSamples, startWeights):
+        self.learnMethod.learn(startWeights, trainingSamples)
 
 ################################
 #general control flow section
 ################################
-
 helper = helper()
 #learnMethod = mleonevsall
 #learnMethod = softzeroone
 learnMethod = hinge
 
-logisticregressionHelper = logisticregression(learnMethod)
+logisticregressionHelper = logisticregression(learnMethod, helper)
 
 print("Running " + str(learnMethod))
 print(logisticregressionHelper.learnMethod.getParameterNameList())
 print(logisticregressionHelper.learnMethod.getParameterList())
+
+#create start weights or read them
+startWeights = []
+for i in range(len(logisticregressionHelper.CLASSES)):
+    dummyWeight = np.zeros(17)
+    startWeights.append(dummyWeight)
+
+
+#read cmd line arguments
+#try:
+print("About to checking arguments...")
+for i in range(len(sys.argv)):
+    if sys.argv[i] == "-h" or sys.argv[i] == "--help":
+        print("Here should be your help.")
+        sys.exit()
+    elif sys.argv[i] == "-w" or sys.argv[i] == "--weights":
+        print("received weights - processing them...")
+        weightFile = sys.argv[i+1]
+        i += 1
+        startWeights = helper.readWeights(weightFile, logisticregressionHelper.CLASSES)
+
+
 
 #read the data
 originalData = logisticregressionHelper.readData("../data/dataset-complete_90PercentTrainingSet_mini10Percent.arff")
@@ -144,7 +155,7 @@ signal.signal(signal.SIGINT, signal_handler)
 
 
 #Train the model and print the run information
-logisticregressionHelper.train(originalData)
+logisticregressionHelper.train(originalData, startWeights)
 logisticregressionHelper.printRunInformation()
 
 

@@ -1,4 +1,5 @@
 import numpy as np
+import csv
 import time
 
 class helper():
@@ -20,6 +21,27 @@ class helper():
 
         return 1-float(curRight)/len(trainingSamples), confusionMatrix
 
+    def writeWeightsDebug(self, filename, weights):
+        np.savetxt(filename, weights, delimiter=";")
+
+    #read the weights from csv and turn them into the weight vecotr.
+    def readWeights(self, filename, classes):
+        weights = np.genfromtxt(filename, delimiter=';')
+
+        print("Successfully read weight vector: ")
+        print(weights)
+
+        return weights
+
+    def writeWeights(self, filename, classes, weights, writeClassNames):
+        with open(filename, "a") as file:
+            csvwriter = csv.writer(file, delimiter=";", quotechar='"')
+
+            for i in range(len(classes)):
+                if writeClassNames:
+                    csvwriter.writerow([classes[i]] + weights[i].tolist())
+                else:
+                    csvwriter.writerow(weights[i].tolist())
 
     #returns a vector containing as first element the bias b and the others are the features for sample x derived by applying
     #the basis function from getBasisOutput on each
