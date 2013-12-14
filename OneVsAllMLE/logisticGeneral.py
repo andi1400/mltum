@@ -88,6 +88,7 @@ class logisticregression():
         print("____________________________")
 
         print(self.helper.getConfusionMatrixAsString(confusionMatrix, self.CLASSES))
+        self.helper.writeConfusionMatrixToFile(confusionMatrix, self.CLASSES, self.learnMethod.confusionFilenameTemplate + "_FINAL_confusion.txt")
 
         plt.show(block=True)
 
