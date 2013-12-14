@@ -37,6 +37,9 @@ class helper():
         return weights
 
     def writeWeights(self, filename, classes, weights, writeClassNames):
+        if weights is None:
+            return
+
         with open(filename, "a") as file:
             csvwriter = csv.writer(file, delimiter=";", quotechar='"')
 
@@ -73,6 +76,26 @@ class helper():
         printing += "____________________________"
 
         return printing
+
+
+     #read the data from an ARFF file.
+    def readData(self, filename):
+        data = []
+        with open(filename, 'r') as csvfile:
+            reader = csv.reader(csvfile, delimiter=",", quotechar='"')
+            dataReached = False
+            for row in reader:
+                if(len(row) > 0 and row[0] == "@data"):
+                    dataReached = True
+                    continue
+
+                if(dataReached):
+                    dataRow = [[]]
+                    for xIndex in range(2, len(row)-1):
+                        dataRow[0].append(float(row[xIndex]))
+                    dataRow.append(row[-1])
+                    data.append(dataRow)
+        return data
 
     #returns a vector containing as first element the bias b and the others are the features for sample x derived by applying
     #the basis function from getBasisOutput on each

@@ -11,6 +11,7 @@ from MLEOneVsAll import mleonevsall
 from softZeroOneLoss import softzeroone
 from helper import *
 from hingeLoss import hinge
+from majorityVoteTester import majorityvote
 
 class logisticregression():
     NOTES = "using approximated sigmoid, oneVSall, noBasis"
@@ -21,6 +22,7 @@ class logisticregression():
     CLASSES = ["sitting", "walking", "standing", "standingup", "sittingdown"]
 
     learnMethod = None
+
     helper = None
 
 
@@ -30,26 +32,7 @@ class logisticregression():
 
     def __init__(self, learnMethod, helper):
         self.helper = helper
-        self.learnMethod = learnMethod(self.CLASSES)
-
-    #read the data from an ARFF file.
-    def readData(self, filename):
-        data = []
-        with open(filename, 'r') as csvfile:
-            reader = csv.reader(csvfile, delimiter=",", quotechar='"')
-            dataReached = False
-            for row in reader:
-                if(len(row) > 0 and row[0] == "@data"):
-                    dataReached = True
-                    continue
-
-                if(dataReached):
-                    dataRow = [[]]
-                    for xIndex in range(2, len(row)-1):
-                        dataRow[0].append(float(row[xIndex]))
-                    dataRow.append(row[-1])
-                    data.append(dataRow)
-        return data
+        self.learnMethod = learnMethod
 
     #write a list of lists to the central csv file. One line per inner list.
     def writeToCSV(self,filename):
@@ -98,20 +81,20 @@ class logisticregression():
 ################################
 #general control flow section
 ################################
+
+CLASSES = ["sitting", "walking", "standing", "standingup", "sittingdown"]
+CLASSIFIERS = {'MLE': mleonevsall, 'SOFTZEROONE': softzeroone, 'HINGE': hinge, 'MAV': majorityvote}
+
 helper = helper()
 #learnMethod = mleonevsall
 #learnMethod = softzeroone
-learnMethod = hinge
+#learnMethod = hinge(CLASSES)
 
-logisticregressionHelper = logisticregression(learnMethod, helper)
-
-print("Running " + str(learnMethod))
-print(logisticregressionHelper.learnMethod.getParameterNameList())
-print(logisticregressionHelper.learnMethod.getParameterList())
+logisticregressionHelper = None
 
 #create start weights or read them
 startWeights = []
-for i in range(len(logisticregressionHelper.CLASSES)):
+for i in range(len(CLASSES)):
     dummyWeight = np.zeros(17)
     startWeights.append(dummyWeight)
 
@@ -123,15 +106,39 @@ for i in range(len(sys.argv)):
     if sys.argv[i] == "-h" or sys.argv[i] == "--help":
         print("Here should be your help.")
         sys.exit()
+    elif sys.argv[i] == "-c" or sys.argv[i] == "--classifier":
+        #learnMethod = CLASSIFIERS[sys.argv[i+1]].__init__(CLASSIFIERS[sys.argv[i+1]], CLASSES)
+        learnMethod = CLASSIFIERS[sys.argv[i+1]](CLASSES)
+
+        if sys.argv[i+1] == 'MAV':
+            classifierNames = sys.argv[i+2].split(',')
+            #now instantiate all the classifier instances
+            classifiersWithWeightsForMav = []
+            for name in classifierNames:
+                instance = CLASSIFIERS[name](CLASSES)
+                weights = helper.readWeights("MAVWeights/" + name + ".weights", CLASSES)
+                classifierWithWeights = [instance, weights]
+                classifiersWithWeightsForMav.append(classifierWithWeights)
+
+            learnMethod.setClassifiers(classifiersWithWeightsForMav)
+
+        logisticregressionHelper = logisticregression(learnMethod, helper)
+        print(logisticregressionHelper)
+
     elif sys.argv[i] == "-w" or sys.argv[i] == "--weights":
         print("received weights - processing them...")
         weightFile = sys.argv[i+1]
         i += 1
-        startWeights = helper.readWeights(weightFile, logisticregressionHelper.CLASSES)
+        startWeights = helper.readWeights(weightFile, CLASSES)
+
+print(logisticregressionHelper)
+print("Running " + str(learnMethod))
+print(logisticregressionHelper.learnMethod.getParameterNameList())
+print(logisticregressionHelper.learnMethod.getParameterList())
 
 #read the data
-originalData = logisticregressionHelper.readData("../data/dataset-complete_90PercentTrainingSet_mini10Percent_standardized.arff")
-#originalData = logisticregressionHelper.readData("../data/dataset-complete_90PercentTrainingSet_normalized.arff")
+#originalData = logisticregressionHelper.helper.readData("../data/dataset-complete_90PercentTrainingSet_mini10Percent_standardized.arff")
+originalData = logisticregressionHelper.helper.readData("../data/dataset-complete_90PercentTrainingSet_normalized.arff")
 print("Test reading: " + str(originalData[0]))
 
 #catch STRG+C to prevent loss of output.

@@ -56,7 +56,7 @@ class hinge():
         confidenceOfPredicted = max(classPercentagesNormalized)
         predictedClass = self.CLASSES[classPercentagesNormalized.index(confidenceOfPredicted)]
 
-        return predictedClass, confidenceOfPredicted, classPercentages
+        return predictedClass, confidenceOfPredicted, classPercentagesNormalized
 
 
     #Will not do oneVsAll but perform ONE logistic regression classification.

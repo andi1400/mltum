@@ -392,3 +392,67 @@
 <hingeLoss.hinge instance at 0x2809b48>;0.01;0.98;getXDirectly;pseudoSigmoid
  ;0.6655933454081975;0.6500972697390488;0.7546790098611391;0.6711611994365063
 
+2013-12-14 17:20:40.104743;Classifier0;Classifier1
+<majorityVoteTester.majorityvote instance at 0x20c4638>;hinge;mleonevsall
+ 
+
+2013-12-14 17:21:55.917118;Classifier0;Classifier1
+<majorityVoteTester.majorityvote instance at 0x36b1680>;hinge;mleonevsall
+ 
+
+2013-12-14 17:22:44.439580;Classifier0;Classifier1
+<majorityVoteTester.majorityvote instance at 0x33c8680>;hinge;mleonevsall
+ 
+
+2013-12-14 17:23:43.768747;Classifier0;Classifier1
+<majorityVoteTester.majorityvote instance at 0x1dda638>;hinge;mleonevsall
+ 
+
+2013-12-14 17:24:05.815302;Classifier0;Classifier1
+<majorityVoteTester.majorityvote instance at 0x2da4638>;hinge;mleonevsall
+ 
+
+2013-12-14 17:26:05.868806;Classifier0;Classifier1
+<majorityVoteTester.majorityvote instance at 0x2ea4830>;hinge;mleonevsall
+ 
+
+2013-12-14 17:28:35.066731;Classifier0;Classifier1
+<majorityVoteTester.majorityvote instance at 0x2520878>;hinge;mleonevsall
+ 
+
+2013-12-14 17:28:38.293439;Classifier0;Classifier1
+<majorityVoteTester.majorityvote instance at 0x2520878>;hinge;mleonevsall
+ 
+
+2013-12-14 17:29:13.101988;Classifier0;Classifier1
+<majorityVoteTester.majorityvote instance at 0x2af9878>;hinge;mleonevsall
+ 
+
+2013-12-14 17:29:37.410216;Classifier0;Classifier1
+<majorityVoteTester.majorityvote instance at 0x2e37878>;hinge;mleonevsall
+ 
+
+2013-12-14 17:35:01.292212;Alpha;Shrinkage;BASIS_FUNCTION;SIGMOID
+<hingeLoss.hinge instance at 0x2396b48>;0.01;0.98;getXDirectly;pseudoSigmoid
+ ;0.7408599986583484;0.7445495404843362
+
+2013-12-14 17:35:51.800339;Alpha;Shrinkage;BASIS_FUNCTION;SIGMOID
+<MLEOneVsAll.mleonevsall instance at 0x1d77c20>;1e-05;0.99;getXDirectly;pseudoSigmoid
+ ;0.7197960689608909;0.7220097940564836;0.7227477024216811;0.7246930972026565;0.7271751526128665;0.7292547125511505;0.7324075937479037
+
+2013-12-14 17:36:59.173208;Classifier0;Classifier1
+<majorityVoteTester.majorityvote instance at 0x36a6878>;hinge;mleonevsall
+ 
+
+2013-12-14 17:39:14.881416;Classifier0;Classifier1
+<majorityVoteTester.majorityvote instance at 0x3670878>;hinge;mleonevsall
+ 
+
+2013-12-14 17:40:26.702645;Classifier0;Classifier1
+<majorityVoteTester.majorityvote instance at 0x2ea08c0>;hinge;mleonevsall
+ 
+
+2013-12-14 17:42:00.085414;Classifier0;Classifier1
+<majorityVoteTester.majorityvote instance at 0x30aa878>;hinge;mleonevsall
+ 
+
