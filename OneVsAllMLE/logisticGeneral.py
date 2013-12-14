@@ -15,7 +15,7 @@ from hingeLoss import hinge
 class logisticregression():
     NOTES = "using approximated sigmoid, oneVSall, noBasis"
     TEST_AND_PLOT_FITNESS = False
-    STORERESULTS = False
+    STORERESULTS = True
 
     #The possible classes, we will use the index to identify the classes in the classifier
     CLASSES = ["sitting", "walking", "standing", "standingup", "sittingdown"]
@@ -58,7 +58,7 @@ class logisticregression():
 
             #write all that has been given
             csvwriter.writerow([date.datetime.fromtimestamp(self.learnMethod.getStartTime())] + self.learnMethod.getParameterNameList())
-            csvwriter.writerow([" "] + self.learnMethod.getParameterList())
+            csvwriter.writerow([str(self.learnMethod)] + self.learnMethod.getParameterList())
             csvwriter.writerow([" "] + self.learnMethod.getAccuracy())
 
             #a new line
@@ -87,20 +87,7 @@ class logisticregression():
         print(self.learnMethod.getWeights())
         print("____________________________")
 
-        print("____________________________")
-        printing = "\t"
-        for j in range(len(self.CLASSES)):
-            printing += "\t" + self.CLASSES[j]
-        print(printing)
-
-        for i in range(len(self.CLASSES)):
-            printing = self.CLASSES[i]
-            if len(printing) < 8:
-                    printing += "\t"
-            for j in range(len(self.CLASSES)):
-                printing += "\t" + str(confusionMatrix[i][j])
-            print(printing)
-        print("____________________________")
+        print(self.helper.getConfusionMatrixAsString(confusionMatrix, self.CLASSES))
 
         plt.show(block=True)
 
@@ -141,10 +128,9 @@ for i in range(len(sys.argv)):
         i += 1
         startWeights = helper.readWeights(weightFile, logisticregressionHelper.CLASSES)
 
-
-
 #read the data
-originalData = logisticregressionHelper.readData("../data/dataset-complete_90PercentTrainingSet_mini10Percent.arff")
+originalData = logisticregressionHelper.readData("../data/dataset-complete_90PercentTrainingSet_mini10Percent_standardized.arff")
+#originalData = logisticregressionHelper.readData("../data/dataset-complete_90PercentTrainingSet_normalized.arff")
 print("Test reading: " + str(originalData[0]))
 
 #catch STRG+C to prevent loss of output.

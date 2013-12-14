@@ -1,6 +1,7 @@
 import numpy as np
 import csv
 import time
+import os
 
 class helper():
     def calcTotalError(self, classifier, trainingSamples, currentWeights):
@@ -22,6 +23,8 @@ class helper():
         return 1-float(curRight)/len(trainingSamples), confusionMatrix
 
     def writeWeightsDebug(self, filename, weights):
+        if not os.path.exists(os.path.dirname(filename)):
+            os.makedirs(os.path.dirname(filename))
         np.savetxt(filename, weights, delimiter=";")
 
     #read the weights from csv and turn them into the weight vecotr.
@@ -42,6 +45,34 @@ class helper():
                     csvwriter.writerow([classes[i]] + weights[i].tolist())
                 else:
                     csvwriter.writerow(weights[i].tolist())
+
+    def writeConfusionMatrixToFile(self, confusionMatrix, CLASSES, filename):
+        toWrite = self.getConfusionMatrixAsString(confusionMatrix, CLASSES)
+
+        if not os.path.exists(os.path.dirname(filename)):
+            os.makedirs(os.path.dirname(filename))
+        file = open(filename, "a+")
+        file.write(toWrite)
+
+    def getConfusionMatrixAsString(self, confusionMatrix, CLASSES):
+        printing = ""
+
+        printing += "____________________________"
+        printing += "\n"
+        for j in range(len(CLASSES)):
+            printing += "\t" + CLASSES[j]
+        printing += "\n"
+
+        for i in range(len(CLASSES)):
+            printing += CLASSES[i]
+            if len(printing) < 8:
+                    printing += "\t"
+            for j in range(len(CLASSES)):
+                printing += "\t" + str(confusionMatrix[i][j])
+            printing += "\n"
+        printing += "____________________________"
+
+        return printing
 
     #returns a vector containing as first element the bias b and the others are the features for sample x derived by applying
     #the basis function from getBasisOutput on each

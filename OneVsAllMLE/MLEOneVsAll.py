@@ -19,19 +19,31 @@ class mleonevsall():
     maxWeights = None
 
     #hyper parameters for soft zero one loss
-    LEARNING_RATE = 1e-4
+    LEARNING_RATE = 1e-5
     SHRINKAGE = 0.99
 
     BASIS_FUNCTION = helper.getXDirectly
     SIGMOID = helper.pseudoSigmoid
     parameterNames = ["Alpha", "Shrinkage", "BASIS_FUNCTION", "SIGMOID"]
-    parameters = [LEARNING_RATE, SHRINKAGE, BASIS_FUNCTION, SIGMOID]
+    parameters = [LEARNING_RATE, SHRINKAGE, BASIS_FUNCTION.__name__, SIGMOID.__name__]
+
+    debugFolderName = None
+    weightsFilenameTemplate = None
+    confusionFilenameTemplate = None
 
     helper = None
 
     def __init__(self, classes):
         self.helper = helper()
         self.CLASSES = classes
+
+
+    def setFilenames(self):
+        self.debugFolderName = "../output/weights/debug/" + str(self.start) + "_" + str(self.__class__.__name__) + "/"
+        self.weightsFilenameTemplate = self.debugFolderName + str(self.start)
+        self.confusionFilenameTemplate = self.debugFolderName + str(self.start)
+
+        print("Writing DEBUG Information to " + str(self.debugFolderName) + "...")
 
     def classifySample(self, x, ClassWeights):
         classPercentages = np.zeros(len(self.CLASSES))
@@ -67,7 +79,12 @@ class mleonevsall():
 
 
     def learn(self, startWeights, trainingSamples):
+        #measure the start ime
         self.start = time.time()
+        #set the debug filenames and create folders
+        self.setFilenames()
+
+
         curWeights = copy.deepcopy(startWeights)
         self.maxWeights = copy.deepcopy(startWeights)
 
@@ -75,7 +92,7 @@ class mleonevsall():
             curWeights = self.optimizeAllWeights(curWeights, trainingSamples, i)
 
             if(i % 10 == 0):
-                self.helper.writeWeightsDebug("../output/weights/debug/" + str(self.start) + "_step" + str(i) + ".csv", curWeights)
+                self.helper.writeWeightsDebug(self.weightsFilenameTemplate + "_step" + str(i) + ".csv", curWeights)
 
             #print(curWeights)
             #termination check on no improvement
@@ -91,7 +108,7 @@ class mleonevsall():
 
 
         #check the current error and compute accuracy, then do a debug output to see the progress
-        currentGeneralError = self.helper.calcTotalError(self, trainingSamples, currentWeights)[0]
+        currentGeneralError, currentConfusionMatrix = self.helper.calcTotalError(self, trainingSamples, currentWeights)
         currentAccuracy = 1- currentGeneralError
         print("Progress Global Weight: " + str(step) + " Right: " + str(1-currentGeneralError) + self.helper.strRuntime(self.start))
         self.accuracy.append(currentAccuracy) #save accuracy for later result printing
@@ -100,6 +117,10 @@ class mleonevsall():
         if(currentAccuracy > self.accuracy[self.maxAccuracyIndex]):
             self.maxAccuracyIndex = step
             self.maxWeights = currentWeights
+
+        #Check if we print the confusion matrix
+        if(step % 10 == 0):
+            self.helper.writeConfusionMatrixToFile(currentConfusionMatrix, self.CLASSES, self.confusionFilenameTemplate + "_step_" + str(step) + "_confusion.txt")
 
         self.endTime = time.time()
 
