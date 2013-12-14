@@ -25,7 +25,7 @@ class majorityvote:
     weightsFilenameTemplate = None
     confusionFilenameTemplate = None
 
-    def __init__(self, CLASSES):
+    def __init__(self, CLASSES, maxSteps, maxNonChangingSteps, parameters):
         self.helper = helper()
         self.CLASSES = CLASSES
 
@@ -42,28 +42,26 @@ class majorityvote:
             self.parameterNames.append("Classifier" + str(i))
             self.parameters.append(self.classifierAndIndividualWeights[i][0].__class__.__name__)
 
-    def learn(self, startWeights, trainingSamples):
-        self.start = time.time()
-
-        #set the debug filenames and create folders
-        self.setFilenames()
-
+    def setUniformWeights(self):
         unitWeights = []
         for i in range(len(self.classifierAndIndividualWeights)):
-            None
-            #unitWeights.append(1)
-        #TODO TEST
-        unitWeights.append(0.6629)
-        unitWeights.append(0.7241)
-        self.endTime = time.time()
+            unitWeights.append(1)
 
         return unitWeights
 
+    #dummy only!!
+    def learn(self, startWeights, trainingSamples):
+       self.maxWeights = self.setUniformWeights()
+
     def classifySample(self, sample, classifierMetaWeights):
         if(classifierMetaWeights is None):
-            classifierMetaWeights = self.learn(None, None)
+            #set the debug filenames and create folders
+            self.setFilenames()
+            classifierMetaWeights = self.setUniformWeights()
 
-        currentResult = np.zeros(len(self.CLASSES))
+        resultPredictions = np.zeros(len(self.CLASSES))
+        individualResults = []
+        individualAccuracy = []
 
         for classifierIdx in range(len(self.classifierAndIndividualWeights)):
             classifierWeights = self.classifierAndIndividualWeights[classifierIdx][1]
@@ -71,25 +69,36 @@ class majorityvote:
 
             predictedClass, confidenceOfPredicted, classPercentages = classifier.classifySample(sample, classifierWeights)
 
-            for classIdx in range(len(self.CLASSES)):
-                currentResult[classIdx] += classPercentages[classIdx] * classifierMetaWeights[classifierIdx]
+            resultPredictions[self.CLASSES.index(predictedClass)] += 1
+            individualResults.append(predictedClass)
+            individualAccuracy.append(confidenceOfPredicted)
 
+        prediction = None
 
+        maxValue = max(resultPredictions)
+        maxPredictors = []
+        for i in range(len(resultPredictions)):
+            if resultPredictions[i] == maxValue:
+                maxPredictors.append(i)
 
-        sumX = sum(currentResult)
-        classPercentagesNormalized = [x/sumX for x in currentResult]
+        #decide what is the majority class
+        if(len(maxPredictors) == 1):
+            prediction = self.CLASSES[maxPredictors[0]]
+        else:
+            tieClassifierConfidences = []
+            for i in range(len(maxPredictors)):
+                tieClassifierConfidences.append(individualAccuracy[i])
+            prediction = individualResults[tieClassifierConfidences.index((max(tieClassifierConfidences)))]
+
+        classPercentagesNormalized = [x/len(self.classifierAndIndividualWeights) for x in resultPredictions]
         confidenceOfPredicted = max(classPercentagesNormalized)
-
-        predictedClass = classPercentagesNormalized.index(confidenceOfPredicted)
-        predictedClass = self.CLASSES[predictedClass]
-
-        return predictedClass, confidenceOfPredicted, classPercentagesNormalized
+        return prediction, confidenceOfPredicted, classPercentagesNormalized
 
     def getAccuracy(self):
         return self.accuracy
 
     def getWeights(self):
-        return None
+        return self.maxWeights
 
     def getParameterNameList(self):
         return self.parameterNames

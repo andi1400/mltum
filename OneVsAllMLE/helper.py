@@ -36,18 +36,18 @@ class helper():
 
         return weights
 
-    def writeWeights(self, filename, classes, weights, writeClassNames):
-        if weights is None:
-            return
-
-        with open(filename, "a") as file:
-            csvwriter = csv.writer(file, delimiter=";", quotechar='"')
-
-            for i in range(len(classes)):
-                if writeClassNames:
-                    csvwriter.writerow([classes[i]] + weights[i].tolist())
-                else:
-                    csvwriter.writerow(weights[i].tolist())
+    # def writeWeights(self, filename, classes, weights, writeClassNames):
+    #     if weights is None:
+    #         return
+    #
+    #     with open(filename, "a") as file:
+    #         csvwriter = csv.writer(file, delimiter=";", quotechar='"')
+    #
+    #         for i in range(len(classes)):
+    #             if writeClassNames:
+    #                 csvwriter.writerow([classes[i]] + weights[i].tolist())
+    #             else:
+    #                 csvwriter.writerow(weights[i].tolist())
 
     def writeConfusionMatrixToFile(self, confusionMatrix, CLASSES, filename):
         toWrite = self.getConfusionMatrixAsString(confusionMatrix, CLASSES)

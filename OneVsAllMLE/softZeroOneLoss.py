@@ -23,11 +23,10 @@ class softzeroone():
     SHRINKAGE = 0.98
     BETA = 2
     REGULARIZER = 0#1e-10 #lambda
-    GRADIENTSTEPSIZE = 0.01
     BASIS_FUNCTION = helper.getXDirectly
     SIGMOID = helper.pseudoSigmoid
-    parameterNames = ["Alpha", "Shrinkage", "Beta", "Lambda", "H", "BASIS_FUNCTION", "SIGMOID"]
-    parameters = [LEARNING_RATE, SHRINKAGE, BETA, REGULARIZER, GRADIENTSTEPSIZE, BASIS_FUNCTION.__name__, SIGMOID.__name__]
+    parameterNames = ["Alpha", "Shrinkage", "Beta", "Lambda", "BASIS_FUNCTION", "SIGMOID"]
+    parameters = [LEARNING_RATE, SHRINKAGE, BETA, REGULARIZER, BASIS_FUNCTION.__name__, SIGMOID.__name__]
 
     helper = None
 
@@ -35,9 +34,23 @@ class softzeroone():
     weightsFilenameTemplate = None
     confusionFilenameTemplate = None
 
-    def __init__(self, classes):
+    def __init__(self, classes, maxSteps, maxNonChangingSteps, parameters):
         self.helper = helper()
         self.CLASSES = classes
+        self.MAX_STEPS = maxSteps
+        self.MAX_NONCHANGING_STEPS = maxNonChangingSteps
+        self.LEARNING_RATE = parameters[0]
+        self.SHRINKAGE = parameters[1]
+        self.BETA = parameters[2]
+        self.REGULARIZER = parameters[3]
+
+        self.maxWeights = []
+        for i in range(len(classes)):
+            dummyWeight = np.zeros(17)
+            self.maxWeights.append(dummyWeight)
+
+
+
 
     def setFilenames(self):
         self.debugFolderName = "../output/weights/debug/" + str(self.start) + "_" + str(self.__class__.__name__) + "/"

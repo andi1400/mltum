@@ -1,0 +1,15 @@
+____________________________
+	sitting	walking	standing	standingup	sittingdown
+sitting	45370	23	65	596	968
+walking	1	27953	6511	1719	998
+standing	28	9406	35674	3651	2260
+standingup	97	736	34	2817	500
+sittingdown	95	829	380	2473	5885
+________________________________________________________
+	sitting	walking	standing	standingup	sittingdown
+sitting	45370	23	65	596	968
+walking	1	27953	6511	1719	998
+standing	28	9406	35674	3651	2260
+standingup	97	736	34	2817	500
+sittingdown	95	829	380	2473	5885
+____________________________

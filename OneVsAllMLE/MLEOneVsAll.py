@@ -33,9 +33,19 @@ class mleonevsall():
 
     helper = None
 
-    def __init__(self, classes):
+    def __init__(self, classes, maxSteps, maxNonChangingSteps, parameters):
         self.helper = helper()
         self.CLASSES = classes
+        self.MAX_STEPS = maxSteps
+        self.MAX_NONCHANGING_STEPS = maxNonChangingSteps
+        self.LEARNING_RATE = parameters[0]
+        self.SHRINKAGE = parameters[1]
+        self.maxWeights = []
+        for i in range(len(classes)):
+            dummyWeight = np.zeros(17)
+            self.maxWeights.append(dummyWeight)
+
+
 
 
     def setFilenames(self):
