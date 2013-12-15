@@ -151,7 +151,7 @@ classifier = None
 startWeights = None
 trainingSample = None
 helperInstance = helper()
-#trainingSample = helper.readData("../data/dataset-complete_90PercentTrainingSet_mini10Percent_standardized.arff")
+filename = "../data/dataset-complete_90PercentTrainingSet_mini10Percent_standardized.arff"
 #read cmd line arguments
 #try:
 
@@ -199,7 +199,8 @@ for i in range(len(sys.argv)):
         filename = sys.argv[i+1]
         print("Data file: " + str(filename))
 
-        trainingSample = helperInstance.readData(filename)
+
+trainingSample = helperInstance.readData(filename)
 
 batch = batchLearner()
 print("Test reading: " + str(trainingSample[0]))
