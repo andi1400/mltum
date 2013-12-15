@@ -8,6 +8,8 @@ import numpy as np
 import random
 import os
 import time
+from neuralnetwork import neuralnetwork
+import sys
 
 
 class batchLearner():
@@ -74,7 +76,7 @@ class batchLearner():
         for i in range(folds):
 
             classifierInstance = classifier(self.CLASSES, maxSteps, maxNonChangingSteps, parameters)
-            classifierInstance.learn(startWeights, self.getCrossValidationSet(trainingSets, i))
+            classifierInstance.learn(self.getCrossValidationSet(trainingSets, i), startWeights)
             learnedWeights = classifierInstance.maxWeights
             curAcc = 1-self.helper.calcTotalError(classifierInstance, trainingSets[i], learnedWeights)[0]
             listAccs.append(curAcc)
@@ -106,27 +108,99 @@ def pot(p, list):
     return p * list[0]. list
 
 def optLogarithmic(p, list):
-    if (p >= 10*list[0]):
+    pNew = p + 2*list[0]
+    if (pNew >= 10*list[0]):
         list[0] *= 10
-    return p + 2*list[0], list
+        pNew = list[0]
+    return pNew, list
 
 function = optLogarithmic
-
-batch = batchLearner()
-helper = helper()
-classifier = hinge
-parameterStart = [1e-5, 0.98, 2, 0]
+#
+# batch = batchLearner()
+# helper = helper()
+# classifier = hinge
+# parameterStart = [1e-5, 0.98, 2, 0]
 optimizeID = 1
 parRange = [1e-5, 1e-1, function, [1e-5]]
-trainingSample = helper.readData("../data/dataset-complete_90PercentTrainingSet_mini10Percent_standardized.arff")
-startWeights = []
-for i in range(len(CLASSES)):
-    dummyWeight = np.zeros(17)
-    startWeights.append(dummyWeight)
-
-maxSteps = 70
-maxNonChangingSteps = 8
-
+# trainingSample = helper.readData("../data/dataset-complete_90PercentTrainingSet_mini10Percent_standardized.arff")
+# startWeights = []
+# for i in range(len(CLASSES)):
+#     dummyWeight = np.zeros(17)
+#     startWeights.append(dummyWeight)
+#
+# maxSteps = 70
+# maxNonChangingSteps = 8
+#
 folds = 10
+#
+# batch.optimizeParameters(classifier, parameterStart, optimizeID, parRange, trainingSample, startWeights, maxSteps, maxNonChangingSteps, folds, "Learning Rate")
 
-batch.optimizeParameters(classifier, parameterStart, optimizeID, parRange, trainingSample, startWeights, maxSteps, maxNonChangingSteps, folds, "Learning Rate")
+CLASSES = ["sitting", "walking", "standing", "standingup", "sittingdown"]
+CLASSIFIERS = {'MLE': mleonevsall, 'SOFTZEROONE': softzeroone, 'HINGE': hinge, 'nn': neuralnetwork}
+MAXSTEPS = 70
+MAXNONCHANGINGSTEPS = 10
+PARAMETERS = None
+parName = ""
+#learnMethod = mleonevsall
+#learnMethod = softzeroone
+#learnMethod = hinge(CLASSES)
+classifier = None
+#create start weights or read them
+startWeights = None
+trainingSample = None
+helperInstance = helper()
+#trainingSample = helper.readData("../data/dataset-complete_90PercentTrainingSet_mini10Percent_standardized.arff")
+#read cmd line arguments
+#try:
+
+
+print("About to checking arguments...")
+for i in range(len(sys.argv)):
+    if sys.argv[i] == "-h" or sys.argv[i] == "--help":
+        print("Here should be your help.")
+        sys.exit()
+    elif sys.argv[i] == "-c" or sys.argv[i] == "--classifier":
+        classifier = CLASSIFIERS[sys.argv[i+1]]
+
+    elif sys.argv[i] == "-p" or sys.argv[i] == "--parameters":
+        print("received parameters - processing them...")
+        stringList = sys.argv[i+1]
+        PARAMETERS = [float(x) for x in stringList.split(',')]
+        print PARAMETERS
+
+    elif sys.argv[i] == "-ms" or sys.argv[i] == "--maxSteps":
+        MAXSTEPS = int(sys.argv[i+1])
+        print("Max Steps: " + str(MAXSTEPS))
+
+
+    elif sys.argv[i] == "-mncs" or sys.argv[i] == "--maxNonChangingSteps":
+        MAXNONCHANGINGSTEPS = int(sys.argv[i+1])
+        print("Max non changing Steps: " + str(MAXNONCHANGINGSTEPS))
+
+    elif sys.argv[i] == "-oID" or sys.argv[i] == "--optimizeID":
+        optimizeID = int(sys.argv[i+1])
+        parName = sys.argv[i+2]
+        print("PArameter to optimize: " + str(parName) + " ID: " + str(optimizeID))
+
+    elif sys.argv[i] == "-pS" or sys.argv[i] == "--parameterStart":
+        parRange[0] = float(sys.argv[i+1])
+        print("start optimize: " + str(parRange[0]))
+    elif sys.argv[i] == "-pE" or sys.argv[i] == "--parameterStop":
+        parRange[1] = float(sys.argv[i+1])
+        print("stop optimize: " + str(parRange[1]))
+
+    elif sys.argv[i] == "-f" or sys.argv[i] == "--folds":
+        folds = int(sys.argv[i+1])
+        print("Folds: " + str(folds))
+
+    elif sys.argv[i] == "-d" or sys.argv[i] == "--data":
+        filename = sys.argv[i+1]
+        print("Data file: " + str(filename))
+
+        trainingSample = helperInstance.readData(filename)
+
+batch = batchLearner()
+print("Test reading: " + str(trainingSample[0]))
+
+
+batch.optimizeParameters(classifier, PARAMETERS, optimizeID, parRange, trainingSample, startWeights, MAXSTEPS, MAXNONCHANGINGSTEPS, folds, parName)

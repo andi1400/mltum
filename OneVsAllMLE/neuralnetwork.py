@@ -2,6 +2,7 @@ from helper import helper
 import numpy as np
 import copy
 import time
+import random
 
 class neuralnetwork:
     CLASSES = None
@@ -49,6 +50,7 @@ class neuralnetwork:
         self.NUM_LAYERS = parameters[1]
         self.NEURONS_PER_LAYER = parameters[2]
 
+        random.seed()
         self.parameters = [self.LEARNING_RATE, self.NUM_LAYERS, self.NEURONS_PER_LAYER, self.BASIS_FUNCTION.__name__, self.SIGMOID.__name__]
 
         self.maxWeights = []
@@ -60,7 +62,7 @@ class neuralnetwork:
 
                 #now for each of the neurons from last layer to the next + some bias value as input to each neuron
                 for k in range(self.NEURONS_PER_LAYER+1):
-                    self.maxWeights[i][j].append(1)
+                    self.maxWeights[i][j].append(0)
 
         self.defaultWeights = []
         for i in range(self.NUM_LAYERS):
@@ -71,10 +73,10 @@ class neuralnetwork:
 
                 #now for each of the neurons from last layer to the next + some bias value as input to each neuron
                 for k in range(self.NEURONS_PER_LAYER+1):
-                    self.defaultWeights[i][j].append(1)
+                    self.defaultWeights[i][j].append(random.random()*2 -1)
 
         print("Initialized Neurol Network weights to one:")
-        print(self.maxWeights)
+        print(self.defaultWeights)
 
     def classifySample(self, inputVector, ClassWeights):
         predictedClass = None
@@ -146,10 +148,13 @@ class neuralnetwork:
 
         for step in range(self.MAX_STEPS):
 
-            currentWeights, accuracy = self.performLearnStep(currentWeights, trainingSamples)
-            print("Accuracy this step: " + str(accuracy))
+            currentWeights, accuracy, confusionMatrix = self.performLearnStep(currentWeights, trainingSamples)
+            #print("Weights:")
+            #print(len(currentWeights[-1][0]))
+
+            print("Accuracy step " + str(step) +": " + str(accuracy) + " confusion: " + str(confusionMatrix))
             if(accuracy > bestAccuracy):
-                print("Found better accuracy: " + str(accuracy))
+                #print("Found better accuracy: " + str(accuracy))
                 bestAccuracy = accuracy
                 self.maxWeights = currentWeights
 
@@ -158,13 +163,15 @@ class neuralnetwork:
     #will do one step of learning. E.g. go from the end of the network to the front for every sample.
     def performLearnStep(self, currentWeights, trainingSamples):
         for sID in range(len(trainingSamples)):
-            if (sID % 100 == 0):
-                print sID
+            #if (sID % 1000 == 0):
+            #    print sID
             currentWeights = self.learnFromSample(currentWeights, trainingSamples[sID])
 
-        accuracyAfterStep = self.helper.calcTotalError(self, trainingSamples, currentWeights)
+        errorAfterStep, confusionMatrix = self.helper.calcTotalError(self, trainingSamples, currentWeights)
 
-        return currentWeights, accuracyAfterStep
+        accuracyAfterStep = 1- errorAfterStep
+
+        return currentWeights, accuracyAfterStep, confusionMatrix
 
     def learnFromSample(self, currentWeights, sample):
         lastError = None
@@ -182,8 +189,8 @@ class neuralnetwork:
 
         #w_old + deltaW
         for i in range(len(modifiedWeights[-1])):
-            modifiedWeights[-1][i] += deltaW[i]
-
+            for j in range(len(modifiedWeights[-1][i])):
+                modifiedWeights[-1][i][j] += deltaW[i][j]
 
         for layerId in range(self.NUM_LAYERS - 2, 0, -1):
             #calculate that layer's error - now different from the output error
@@ -195,7 +202,8 @@ class neuralnetwork:
 
             #w_old + deltaW
             for i in range(len(modifiedWeights[layerId])):
-                modifiedWeights[layerId][i] += deltaW[i]
+                for j in range(len(modifiedWeights[layerId][i])):
+                    modifiedWeights[layerId][i][j] += deltaW[i][j]
 
         return modifiedWeights
 

@@ -92,7 +92,9 @@ class hinge():
     def learn(self, trainingSamples):
         self.learn(self.defaultWeights, trainingSamples)
 
-    def learn(self, trainingSamples, startWeights=defaultWeights):
+    def learn(self, trainingSamples, startWeights=None):
+        if (startWeights is None):
+            startWeights = self.defaultWeights
         #measure the start ime
         self.start = time.time()
         #set the debug filenames and create folders
