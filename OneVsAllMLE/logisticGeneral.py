@@ -56,7 +56,7 @@ class logisticregression():
         plt.draw()
 
 
-
+        print("Evaluating Model - Please wait...")
         currentError, confusionMatrix = helper.calcTotalError(self.learnMethod, originalData, self.learnMethod.getWeights())
         print("Last Error on training: " + str(currentError))
         print("Last Accuracy on training: " + str(1-currentError))
@@ -70,7 +70,6 @@ class logisticregression():
         if self.STORERESULTS:
             self.writeToCSV(self.csvRunFilename)
             self.helper.writeWeightsDebug(self.csvWeightsFilename + str(self.learnMethod.getStartTime()) + str(self.learnMethod) +".csv", self.learnMethod.getWeights())
-
             #create a plot
             plt.savefig("../output/plots/run_" + str(self.learnMethod.__class__.__name__) + "_" + str(date.datetime.fromtimestamp(self.learnMethod.getStartTime())) + ".png")
             plt.savefig("../output/plots/run_" + str(self.learnMethod.__class__.__name__) + "_" + str(date.datetime.fromtimestamp(self.learnMethod.getStartTime())) + ".pdf")
@@ -89,8 +88,8 @@ class logisticregression():
 ################################
 
 CLASSES = ["sitting", "walking", "standing", "standingup", "sittingdown"]
-CLASSIFIERS = {'MLE': mleonevsall, 'SOFTZEROONE': softzeroone, 'HINGE': hinge, 'MAV': majorityvote, 'WAVG': weightedclassifiers, 'nn': neuralnetwork}
-PARAMETERS = {'MLE': [1e-5, 0.98], 'SOFTZEROONE': [3e-5, 0.98, 2, 0], 'HINGE': [1e-5, 0.98], 'MAV': None, 'WAVG': None, 'nn': [1e-2, 5, 16]}
+CLASSIFIERS = {'MLE': mleonevsall, 'SOFTZEROONE': softzeroone, 'HINGE': hinge, 'MAV': majorityvote, 'WAVG': weightedclassifiers, 'NN': neuralnetwork}
+PARAMETERS = {'MLE': [1e-5, 0.98], 'SOFTZEROONE': [3e-5, 0.98, 2, 0], 'HINGE': [1e-5, 0.98], 'MAV': None, 'WAVG': None, 'NN': [1e-2, 5, 16]}
 MAXSTEPS = 100000
 MAXNONCHANGINGSTEPS = 1000
 helper = helper()
@@ -156,7 +155,7 @@ print("Test reading: " + str(originalData[0]))
 #catch STRG+C to prevent loss of output.
 def signal_handler(signal, frame):
     global terminate
-    if terminate:
+    if not terminate:
         terminate = True
         logisticregressionHelper.printRunInformation()
     sys.exit(0)

@@ -47,9 +47,8 @@ class neuralnetwork:
         self.MAX_NONCHANGING_STEPS = maxNonChangingSteps
 
         self.LEARNING_RATE = parameters[0]
-        self.NUM_LAYERS = parameters[1]
-        self.NEURONS_PER_LAYER = parameters[2]
-
+        self.NUM_LAYERS = int(parameters[1])
+        self.NEURONS_PER_LAYER = int(parameters[2])
         random.seed()
         self.parameters = [self.LEARNING_RATE, self.NUM_LAYERS, self.NEURONS_PER_LAYER, self.BASIS_FUNCTION.__name__, self.SIGMOID.__name__]
 
@@ -75,8 +74,8 @@ class neuralnetwork:
                 for k in range(self.NEURONS_PER_LAYER+1):
                     self.defaultWeights[i][j].append(random.random()*2 -1)
 
-        print("Initialized Neurol Network weights to one:")
-        print(self.defaultWeights)
+        #print("Initialized Neurol Network weights to one:")
+        #print(self.defaultWeights)
 
     def classifySample(self, inputVector, ClassWeights):
         predictedClass = None
@@ -151,14 +150,19 @@ class neuralnetwork:
             currentWeights, accuracy, confusionMatrix = self.performLearnStep(currentWeights, trainingSamples)
             #print("Weights:")
             #print(len(currentWeights[-1][0]))
+            percentageMax_steps = self.MAX_STEPS/100
+            if(step % percentageMax_steps == 0):
+                self.helper.writeWeightsDebug(self.weightsFilenameTemplate + "_step" + str(step) + ".csv", currentWeights)
+                print ("Finished " + step/percentageMax_steps + "%.")
 
-            print("Accuracy step " + str(step) +": " + str(accuracy) + " confusion: " + str(confusionMatrix))
+            #print("Accuracy step " + str(step) +": " + str(accuracy) + " confusion: " + str(confusionMatrix))
             if(accuracy > bestAccuracy):
                 #print("Found better accuracy: " + str(accuracy))
                 bestAccuracy = accuracy
                 self.maxWeights = currentWeights
 
-        print("Finished learning. Best Accuracy: " + str(bestAccuracy))
+
+        #print("Finished learning. Best Accuracy: " + str(bestAccuracy))
 
     #will do one step of learning. E.g. go from the end of the network to the front for every sample.
     def performLearnStep(self, currentWeights, trainingSamples):

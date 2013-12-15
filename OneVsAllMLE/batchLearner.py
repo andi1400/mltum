@@ -81,7 +81,9 @@ class batchLearner():
             curAcc = 1-self.helper.calcTotalError(classifierInstance, trainingSets[i], learnedWeights)[0]
             listAccs.append(curAcc)
         print listAccs
-        return sum(listAccs)/folds
+        avgAcc = sum(listAccs)/folds
+        print "Average accuracy: " + str(avgAcc)
+        return avgAcc
 
     def getCrossValidationSet(self, crossValidationSets, k):
         returnSet = []
@@ -136,7 +138,7 @@ folds = 10
 # batch.optimizeParameters(classifier, parameterStart, optimizeID, parRange, trainingSample, startWeights, maxSteps, maxNonChangingSteps, folds, "Learning Rate")
 
 CLASSES = ["sitting", "walking", "standing", "standingup", "sittingdown"]
-CLASSIFIERS = {'MLE': mleonevsall, 'SOFTZEROONE': softzeroone, 'HINGE': hinge, 'nn': neuralnetwork}
+CLASSIFIERS = {'MLE': mleonevsall, 'SOFTZEROONE': softzeroone, 'HINGE': hinge, 'NN': neuralnetwork}
 MAXSTEPS = 70
 MAXNONCHANGINGSTEPS = 10
 PARAMETERS = None

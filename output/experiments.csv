@@ -492,3 +492,7 @@
 <weightedClassifiers.weightedclassifiers instance at 0x24f93b0>;hinge;mleonevsall;softzeroone
  
 
+2013-12-15 16:09:01.480327;Alpha;NUM_LAYERS;NEURONS_PER_LAYER;BASIS_FUNCTION;SIGMOID
+<neuralnetwork.neuralnetwork instance at 0x2fe0560>;0.01;5;16;getXDirectly;pseudoSigmoid
+ 
+

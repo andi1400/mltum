@@ -2,6 +2,7 @@ import numpy as np
 import csv
 import time
 import os
+import pickle
 
 class helper():
     def calcTotalError(self, classifier, trainingSamples, currentWeights):
@@ -22,13 +23,23 @@ class helper():
 
         return 1-float(curRight)/len(trainingSamples), confusionMatrix
 
+    def writeWeightsCSV(self, filename, weights):
+        if not os.path.exists(os.path.dirname(filename)):
+            os.makedirs(os.path.dirname(filename))
+
+        np.savetxt(filename, weights, delimiter=";")
+
     def writeWeightsDebug(self, filename, weights):
         if not os.path.exists(os.path.dirname(filename)):
             os.makedirs(os.path.dirname(filename))
-        np.savetxt(filename, weights, delimiter=";")
+
+        pickle.dump(weights, open(filename, "a+"))
+
+    def readWeights(self, filename, classes):
+        return pickle.load(open(filename, "rb"))
 
     #read the weights from csv and turn them into the weight vecotr.
-    def readWeights(self, filename, classes):
+    def readWeightsOld(self, filename, classes):
         weights = np.genfromtxt(filename, delimiter=';')
 
         print("Successfully read weight vector: ")

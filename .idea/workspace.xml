@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/OneVsAllMLE/batchLearner.py" line="176" />
+    <bookmark url="file://$PROJECT_DIR$/OneVsAllMLE/batchLearner.py" line="178" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ccf599bb-0cde-4a30-9366-91b251e6242f" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/OneVsAllMLE/MLEOneVsAll.py" afterPath="$PROJECT_DIR$/OneVsAllMLE/MLEOneVsAll.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/output/weights/debug/.directory" afterPath="$PROJECT_DIR$/output/weights/debug/.directory" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/OneVsAllMLE/MAVWeights/HINGE.weights" afterPath="$PROJECT_DIR$/OneVsAllMLE/MAVWeights/HINGE.weights" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/OneVsAllMLE/MAVWeights/MLE.weights" afterPath="$PROJECT_DIR$/OneVsAllMLE/MAVWeights/MLE.weights" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/OneVsAllMLE/MAVWeights/SOFTZEROONE.weights" afterPath="$PROJECT_DIR$/OneVsAllMLE/MAVWeights/SOFTZEROONE.weights" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/OneVsAllMLE/batchLearner.py" afterPath="$PROJECT_DIR$/OneVsAllMLE/batchLearner.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/OneVsAllMLE/hingeLoss.py" afterPath="$PROJECT_DIR$/OneVsAllMLE/hingeLoss.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/output/experiments.csv" afterPath="$PROJECT_DIR$/output/experiments.csv" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/OneVsAllMLE/helper.py" afterPath="$PROJECT_DIR$/OneVsAllMLE/helper.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/OneVsAllMLE/logisticGeneral.py" afterPath="$PROJECT_DIR$/OneVsAllMLE/logisticGeneral.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/OneVsAllMLE/neuralnetwork.py" afterPath="$PROJECT_DIR$/OneVsAllMLE/neuralnetwork.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/output/parameterOptimize/par_hinge_Learning Rate_DEBUG_1387102774.74.txt" afterPath="$PROJECT_DIR$/output/parameterOptimize/par_hinge_Learning Rate_DEBUG_1387102774.74.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/output/parameterOptimize/par_mleonevsall_Learning Rate_DEBUG_1387102794.02.txt" afterPath="$PROJECT_DIR$/output/parameterOptimize/par_mleonevsall_Learning Rate_DEBUG_1387102794.02.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/output/parameterOptimize/par_softzeroone_Learning Rate_DEBUG_1387102739.8.txt" afterPath="$PROJECT_DIR$/output/parameterOptimize/par_softzeroone_Learning Rate_DEBUG_1387102739.8.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/OneVsAllMLE/softZeroOneLoss.py" afterPath="$PROJECT_DIR$/OneVsAllMLE/softZeroOneLoss.py" />
     </list>
     <ignored path="MLProjektGitRepo.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -43,19 +46,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="softZeroOneLoss.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/OneVsAllMLE/softZeroOneLoss.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="101" column="54" selection-start="3287" selection-end="3287" vertical-scroll-proportion="0.0" vertical-offset="1125" max-vertical-offset="3825">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="neuralnetwork.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/OneVsAllMLE/neuralnetwork.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="166" column="13" selection-start="5902" selection-end="5902" vertical-scroll-proportion="-13.08" vertical-offset="2163" max-vertical-offset="4515">
+            <state line="152" column="52" selection-start="5321" selection-end="5321" vertical-scroll-proportion="35.52" vertical-offset="3168" max-vertical-offset="4575">
               <folding>
                 <element signature="e#0#25#0" expanded="true" />
               </folding>
@@ -63,10 +57,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="batchLearner.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="logisticGeneral.py" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/OneVsAllMLE/logisticGeneral.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="77" column="8" selection-start="3117" selection-end="3117" vertical-scroll-proportion="0.63180363" vertical-offset="563" max-vertical-offset="2745">
+              <folding>
+                <element signature="e#0#10#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="batchLearner.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/OneVsAllMLE/batchLearner.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="113" column="22" selection-start="4556" selection-end="4556" vertical-scroll-proportion="0.38666666" vertical-offset="1463" max-vertical-offset="3180">
+            <state line="70" column="20" selection-start="2987" selection-end="2987" vertical-scroll-proportion="-41.84" vertical-offset="4" max-vertical-offset="3210">
               <folding>
                 <element signature="e#0#25#0" expanded="true" />
               </folding>
@@ -79,6 +84,17 @@
           <provider selected="true" editor-type-id="text-editor">
             <state line="119" column="22" selection-start="4644" selection-end="4644" vertical-scroll-proportion="0.0" vertical-offset="1305" max-vertical-offset="1920">
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="helper.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/OneVsAllMLE/helper.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="31" column="51" selection-start="1078" selection-end="1078" vertical-scroll-proportion="0.0" vertical-offset="165" max-vertical-offset="2070">
+              <folding>
+                <element signature="e#0#18#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -104,18 +120,7 @@
       <file leaf-file-name="majorityVoteTester.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/OneVsAllMLE/majorityVoteTester.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="27" column="52" selection-start="472" selection-end="548" vertical-scroll-proportion="0.0" vertical-offset="495" max-vertical-offset="1725">
-              <folding>
-                <element signature="e#0#25#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="weightedClassifiers.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/OneVsAllMLE/weightedClassifiers.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="39" column="0" selection-start="1046" selection-end="1046" vertical-scroll-proportion="0.0" vertical-offset="585" max-vertical-offset="1755">
+            <state line="27" column="52" selection-start="472" selection-end="548" vertical-scroll-proportion="0.0" vertical-offset="743" max-vertical-offset="1725">
               <folding>
                 <element signature="e#0#25#0" expanded="true" />
               </folding>
@@ -126,7 +131,7 @@
       <file leaf-file-name="MLEOneVsAll.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/OneVsAllMLE/MLEOneVsAll.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="96" column="54" selection-start="3198" selection-end="3198" vertical-scroll-proportion="-14.4" vertical-offset="1020" max-vertical-offset="2790">
+            <state line="114" column="0" selection-start="3668" selection-end="3801" vertical-scroll-proportion="-12.6" vertical-offset="1335" max-vertical-offset="2790">
               <folding />
             </state>
           </provider>
@@ -161,18 +166,18 @@
       <list>
         <option value="$PROJECT_DIR$/OneVsAllMLE/generalLogisticRegression.py" />
         <option value="$PROJECT_DIR$/OneVsAllMLE/oneVsAllMLE.py" />
-        <option value="$PROJECT_DIR$/OneVsAllMLE/helper.py" />
         <option value="$PROJECT_DIR$/OneVsAllMLE/majorityVoteTester.py" />
         <option value="$PROJECT_DIR$/OneVsAllMLE/weightedClassifiers.py" />
         <option value="$PROJECT_DIR$/OneVsAllMLE/batchLearnerRun1.py" />
         <option value="$PROJECT_DIR$/OneVsAllMLE/batchLearnerRun3.py" />
         <option value="$PROJECT_DIR$/OneVsAllMLE/batchLearnerRun2.py" />
-        <option value="$PROJECT_DIR$/OneVsAllMLE/logisticGeneral.py" />
         <option value="$PROJECT_DIR$/OneVsAllMLE/hingeLoss.py" />
         <option value="$PROJECT_DIR$/OneVsAllMLE/MLEOneVsAll.py" />
         <option value="$PROJECT_DIR$/OneVsAllMLE/softZeroOneLoss.py" />
-        <option value="$PROJECT_DIR$/OneVsAllMLE/neuralnetwork.py" />
         <option value="$PROJECT_DIR$/OneVsAllMLE/batchLearner.py" />
+        <option value="$PROJECT_DIR$/OneVsAllMLE/neuralnetwork.py" />
+        <option value="$PROJECT_DIR$/OneVsAllMLE/helper.py" />
+        <option value="$PROJECT_DIR$/OneVsAllMLE/logisticGeneral.py" />
       </list>
     </option>
   </component>
@@ -563,14 +568,14 @@
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32676348" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32676348" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.111979164" sideWeight="0.6732365" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.111979164" sideWeight="0.6732365" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31120333" sideWeight="0.2671875" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32676348" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32676348" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -585,19 +590,19 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32987553" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32676348" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31120333" sideWeight="0.2671875" order="9" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31120333" sideWeight="0.2671875" order="9" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1546875" sideWeight="0.6701245" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.111979164" sideWeight="0.6732365" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.08020833" sideWeight="0.6701245" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32987553" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.08020833" sideWeight="0.6701245" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32676348" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
     </layout-to-restore>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -644,15 +649,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/OneVsAllMLE/helper.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="58" column="0" selection-start="1787" selection-end="2115" vertical-scroll-proportion="-13.2" vertical-offset="540" max-vertical-offset="1905">
-          <folding>
-            <element signature="e#0#18#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/OneVsAllMLE/batchLearnerRun3.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="119" column="22" selection-start="4644" selection-end="4644" vertical-scroll-proportion="0.0" vertical-offset="1305" max-vertical-offset="1920">
@@ -667,28 +663,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/OneVsAllMLE/majorityVoteTester.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="52" selection-start="472" selection-end="548" vertical-scroll-proportion="0.0" vertical-offset="45" max-vertical-offset="1725">
-          <folding>
-            <element signature="e#0#25#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/OneVsAllMLE/oneVsAllMLE.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="11" column="0" selection-start="222" selection-end="222" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4455">
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/OneVsAllMLE/logisticGeneral.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="153" column="16" selection-start="6294" selection-end="6341" vertical-scroll-proportion="0.0" vertical-offset="1868" max-vertical-offset="2760">
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -706,13 +684,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/OneVsAllMLE/MLEOneVsAll.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="96" column="54" selection-start="3198" selection-end="3198" vertical-scroll-proportion="-14.4" vertical-offset="1020" max-vertical-offset="2790">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/OneVsAllMLE/softZeroOneLoss.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="101" column="54" selection-start="3287" selection-end="3287" vertical-scroll-proportion="0.0" vertical-offset="1125" max-vertical-offset="3825">
@@ -720,20 +691,54 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/OneVsAllMLE/neuralnetwork.py">
+    <entry file="file://$PROJECT_DIR$/OneVsAllMLE/batchLearner.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="166" column="13" selection-start="5902" selection-end="5902" vertical-scroll-proportion="-13.08" vertical-offset="2163" max-vertical-offset="4515">
+        <state line="70" column="20" selection-start="2987" selection-end="2987" vertical-scroll-proportion="-41.84" vertical-offset="4" max-vertical-offset="3210">
           <folding>
             <element signature="e#0#25#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/OneVsAllMLE/batchLearner.py">
+    <entry file="file://$PROJECT_DIR$/OneVsAllMLE/majorityVoteTester.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="113" column="22" selection-start="4556" selection-end="4556" vertical-scroll-proportion="0.38666666" vertical-offset="1463" max-vertical-offset="3180">
+        <state line="27" column="52" selection-start="472" selection-end="548" vertical-scroll-proportion="0.0" vertical-offset="45" max-vertical-offset="1725">
           <folding>
             <element signature="e#0#25#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/OneVsAllMLE/MLEOneVsAll.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="114" column="0" selection-start="3668" selection-end="3801" vertical-scroll-proportion="-12.6" vertical-offset="1335" max-vertical-offset="2790">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/OneVsAllMLE/neuralnetwork.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="152" column="52" selection-start="5321" selection-end="5321" vertical-scroll-proportion="35.52" vertical-offset="3168" max-vertical-offset="4575">
+          <folding>
+            <element signature="e#0#25#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/OneVsAllMLE/helper.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="31" column="51" selection-start="1078" selection-end="1078" vertical-scroll-proportion="0.0" vertical-offset="165" max-vertical-offset="2070">
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/OneVsAllMLE/logisticGeneral.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="77" column="8" selection-start="3117" selection-end="3117" vertical-scroll-proportion="0.63180363" vertical-offset="563" max-vertical-offset="2745">
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
           </folding>
         </state>
       </provider>
