@@ -18,6 +18,8 @@ class hinge():
     maxAccuracyIndex = 0
     maxWeights = None
 
+    defaultWeights = None
+
     #hyper parameters for soft zero one loss
     LEARNING_RATE = 1e-2
     SHRINKAGE = 0.98
@@ -44,6 +46,11 @@ class hinge():
         for i in range(len(classes)):
             dummyWeight = np.zeros(17)
             self.maxWeights.append(dummyWeight)
+
+        self.defaultWeights = []
+        for i in range(len(self.CLASSES)):
+            dummyWeight = np.zeros(17)
+            self.defaultWeights.append(dummyWeight)
 
 
     def setFilenames(self):
@@ -82,7 +89,10 @@ class hinge():
 
         return 0, regressionResult
 
-    def learn(self, startWeights, trainingSamples):
+    def learn(self, trainingSamples):
+        self.learn(self.defaultWeights, trainingSamples)
+
+    def learn(self, trainingSamples, startWeights=defaultWeights):
         #measure the start ime
         self.start = time.time()
         #set the debug filenames and create folders

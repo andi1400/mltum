@@ -14,6 +14,8 @@ class mleonevsall():
     start = None
     endTime = None
 
+    defaultWeights = None
+
     accuracy = []
     maxAccuracyIndex = 0
     maxWeights = None
@@ -44,6 +46,11 @@ class mleonevsall():
         for i in range(len(classes)):
             dummyWeight = np.zeros(17)
             self.maxWeights.append(dummyWeight)
+
+        self.defaultWeights = []
+        for i in range(len(self.CLASSES)):
+            dummyWeight = np.zeros(17)
+            self.defaultWeights.append(dummyWeight)
 
 
 
@@ -87,8 +94,7 @@ class mleonevsall():
 
         return 0, regressionResult
 
-
-    def learn(self, startWeights, trainingSamples):
+    def learn(self, trainingSamples, startWeights=defaultWeights):
         #measure the start ime
         self.start = time.time()
         #set the debug filenames and create folders

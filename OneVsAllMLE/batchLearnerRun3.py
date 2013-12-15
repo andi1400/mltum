@@ -115,9 +115,9 @@ function = optLogarithmic
 batch = batchLearner()
 helper = helper()
 classifier = hinge
-parameterStart = [1e-5, 0.98, 2, 0]
+parameterStart = [1e-6, 1, 2, 0]
 optimizeID = 1
-parRange = [1e-5, 1e-1, function, [1e-5]]
+parRange = [1e-6, 1e-1, function, [1e-5]]
 trainingSample = helper.readData("../data/dataset-complete_90PercentTrainingSet_mini10Percent_standardized.arff")
 startWeights = []
 for i in range(len(CLASSES)):

@@ -18,6 +18,8 @@ class softzeroone():
     maxAccuracyIndex = 0
     maxWeights = None
 
+    defaultWeights = None
+
     #hyper parameters for soft zero one loss
     LEARNING_RATE = 1e-4
     SHRINKAGE = 0.98
@@ -26,7 +28,7 @@ class softzeroone():
     BASIS_FUNCTION = helper.getXDirectly
     SIGMOID = helper.pseudoSigmoid
     parameterNames = ["Alpha", "Shrinkage", "Beta", "Lambda", "BASIS_FUNCTION", "SIGMOID"]
-    parameters = [LEARNING_RATE, SHRINKAGE, BETA, REGULARIZER, BASIS_FUNCTION.__name__, SIGMOID.__name__]
+    parameters = None
 
     helper = None
 
@@ -44,10 +46,17 @@ class softzeroone():
         self.BETA = parameters[2]
         self.REGULARIZER = parameters[3]
 
+        self.parameters = [self.LEARNING_RATE, self.SHRINKAGE, self.BETA, self.REGULARIZER, self.BASIS_FUNCTION.__name__, self.SIGMOID.__name__]
+
         self.maxWeights = []
         for i in range(len(classes)):
             dummyWeight = np.zeros(17)
             self.maxWeights.append(dummyWeight)
+
+        self.defaultWeights = []
+        for i in range(len(self.CLASSES)):
+            dummyWeight = np.zeros(17)
+            self.defaultWeights.append(dummyWeight)
 
 
 
@@ -57,7 +66,8 @@ class softzeroone():
         self.weightsFilenameTemplate = self.debugFolderName + str(self.start)
         self.confusionFilenameTemplate = self.debugFolderName + str(self.start)
 
-        print("Writing DEBUG Information to " + str(self.debugFolderName) + "...")
+        #TODO back in.
+        #print("Writing DEBUG Information to " + str(self.debugFolderName) + "...")
 
     def classifySample(self, x, ClassWeights):
         classPercentages = np.zeros(len(self.CLASSES))
@@ -88,7 +98,8 @@ class softzeroone():
 
         return 0, regressionResult
 
-    def learn(self, startWeights, trainingSamples):
+
+    def learn(self, trainingSamples, startWeights=defaultWeights):
         #measure the start ime
         self.start = time.time()
         #set the debug filenames and create folders

@@ -13,6 +13,7 @@ from helper import *
 from hingeLoss import hinge
 from majorityVoteTester import majorityvote
 from weightedClassifiers import weightedclassifiers
+from neuralnetwork import neuralnetwork
 
 class logisticregression():
     NOTES = "using approximated sigmoid, oneVSall, noBasis"
@@ -78,15 +79,18 @@ class logisticregression():
         plt.show(block=True)
 
     def train(self, trainingSamples, startWeights):
-        self.learnMethod.learn(startWeights, trainingSamples)
+        if startWeights is None:
+            self.learnMethod.learn(trainingSamples)
+        else:
+            self.learnMethod.learn(trainingSamples, startWeights)
 
 ################################
 #general control flow section
 ################################
 
 CLASSES = ["sitting", "walking", "standing", "standingup", "sittingdown"]
-CLASSIFIERS = {'MLE': mleonevsall, 'SOFTZEROONE': softzeroone, 'HINGE': hinge, 'MAV': majorityvote, 'WAVG': weightedclassifiers}
-PARAMETERS = {'MLE': [1e-5, 0.98], 'SOFTZEROONE': [1e-5, 0.98, 2, 0], 'HINGE': [1e-5, 0.98], 'MAV': None, 'WAVG': None}
+CLASSIFIERS = {'MLE': mleonevsall, 'SOFTZEROONE': softzeroone, 'HINGE': hinge, 'MAV': majorityvote, 'WAVG': weightedclassifiers, 'nn': neuralnetwork}
+PARAMETERS = {'MLE': [1e-5, 0.98], 'SOFTZEROONE': [3e-5, 0.98, 2, 0], 'HINGE': [1e-5, 0.98], 'MAV': None, 'WAVG': None, 'nn': [1e-2, 5, 16]}
 MAXSTEPS = 100000
 MAXNONCHANGINGSTEPS = 1000
 helper = helper()
@@ -99,10 +103,7 @@ noLearn = False
 terminate = False
 
 #create start weights or read them
-startWeights = []
-for i in range(len(CLASSES)):
-    dummyWeight = np.zeros(17)
-    startWeights.append(dummyWeight)
+startWeights = None
 
 #read cmd line arguments
 #try:
@@ -146,8 +147,8 @@ for i in range(len(sys.argv)):
 print("Running " + str(learnMethod))
 
 #read the data
-#originalData = logisticregressionHelper.helper.readData("../data/dataset-complete_90PercentTrainingSet_mini10Percent_standardized.arff")
-originalData = logisticregressionHelper.helper.readData("../data/dataset-complete_90PercentTrainingSet_normalized.arff")
+originalData = logisticregressionHelper.helper.readData("../data/dataset-complete_90PercentTrainingSet_mini10Percent_standardized.arff")
+#originalData = logisticregressionHelper.helper.readData("../data/dataset-complete_90PercentTrainingSet_normalized.arff")
 #originalData = logisticregressionHelper.helper.readData("../data/dataset-complete_90PercentTrainingSet_standardized.arff")
 print("Test reading: " + str(originalData[0]))
 
@@ -168,6 +169,7 @@ if(not noLearn):
     print("------------------------------\n")
     print(logisticregressionHelper.learnMethod.getParameterNameList())
     print(logisticregressionHelper.learnMethod.getParameterList())
+
     logisticregressionHelper.train(originalData, startWeights)
 
 logisticregressionHelper.printRunInformation()
