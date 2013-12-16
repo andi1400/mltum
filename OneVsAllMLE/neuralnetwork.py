@@ -18,15 +18,16 @@ class neuralnetwork:
     maxAccuracyIndex = 0
 
 
-    #hyper parameters for soft zero one loss
+    #hyper parameters for neural network
     LEARNING_RATE = 1e-4
+    SHRINKAGE = 1
     NUM_LAYERS = 5
     NEURONS_PER_LAYER = 16
 
     BASIS_FUNCTION = helper.getXDirectly
     SIGMOID = helper.pseudoSigmoid
 
-    parameterNames = ["Alpha", "NUM_LAYERS", "NEURONS_PER_LAYER", "BASIS_FUNCTION", "SIGMOID"]
+    parameterNames = ["Alpha", "SHRINKAGE", "NUM_LAYERS", "NEURONS_PER_LAYER", "BASIS_FUNCTION", "SIGMOID"]
     parameters = None
 
     helper = None
@@ -47,10 +48,11 @@ class neuralnetwork:
         self.MAX_NONCHANGING_STEPS = maxNonChangingSteps
 
         self.LEARNING_RATE = parameters[0]
-        self.NUM_LAYERS = int(parameters[1])
-        self.NEURONS_PER_LAYER = int(parameters[2])
+        self.SHRINKAGE = parameters[1]
+        self.NUM_LAYERS = int(parameters[2])
+        self.NEURONS_PER_LAYER = int(parameters[3])
         random.seed()
-        self.parameters = [self.LEARNING_RATE, self.NUM_LAYERS, self.NEURONS_PER_LAYER, self.BASIS_FUNCTION.__name__, self.SIGMOID.__name__]
+        self.parameters = [self.LEARNING_RATE, self.SHRINKAGE, self.NUM_LAYERS, self.NEURONS_PER_LAYER, self.BASIS_FUNCTION.__name__, self.SIGMOID.__name__]
 
         self.maxWeights = []
         for i in range(self.NUM_LAYERS):
@@ -146,30 +148,31 @@ class neuralnetwork:
         bestAccuracy = 0
 
         for step in range(self.MAX_STEPS):
-
-            currentWeights, accuracy, confusionMatrix = self.performLearnStep(currentWeights, trainingSamples)
+            reducedLearningRate = self.LEARNING_RATE * self.SHRINKAGE ** step
+            currentWeights, accuracyStep, confusionMatrix = self.performLearnStep(currentWeights, trainingSamples, reducedLearningRate)
             #print("Weights:")
             #print(len(currentWeights[-1][0]))
             percentageMax_steps = self.MAX_STEPS/100
-            if(step % percentageMax_steps == 0):
+            #if(step % percentageMax_steps == 0):
+            if(step % 10 == 0):
                 self.helper.writeWeightsDebug(self.weightsFilenameTemplate + "_step" + str(step) + ".csv", currentWeights)
-                print ("Finished " + step/percentageMax_steps + "%.")
-
-            #print("Accuracy step " + str(step) +": " + str(accuracy) + " confusion: " + str(confusionMatrix))
-            if(accuracy > bestAccuracy):
-                #print("Found better accuracy: " + str(accuracy))
-                bestAccuracy = accuracy
+#               print ("Finished " + str(step/percentageMax_steps) + "%.")
+            self.accuracy.append(accuracyStep)
+            print("Accuracy step " + str(step) +": " + str(accuracyStep) + " confusion: " + str(confusionMatrix))
+            if(accuracyStep > bestAccuracy):
+                #print("Found better accuracy: " + str(accuracyStep))
+                bestAccuracy = accuracyStep
                 self.maxWeights = currentWeights
 
 
         #print("Finished learning. Best Accuracy: " + str(bestAccuracy))
 
     #will do one step of learning. E.g. go from the end of the network to the front for every sample.
-    def performLearnStep(self, currentWeights, trainingSamples):
+    def performLearnStep(self, currentWeights, trainingSamples, reducedLearningRate):
         for sID in range(len(trainingSamples)):
             #if (sID % 1000 == 0):
             #    print sID
-            currentWeights = self.learnFromSample(currentWeights, trainingSamples[sID])
+            currentWeights = self.learnFromSample(currentWeights, trainingSamples[sID], reducedLearningRate)
 
         errorAfterStep, confusionMatrix = self.helper.calcTotalError(self, trainingSamples, currentWeights)
 
@@ -177,7 +180,7 @@ class neuralnetwork:
 
         return currentWeights, accuracyAfterStep, confusionMatrix
 
-    def learnFromSample(self, currentWeights, sample):
+    def learnFromSample(self, currentWeights, sample, reducedLearningRate):
         lastError = None
         modifiedWeights = copy.deepcopy(currentWeights)
 
@@ -189,7 +192,7 @@ class neuralnetwork:
         lastError = self.getOutputError(outputsPerLayer, currentWeights[-1], sample[1])
 
         #modifiy weights for the output layer
-        deltaW = self.calcDeltaWPerLayer(lastError, outputsPerLayer[-1])
+        deltaW = self.calcDeltaWPerLayer(lastError, outputsPerLayer[-1], reducedLearningRate)
 
         #w_old + deltaW
         for i in range(len(modifiedWeights[-1])):
@@ -202,7 +205,7 @@ class neuralnetwork:
             lastError = self.getInnerError(outputsPerLayer[layerId -1], lastError, currentWeights[layerId], currentWeights[layerId + 1])
 
             # modify weights for the layer
-            deltaW = self.calcDeltaWPerLayer(lastError, outputsPerLayer[-1])
+            deltaW = self.calcDeltaWPerLayer(lastError, outputsPerLayer[-1], reducedLearningRate)
 
             #w_old + deltaW
             for i in range(len(modifiedWeights[layerId])):
@@ -257,22 +260,22 @@ class neuralnetwork:
 
     #now we optimize backwards each weight w (think of an arrow that goes into this neuron). So we have
     #as many arriving weights as neurons per layer +  the bias weight
-    def calcDeltaWPerNeuron(self, neuronError, lastLayerOutput):
+    def calcDeltaWPerNeuron(self, neuronError, lastLayerOutput, learningRate):
         result = []
 
         #treat the bias as special case
-        result.append(self.LEARNING_RATE * neuronError * 1)
+        result.append(learningRate * neuronError * 1)
 
         for i in range(self.NEURONS_PER_LAYER):
-            result.append(self.LEARNING_RATE * neuronError * lastLayerOutput[i])
+            result.append(learningRate * neuronError * lastLayerOutput[i])
 
         return result
 
-    def calcDeltaWPerLayer(self, lastLayerError, lastLayerOutput):
+    def calcDeltaWPerLayer(self, lastLayerError, lastLayerOutput, learningRate):
         deltaWList = []
 
         for i in range(self.NEURONS_PER_LAYER):
-            deltaWList.append(self.calcDeltaWPerNeuron(lastLayerError[i], lastLayerOutput))
+            deltaWList.append(self.calcDeltaWPerNeuron(lastLayerError[i], lastLayerOutput, learningRate))
 
         return deltaWList
 
