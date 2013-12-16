@@ -1,36 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/OneVsAllMLE/batchLearner.py" line="184" />
+    <bookmark url="file://$PROJECT_DIR$/OneVsAllMLE/batchLearner.py" line="209" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ccf599bb-0cde-4a30-9366-91b251e6242f" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/parameterOptimize/par_hinge_Learning Rate.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/parameterOptimize/par_hinge_Learning Rate_DEBUG_1387051453.17.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/parameterOptimize/par_hinge_Learning Rate_DEBUG_1387102774.74.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/parameterOptimize/par_mleonevsall_Learning Rate.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/parameterOptimize/par_mleonevsall_Learning Rate_DEBUG_1387051310.98.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/parameterOptimize/par_mleonevsall_Learning Rate_DEBUG_1387102794.02.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/parameterOptimize/par_neuralnetwork_Alpha.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/parameterOptimize/par_neuralnetwork_Alpha_DEBUG_1387117548.19.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/parameterOptimize/par_neuralnetwork_Alpha_DEBUG_1387117564.98.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/parameterOptimize/par_neuralnetwork_Alpha_DEBUG_1387117630.66.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/parameterOptimize/par_neuralnetwork_Alpha_DEBUG_1387117747.36.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/parameterOptimize/par_neuralnetwork_Alpha_DEBUG_1387117767.26.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/parameterOptimize/par_softzeroone_Alpha.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/parameterOptimize/par_softzeroone_Alpha_DEBUG_1387117023.15.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/parameterOptimize/par_softzeroone_Alpha_DEBUG_1387117167.55.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/parameterOptimize/par_softzeroone_Alpha_DEBUG_1387117235.88.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/parameterOptimize/par_softzeroone_Alpha_DEBUG_1387117275.15.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/parameterOptimize/par_softzeroone_Alpha_DEBUG_1387117291.74.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/parameterOptimize/par_softzeroone_Alpha_DEBUG_1387117296.88.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/parameterOptimize/par_softzeroone_Learning Rate.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/parameterOptimize/par_softzeroone_Learning Rate_DEBUG_1387050638.82.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/parameterOptimize/par_softzeroone_Learning Rate_DEBUG_1387051210.55.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/parameterOptimize/par_softzeroone_Learning Rate_DEBUG_1387102739.8.txt" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/output/parameterOptimize/.directory" afterPath="$PROJECT_DIR$/output/parameterOptimize/.directory" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/output/parameterOptimize/par_hinge_Alpha_DEBUG_1387213306.92.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/output/parameterOptimize/par_hinge_Alpha_DEBUG_1387213327.02.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/output/parameterOptimize/par_hinge_Alpha_DEBUG_1387213363.84.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/output/parameterOptimize/par_hinge_Alpha_DEBUG_1387213414.99.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/output/parameterOptimize/par_hinge_Alpha_DEBUG_1387213452.8.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/output/parameterOptimize/par_hinge_Alpha_DEBUG_1387213517.85.txt" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/OneVsAllMLE/batchLearner.py" afterPath="$PROJECT_DIR$/OneVsAllMLE/batchLearner.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="MLProjektGitRepo.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -81,7 +62,7 @@
       <file leaf-file-name="batchLearner.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/OneVsAllMLE/batchLearner.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="48" column="51" selection-start="1707" selection-end="1707" vertical-scroll-proportion="0.7107345" vertical-offset="0" max-vertical-offset="3740">
+            <state line="110" column="34" selection-start="4538" selection-end="4538" vertical-scroll-proportion="0.21129943" vertical-offset="1496" max-vertical-offset="4216">
               <folding />
             </state>
           </provider>
@@ -722,7 +703,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/OneVsAllMLE/batchLearner.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="48" column="51" selection-start="1707" selection-end="1707" vertical-scroll-proportion="0.7107345" vertical-offset="0" max-vertical-offset="3740">
+        <state line="110" column="34" selection-start="4538" selection-end="4538" vertical-scroll-proportion="0.21129943" vertical-offset="1496" max-vertical-offset="4216">
           <folding />
         </state>
       </provider>

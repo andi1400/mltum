@@ -22,7 +22,7 @@ class batchLearner():
 
 
     # Range is in [min, max,function, functionparameters)
-    def optimizeParameters(self, classifier, parameterStart, optimizeID, parRange, trainingSamples, startWeights, maxSteps, maxNonChangingSteps, folds, parameterName, stepFunction):
+    def optimizeParameters(self, classifier, parameterStart, optimizeID, parRange, trainingSamples, startWeights, maxSteps, maxNonChangingSteps, folds, parameterName, stepFunction, inverseSteps):
         historicalAccuracy = []
         parameterHistory = []
         accMax = 0
@@ -33,7 +33,9 @@ class batchLearner():
         #the initial step size is set to the minValue
         stepSize = parRange[0]
 
-        while (pOptimize < parRange[1]):
+        continueOptimizing = True
+
+        while (continueOptimizing):
             parameterHistory.append(pOptimize)
             print("Testing parameter value " + str(pOptimize))
             curParameters = copy.deepcopy(parameterStart)
@@ -49,9 +51,17 @@ class batchLearner():
             #see if we need to adjust the step size
             pOptimize, stepSize = stepFunction(pOptimize, stepSize)
 
-        print("Optimized parameter " + str(optimizeID) + ". Best result: " + str(curAcc) + " for value " + str(parMax))
-        #plt.plot(parameterHistory, historicalAccuracy)
+            print("Optimized parameter " + str(optimizeID) + ". Best result: " + str(curAcc) + " for value " + str(pOptimize))
+
+            #decide if the loop runs again
+            if(not inverseSteps):
+                continueOptimizing = pOptimize < parRange[1]
+            else:
+                continueOptimizing = pOptimize > parRange[1]
+
+
         self.printParameterToFile(parameterName, parMax, parameterHistory, historicalAccuracy, classifier.__name__)
+        print("Optimized parameter finished." + str(optimizeID) + ". Best result: " + str(accMax) + " for value " + str(parMax))
         return parMax, accMax
 
     def printCurAcc(self, parameterName, pOptimize, curAcc, className, timeStart):
@@ -122,8 +132,20 @@ def optLogarithmic(p, stepSize):
         pNew = stepSize
     return pNew, stepSize
 
-def optLogarithmicInverse(p, list):
-    return p
+def optLogarithmicInverse(p, stepSize):
+    computedStep = stepSize
+    #initial case
+    if(p == stepSize):
+        computedStep = stepSize - 1 #e.g. if from [1-1e-6, ...] => 1-1e-6 -1 = -1e-6
+        print "\n\nSETTING STEP SIZE TO + " + str(computedStep)
+
+    pNew = p + computedStep
+
+    if (pNew <= (1 + 10*computedStep)):
+        computedStep *= 10
+    #    pNew = 1 + 10*computedStep
+    return pNew, computedStep
+
 
 stepFunction = optLogarithmic
 #
@@ -152,6 +174,7 @@ MAXNONCHANGINGSTEPS = 10
 PARAMETERS = None
 parName = ""
 folds = 10
+inverseOptimization = False
 
 classifier = None
 
@@ -162,7 +185,9 @@ helperInstance = helper()
 filename = "../data/dataset-complete_90PercentTrainingSet_mini10Percent_standardized.arff"
 
 #read cmd line arguments
+print("\n--------------------------")
 print("About to checking arguments...")
+print("--------------------------\n")
 for i in range(len(sys.argv)):
     if sys.argv[i] == "-h" or sys.argv[i] == "--help":
         print("Here should be your help.")
@@ -210,16 +235,19 @@ for i in range(len(sys.argv)):
         stepFunction = STEPFUNCTIONS[functionName]
         print("Step Function: " + str(functionName))
 
-print("--------------------------")
+#check if we are optimizing inverse direction:
+if(parRange[0] > parRange[1]):
+    inverseOptimization = True
+
+print("\n--------------------------")
 
 trainingSample = helperInstance.readData(filename)
 
 batch = batchLearner()
 print("Test reading: " + str(trainingSample[0]))
 
-print("--------------------------")
-print("--------------------------")
+print("\n--------------------------")
 print("-------STARTING-----------")
-print("--------------------------")
+print("--------------------------\n")
 
-batch.optimizeParameters(classifier, PARAMETERS, optimizeID, parRange, trainingSample, startWeights, MAXSTEPS, MAXNONCHANGINGSTEPS, folds, parName, stepFunction)
+batch.optimizeParameters(classifier, PARAMETERS, optimizeID, parRange, trainingSample, startWeights, MAXSTEPS, MAXNONCHANGINGSTEPS, folds, parName, stepFunction, inverseOptimization)
