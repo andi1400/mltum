@@ -5,21 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ccf599bb-0cde-4a30-9366-91b251e6242f" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/parameterOptimize/par_hinge_Alpha.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/parameterOptimize/par_hinge_Alpha_DEBUG_1387214601.06.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/parameterOptimize/par_hinge_Alpha_DEBUG_1387214647.21.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/parameterOptimize/par_hinge_Alpha_DEBUG_1387214728.62.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/parameterOptimize/par_hinge_Alpha_DEBUG_1387214783.4.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/parameterOptimize/par_hinge_Alpha_DEBUG_1387214834.91.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/parameterOptimize/par_hinge_Alpha_DEBUG_1387214860.33.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/parameterOptimize/par_hinge_Alpha_DEBUG_1387214904.45.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/parameterOptimize/par_hinge_Alpha_DEBUG_1387214935.98.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/parameterOptimize/par_hinge_Alpha_DEBUG_1387215018.9.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/parameterOptimize/par_hinge_Alpha_DEBUG_1387215048.96.txt" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/OneVsAllMLE/MLEOneVsAll.py" afterPath="$PROJECT_DIR$/OneVsAllMLE/MLEOneVsAll.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/OneVsAllMLE/batchLearner.py" afterPath="$PROJECT_DIR$/OneVsAllMLE/batchLearner.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/output/experiments.csv" afterPath="$PROJECT_DIR$/output/experiments.csv" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/OneVsAllMLE/hingeLoss.py" afterPath="$PROJECT_DIR$/OneVsAllMLE/hingeLoss.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/OneVsAllMLE/logisticGeneral.py" afterPath="$PROJECT_DIR$/OneVsAllMLE/logisticGeneral.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="MLProjektGitRepo.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -49,10 +37,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="softZeroOneLoss.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="softZeroOneLoss.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/OneVsAllMLE/softZeroOneLoss.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="48" column="8" selection-start="1183" selection-end="1319" vertical-scroll-proportion="0.82834995" vertical-offset="0" max-vertical-offset="4335">
+            <state line="48" column="8" selection-start="1183" selection-end="1319" vertical-scroll-proportion="0.0" vertical-offset="816" max-vertical-offset="4335">
               <folding />
             </state>
           </provider>
@@ -61,16 +49,16 @@
       <file leaf-file-name="neuralnetwork.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/OneVsAllMLE/neuralnetwork.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="155" column="49" selection-start="5555" selection-end="5555" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="5185">
+            <state line="155" column="49" selection-start="5555" selection-end="5555" vertical-scroll-proportion="0.0" vertical-offset="2635" max-vertical-offset="5253">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="batchLearner.py" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="batchLearner.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/OneVsAllMLE/batchLearner.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="200" column="45" selection-start="7258" selection-end="7258" vertical-scroll-proportion="0.0" vertical-offset="2397" max-vertical-offset="4216">
+            <state line="125" column="21" selection-start="4994" selection-end="4994" vertical-scroll-proportion="0.309795" vertical-offset="1666" max-vertical-offset="4284">
               <folding />
             </state>
           </provider>
@@ -97,7 +85,7 @@
       <file leaf-file-name="batchLearnerRun2.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/OneVsAllMLE/batchLearnerRun2.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="100" column="0" selection-start="4280" selection-end="4280" vertical-scroll-proportion="0.0" vertical-offset="1700" max-vertical-offset="2329">
+            <state line="100" column="0" selection-start="4280" selection-end="4280" vertical-scroll-proportion="0.0" vertical-offset="1273" max-vertical-offset="2176">
               <folding />
             </state>
           </provider>
@@ -124,7 +112,7 @@
       <file leaf-file-name="MLEOneVsAll.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/OneVsAllMLE/MLEOneVsAll.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="43" column="43" selection-start="1115" selection-end="1115" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3230">
+            <state line="43" column="43" selection-start="1115" selection-end="1115" vertical-scroll-proportion="0.0" vertical-offset="731" max-vertical-offset="3298">
               <folding />
             </state>
           </provider>
@@ -133,7 +121,7 @@
       <file leaf-file-name="hingeLoss.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/OneVsAllMLE/hingeLoss.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="48" column="115" selection-start="1178" selection-end="1338" vertical-scroll-proportion="-25.28" vertical-offset="116" max-vertical-offset="3536">
+            <state line="48" column="115" selection-start="1178" selection-end="1338" vertical-scroll-proportion="0.0" vertical-offset="816" max-vertical-offset="3604">
               <folding />
             </state>
           </provider>
@@ -167,10 +155,10 @@
         <option value="$PROJECT_DIR$/OneVsAllMLE/softZeroOneLoss.py" />
         <option value="$PROJECT_DIR$/OneVsAllMLE/neuralnetwork.py" />
         <option value="$PROJECT_DIR$/OneVsAllMLE/helper.py" />
-        <option value="$PROJECT_DIR$/OneVsAllMLE/batchLearner.py" />
         <option value="$PROJECT_DIR$/OneVsAllMLE/logisticGeneral.py" />
         <option value="$PROJECT_DIR$/OneVsAllMLE/hingeLoss.py" />
         <option value="$PROJECT_DIR$/OneVsAllMLE/MLEOneVsAll.py" />
+        <option value="$PROJECT_DIR$/OneVsAllMLE/batchLearner.py" />
       </list>
     </option>
   </component>
@@ -204,7 +192,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -239,16 +226,17 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="options.lastSelected" value="reference.settingsdialog.IDE.editor.colors.Font" />
     <property name="recentsLimit" value="5" />
+    <property name="options.lastSelected" value="reference.settingsdialog.IDE.editor.colors.Font" />
     <property name="FullScreen" value="false" />
-    <property name="options.searchVisible" value="true" />
     <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
@@ -443,9 +431,6 @@
       <option name="PARAMETERS" value="" />
       <method />
     </configuration>
-    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug" singleton="true">
-      <method />
-    </configuration>
     <configuration default="true" type="tests" factoryName="Unittests">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -467,6 +452,9 @@
       <option name="PUREUNITTEST" value="true" />
       <option name="PARAMS" value="" />
       <option name="USE_PARAM" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug" singleton="true">
       <method />
     </configuration>
     <configuration default="true" type="tests" factoryName="Doctests">
@@ -554,7 +542,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1920" height="1053" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -591,9 +579,9 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.111979164" sideWeight="0.6732365" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.08020833" sideWeight="0.6701245" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32676348" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.08020833" sideWeight="0.6701245" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout-to-restore>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -665,30 +653,14 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/OneVsAllMLE/batchLearnerRun2.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="100" column="0" selection-start="4280" selection-end="4280" vertical-scroll-proportion="0.0" vertical-offset="713" max-vertical-offset="1920">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/OneVsAllMLE/batchLearner.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="200" column="45" selection-start="7258" selection-end="7258" vertical-scroll-proportion="0.0" vertical-offset="2397" max-vertical-offset="4216">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/OneVsAllMLE/logisticGeneral.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="171" column="54" selection-start="6987" selection-end="6987" vertical-scroll-proportion="-26.28" vertical-offset="1995" max-vertical-offset="2873">
-          <folding />
-        </state>
+        <state line="171" column="54" selection-start="6987" selection-end="6987" vertical-scroll-proportion="-26.28" vertical-offset="1995" max-vertical-offset="2873" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/OneVsAllMLE/hingeLoss.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="48" column="115" selection-start="1178" selection-end="1338" vertical-scroll-proportion="-25.28" vertical-offset="116" max-vertical-offset="3536">
+        <state line="48" column="115" selection-start="1178" selection-end="1338" vertical-scroll-proportion="0.0" vertical-offset="816" max-vertical-offset="3604">
           <folding />
         </state>
       </provider>
@@ -709,7 +681,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/OneVsAllMLE/softZeroOneLoss.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="48" column="8" selection-start="1183" selection-end="1319" vertical-scroll-proportion="0.82834995" vertical-offset="0" max-vertical-offset="4335">
+        <state line="48" column="8" selection-start="1183" selection-end="1319" vertical-scroll-proportion="0.0" vertical-offset="816" max-vertical-offset="4335">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/OneVsAllMLE/batchLearnerRun2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="100" column="0" selection-start="4280" selection-end="4280" vertical-scroll-proportion="0.0" vertical-offset="713" max-vertical-offset="1920">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/OneVsAllMLE/batchLearner.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="125" column="21" selection-start="4994" selection-end="4994" vertical-scroll-proportion="0.309795" vertical-offset="1666" max-vertical-offset="4284">
           <folding />
         </state>
       </provider>

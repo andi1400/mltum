@@ -30,8 +30,8 @@ class batchLearner():
         pOptimize = parRange[0]
         timeStart = time.time()
 
-        #the initial step size is set to the minValue
-        stepSize = parRange[0]
+        #the initial step size is set to the stepSize
+        stepSize = parRange[2]
 
         continueOptimizing = True
 
@@ -119,11 +119,11 @@ class batchLearner():
 
 CLASSES = ["sitting", "walking", "standing", "standingup", "sittingdown"]
 
-def plus(p, list):
-    return p + list[0], list
+def plus(p, pStep):
+    return p + pStep, pStep
 
-def pot(p, list):
-    return p * list[0]. list
+def pot(p, pStep):
+    return p * pStep, pStep
 
 def optLogarithmic(p, stepSize):
     pNew = p + 2*stepSize
@@ -154,7 +154,7 @@ stepFunction = optLogarithmic
 # classifier = hinge
 # parameterStart = [1e-5, 0.98, 2, 0]
 optimizeID = 1
-parRange = [1e-5, 1e-1, stepFunction, [1e-5]]
+parRange = [1e-5, 1e-1, stepFunction, 1e-5]
 # trainingSample = helper.readData("../data/dataset-complete_90PercentTrainingSet_mini10Percent_standardized.arff")
 # startWeights = []
 # for i in range(len(CLASSES)):
@@ -167,7 +167,7 @@ parRange = [1e-5, 1e-1, stepFunction, [1e-5]]
 
 CLASSES = ["sitting", "walking", "standing", "standingup", "sittingdown"]
 CLASSIFIERS = {'MLE': mleonevsall, 'SOFTZEROONE': softzeroone, 'HINGE': hinge, 'NN': neuralnetwork}
-STEPFUNCTIONS = {'logstep': optLogarithmic, 'logstepInverse': optLogarithmicInverse}
+STEPFUNCTIONS = {'logstep': optLogarithmic, 'logstepInverse': optLogarithmicInverse, 'plus': plus}
 
 MAXSTEPS = 70
 MAXNONCHANGINGSTEPS = 10
@@ -221,6 +221,10 @@ for i in range(len(sys.argv)):
     elif sys.argv[i] == "-pE" or sys.argv[i] == "--parameterStop":
         parRange[1] = float(sys.argv[i+1])
         print("stop optimize: " + str(parRange[1]))
+
+    elif sys.argv[i] == "-pSt" or sys.argv[i] == "--parameterStepSize":
+        parRange[2] = float(sys.argv[i+1])
+        print("step Size: " + str(parRange[2]))
 
     elif sys.argv[i] == "-f" or sys.argv[i] == "--folds":
         folds = int(sys.argv[i+1])

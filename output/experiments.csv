@@ -540,3 +540,7 @@
 <hingeLoss.hinge instance at 0x2fd8290>;0.01;0.98;getXDirectly;pseudoSigmoid
  
 
+2013-12-17 21:14:59.999697;Alpha;Shrinkage;BASIS_FUNCTION;SIGMOID
+<hingeLoss.hinge instance at 0x2892290>;8e-05;0.9995;getXDirectly;pseudoSigmoid
+ ;0.6695758340097538;0.640944797375712;0.7466676505510871;0.6643634826825161
+
