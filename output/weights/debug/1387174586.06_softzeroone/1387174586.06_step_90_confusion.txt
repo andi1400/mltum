@@ -1,0 +1,8 @@
+____________________________
+	sitting	walking	standing	standingup	sittingdown
+sitting	4006	1	11	87	66
+walking	1	2125	743	276	178
+standing	18	1281	2929	548	411
+standingup	22	18	188	124	55
+sittingdown	36	19	2	9	260
+____________________________

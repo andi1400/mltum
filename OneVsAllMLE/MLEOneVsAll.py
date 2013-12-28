@@ -35,13 +35,17 @@ class mleonevsall():
 
     helper = None
 
-    def __init__(self, classes, maxSteps, maxNonChangingSteps, parameters):
+    def __init__(self, classes, maxSteps, maxNonChangingSteps, parametersGiven):
         self.helper = helper()
         self.CLASSES = classes
         self.MAX_STEPS = maxSteps
         self.MAX_NONCHANGING_STEPS = maxNonChangingSteps
-        self.LEARNING_RATE = parameters[0]
-        self.SHRINKAGE = parameters[1]
+        self.LEARNING_RATE = parametersGiven[0]
+        self.SHRINKAGE = parametersGiven[1]
+
+        #resetting parameters for correct displaying
+        self.parameters = [self.LEARNING_RATE, self.SHRINKAGE, self.BASIS_FUNCTION.__name__, self.SIGMOID.__name__]
+
         self.maxWeights = []
         for i in range(len(classes)):
             dummyWeight = np.zeros(17)

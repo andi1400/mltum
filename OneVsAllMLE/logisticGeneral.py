@@ -199,6 +199,9 @@ print("About to checking arguments...")
 #originalData = logisticregressionHelper.helper.readData("../data/dataset-complete_90PercentTrainingSet_normalized.arff")
 #originalData = logisticregressionHelper.helper.readData("../data/dataset-complete_90PercentTrainingSet_standardized.arff")
 #print("Test reading: " + str(originalData[0]))
+originalData = logisticregressionHelper.helper.readData("../data/dataset-complete_90PercentTrainingSet_standardized.arff")
+
+print("Test reading: " + str(originalData[0]))
 
 #catch STRG+C to prevent loss of output.
 #def signal_handler(signal, frame):
