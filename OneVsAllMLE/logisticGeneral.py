@@ -103,7 +103,7 @@ signal.signal(signal.SIGINT, signal_handler)
 
 CLASSES = ["sitting", "walking", "standing", "standingup", "sittingdown"]
 CLASSIFIERS = {'MLE': mleonevsall, 'SOFTZEROONE': softzeroone, 'HINGE': hinge, 'MAV': majorityvote, 'WAVG': weightedclassifiers, 'NN': neuralnetwork}
-PARAMETERS = {'MLE': [1e-5, 0.98], 'SOFTZEROONE': [3e-5, 0.98, 2, 0], 'HINGE': [1e-2, 0.98], 'MAV': None, 'WAVG': None, 'NN': [1e-0, 0.9999, 10, 16]}
+PARAMETERS = {'MLE': [1e-5, 0.98], 'SOFTZEROONE': [3e-5, 0.98, 2, 0], 'HINGE': [1e-2, 0.98], 'MAV': None, 'WAVG': None, 'NN': [1e-0, 0.9999, 3, 16]}
 MAXSTEPS = 10000
 MAXNONCHANGINGSTEPS = 1000
 helperInstance = helper()
@@ -136,97 +136,97 @@ def run():
 
         logisticregressionHelper.train(originalData, startWeights)
 
-#logisticregressionHelper.printRunInformation()
-run()
-#CLASSES = ["sitting", "walking", "standing", "standingup", "sittingdown"]
-#CLASSIFIERS = {'MLE': mleonevsall, 'SOFTZEROONE': softzeroone, 'HINGE': hinge, 'MAV': majorityvote, 'WAVG': weightedclassifiers, 'NN': neuralnetwork}
-#PARAMETERS = {'MLE': [1e-5, 0.98], 'SOFTZEROONE': [3e-5, 0.98, 2, 0], 'HINGE': [1e-2, 0.98], 'MAV': None, 'WAVG': None, 'NN': [1e-5, 1, 5, 16]}
-#MAXSTEPS = 100000
-#MAXNONCHANGINGSTEPS = 1000
-#helper = helper()
+
+#run()
+CLASSES = ["sitting", "walking", "standing", "standingup", "sittingdown"]
+CLASSIFIERS = {'MLE': mleonevsall, 'SOFTZEROONE': softzeroone, 'HINGE': hinge, 'MAV': majorityvote, 'WAVG': weightedclassifiers, 'NN': neuralnetwork}
+PARAMETERS = {'MLE': [1e-5, 0.98], 'SOFTZEROONE': [3e-5, 0.98, 2, 0], 'HINGE': [1e-2, 0.98], 'MAV': None, 'WAVG': None, 'NN': [1e-5, 1, 5, 16]}
+MAXSTEPS = 100000
+MAXNONCHANGINGSTEPS = 1000
+helper = helper()
 #learnMethod = mleonevsall
 #learnMethod = softzeroone
 #learnMethod = hinge(CLASSES)
 
-#logisticregressionHelper = None
-#noLearn = False
-#terminate = False
+logisticregressionHelper = None
+noLearn = False
+terminate = False
 
 #create start weights or read them
-#startWeights = None
+startWeights = None
 
 #read cmd line arguments
 #try:
 print("About to checking arguments...")
 
-#for i in range(len(sys.argv)):
-#    if sys.argv[i] == "-h" or sys.argv[i] == "--help":
-#        print("Here should be your help.")
-#        sys.exit()
-#    elif sys.argv[i] == "-c" or sys.argv[i] == "--classifier":
-#        learnMethod = CLASSIFIERS[sys.argv[i+1]](CLASSES, MAXSTEPS, MAXNONCHANGINGSTEPS, PARAMETERS[sys.argv[i+1]])
+for i in range(len(sys.argv)):
+   if sys.argv[i] == "-h" or sys.argv[i] == "--help":
+       print("Here should be your help.")
+       sys.exit()
+   elif sys.argv[i] == "-c" or sys.argv[i] == "--classifier":
+       learnMethod = CLASSIFIERS[sys.argv[i+1]](CLASSES, MAXSTEPS, MAXNONCHANGINGSTEPS, PARAMETERS[sys.argv[i+1]])
 
-#        if sys.argv[i+1] == 'MAV' or sys.argv[i+1] == 'WAVG':
- #           classifierNames = sys.argv[i+2].split(',')
+       if sys.argv[i+1] == 'MAV' or sys.argv[i+1] == 'WAVG':
+           classifierNames = sys.argv[i+2].split(',')
             #now instantiate all the classifier instances
- #           classifiersWithWeightsForMav = []
-#            for name in classifierNames:
-#                instance = CLASSIFIERS[name](CLASSES, MAXSTEPS, MAXNONCHANGINGSTEPS, PARAMETERS[name])
-#                weights = helper.readWeights("MAVWeights/" + name + ".weights", CLASSES)
-#                classifierWithWeights = [instance, weights]
-#                classifiersWithWeightsForMav.append(classifierWithWeights)#
+           classifiersWithWeightsForMav = []
+           for name in classifierNames:
+               instance = CLASSIFIERS[name](CLASSES, MAXSTEPS, MAXNONCHANGINGSTEPS, PARAMETERS[name])
+               weights = helper.readWeights("MAVWeights/" + name + ".weights", CLASSES)
+               classifierWithWeights = [instance, weights]
+               classifiersWithWeightsForMav.append(classifierWithWeights)#
 
-#            learnMethod.setClassifiers(classifiersWithWeightsForMav)
+           learnMethod.setClassifiers(classifiersWithWeightsForMav)
 
-#        logisticregressionHelper = logisticregression(learnMethod, helper)
-#        print(logisticregressionHelper)
+       logisticregressionHelper = logisticregression(learnMethod, helper)
+       print(logisticregressionHelper)
 
-#    elif sys.argv[i] == "-w" or sys.argv[i] == "--weights":
-#        print("received weights - processing them...")
-#        weightFile = sys.argv[i+1]
-#        i += 1
-#        startWeights = helper.readWeights(weightFile, CLASSES)
-#        logisticregressionHelper.learnMethod.maxWeights = startWeights
+   elif sys.argv[i] == "-w" or sys.argv[i] == "--weights":
+       print("received weights - processing them...")
+       weightFile = sys.argv[i+1]
+       i += 1
+       startWeights = helper.readWeights(weightFile, CLASSES)
+       logisticregressionHelper.learnMethod.maxWeights = startWeights
 
-#    elif sys.argv[i] == "-nl" or sys.argv[i] == "--nolearn":
-#        print("LEARNING DISABLED - ONLY CLASSIFICATION")
-#        noLearn = True
-#        logisticregressionHelper.STORERESULTS = False
+   elif sys.argv[i] == "-nl" or sys.argv[i] == "--nolearn":
+       print("LEARNING DISABLED - ONLY CLASSIFICATION")
+       noLearn = True
+       logisticregressionHelper.STORERESULTS = False
 
 
 
-#print("Running " + str(learnMethod))
+print("Running " + str(learnMethod))
 
 #read the data
-#originalData = logisticregressionHelper.helper.readData("../data/dataset-complete_90PercentTrainingSet_mini10Percent_standardized.arff")
-#originalData = logisticregressionHelper.helper.readData("../data/dataset-complete_90PercentTrainingSet_mini10Percent_normalized_only149.arff")
-#originalData = logisticregressionHelper.helper.readData("../data/dataset-complete_90PercentTrainingSet_normalized.arff")
-#originalData = logisticregressionHelper.helper.readData("../data/dataset-complete_90PercentTrainingSet_standardized.arff")
-#print("Test reading: " + str(originalData[0]))
-#originalData = logisticregressionHelper.helper.readData("../data/dataset-complete_90PercentTrainingSet_standardized.arff")
+originalData = logisticregressionHelper.helper.readData("../data/dataset-complete_90PercentTrainingSet_mini10Percent_standardized.arff")
+originalData = logisticregressionHelper.helper.readData("../data/dataset-complete_90PercentTrainingSet_mini10Percent_normalized_only149.arff")
+originalData = logisticregressionHelper.helper.readData("../data/dataset-complete_90PercentTrainingSet_normalized.arff")
+originalData = logisticregressionHelper.helper.readData("../data/dataset-complete_90PercentTrainingSet_standardized.arff")
+print("Test reading: " + str(originalData[0]))
+originalData = logisticregressionHelper.helper.readData("../data/dataset-complete_90PercentTrainingSet_standardized.arff")
 
-#print("Test reading: " + str(originalData[0]))
+print("Test reading: " + str(originalData[0]))
 
 #catch STRG+C to prevent loss of output.
-#def signal_handler(signal, frame):
-#    global terminate
-#    if not terminate:
-#        terminate = True
-#        logisticregressionHelper.printRunInformation()
-#    sys.exit(0)
-#signal.signal(signal.SIGINT, signal_handler)
-#
+def signal_handler(signal, frame):
+   global terminate
+   if not terminate:
+       terminate = True
+       logisticregressionHelper.printRunInformation()
+   sys.exit(0)
+signal.signal(signal.SIGINT, signal_handler)
+
 
 #Train the model and print the run information
-#if(not noLearn):
-#    print("\n\n------------------------------")
-#    print("Entering learning mode...")
-#    print("------------------------------\n")
-#    print(logisticregressionHelper.learnMethod.getParameterNameList())
-#    print(logisticregressionHelper.learnMethod.getParameterList())
+if(not noLearn):
+   print("\n\n------------------------------")
+   print("Entering learning mode...")
+   print("------------------------------\n")
+   print(logisticregressionHelper.learnMethod.getParameterNameList())
+   print(logisticregressionHelper.learnMethod.getParameterList())
 
-#    logisticregressionHelper.train(originalData, startWeights)
+   logisticregressionHelper.train(originalData, startWeights)
 
-#logisticregressionHelper.printRunInformation()
+logisticregressionHelper.printRunInformation()
 
 
