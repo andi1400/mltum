@@ -17,8 +17,8 @@ from helper import *
 from hingeLoss import hinge
 from majorityVoteTester import majorityvote
 from weightedClassifiers import weightedclassifiers
-#from neuralnetwork import neuralnetwork
-from neuralnetworkCCode import neuralnetwork
+from neuralnetwork import neuralnetwork
+#from neuralnetworkCCode import neuralnetwork
 
 class logisticregression():
     NOTES = "using approximated sigmoid, oneVSall, noBasis"
@@ -141,7 +141,7 @@ def run():
 #run()
 CLASSES = ["sitting", "walking", "standing", "standingup", "sittingdown"]
 CLASSIFIERS = {'MLE': mleonevsall, 'SOFTZEROONE': softzeroone, 'HINGE': hinge, 'MAV': majorityvote, 'WAVG': weightedclassifiers, 'NN': neuralnetwork}
-PARAMETERS = {'MLE': [1e-5, 0.98], 'SOFTZEROONE': [3e-5, 0.98, 2, 0], 'HINGE': [1e-2, 0.98], 'MAV': None, 'WAVG': None, 'NN': [1e-5, 1, 5, 16]}
+PARAMETERS = {'MLE': [1e-5, 0.98], 'SOFTZEROONE': [1e-4, 0.99993, 2.5, 1e-7], 'HINGE': [1e-2, 0.98], 'MAV': None, 'WAVG': None, 'NN': [1e-5, 1, 5, 16]}
 MAXSTEPS = 100000
 MAXNONCHANGINGSTEPS = 1000
 helper = helper()
@@ -199,13 +199,14 @@ for i in range(len(sys.argv)):
 print("Running " + str(learnMethod))
 
 #read the data
-originalData = logisticregressionHelper.helper.readData("../data/dataset-complete_90PercentTrainingSet_mini10Percent_standardized.arff")
-originalData = logisticregressionHelper.helper.readData("../data/dataset-complete_90PercentTrainingSet_mini10Percent_normalized_only149.arff")
-originalData = logisticregressionHelper.helper.readData("../data/dataset-complete_90PercentTrainingSet_normalized.arff")
-originalData = logisticregressionHelper.helper.readData("../data/dataset-complete_90PercentTrainingSet_standardized.arff")
-print("Test reading: " + str(originalData[0]))
-originalData = logisticregressionHelper.helper.readData("../data/dataset-complete_90PercentTrainingSet_standardized.arff")
+#dsfilename = "../data/dataset-complete_90PercentTrainingSet_mini10Percent_standardized.arff"
+#dsfilename = "../data/dataset-complete_90PercentTrainingSet_mini10Percent_normalized_only149.arff"
+#dsfilename = "../data/dataset-complete_90PercentTrainingSet_normalized.arff"
+dsfilename = "../data/dataset-complete_90PercentTrainingSet_standardized.arff"
 
+originalData = logisticregressionHelper.helper.readData(dsfilename)
+
+print("Using dataset: " + dsfilename)
 print("Test reading: " + str(originalData[0]))
 
 #catch STRG+C to prevent loss of output.
