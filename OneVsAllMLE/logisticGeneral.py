@@ -103,8 +103,9 @@ signal.signal(signal.SIGINT, signal_handler)
 
 CLASSES = ["sitting", "walking", "standing", "standingup", "sittingdown"]
 CLASSIFIERS = {'MLE': mleonevsall, 'SOFTZEROONE': softzeroone, 'HINGE': hinge, 'MAV': majorityvote, 'WAVG': weightedclassifiers, 'NN': neuralnetwork}
-PARAMETERS = {'MLE': [1e-5, 0.98], 'SOFTZEROONE': [3e-5, 0.98, 2, 0], 'HINGE': [1e-2, 0.98], 'MAV': None, 'WAVG': None, 'NN': [1e-0, 0.9999, 3, 16]}
-MAXSTEPS = 10000
+
+PARAMETERS = {'MLE': [6e-5, 0.991], 'SOFTZEROONE': [0.99993, 0.98, 2, 0], 'HINGE': [8e-5, 0.9995], 'MAV': None, 'WAVG': None, 'NN': [1e-0, 0.9999, 3, 16]}
+MAXSTEPS = 100000
 MAXNONCHANGINGSTEPS = 1000
 helperInstance = helper()
 terminate = False

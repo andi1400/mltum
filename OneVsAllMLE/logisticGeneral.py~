@@ -103,37 +103,46 @@ signal.signal(signal.SIGINT, signal_handler)
 
 CLASSES = ["sitting", "walking", "standing", "standingup", "sittingdown"]
 CLASSIFIERS = {'MLE': mleonevsall, 'SOFTZEROONE': softzeroone, 'HINGE': hinge, 'MAV': majorityvote, 'WAVG': weightedclassifiers, 'NN': neuralnetwork}
-PARAMETERS = {'MLE': [1e-5, 0.98], 'SOFTZEROONE': [3e-5, 0.98, 2, 0], 'HINGE': [1e-2, 0.98], 'MAV': None, 'WAVG': None, 'NN': [1e-0, 0.98, 5, 16]}
-MAXSTEPS = 1000
+<<<<<<< HEAD
+PARAMETERS = {'MLE': [6e-5, 0.991], 'SOFTZEROONE': [0.99993, 0.98, 2, 0], 'HINGE': [8e-5, 0.9995], 'MAV': None, 'WAVG': None, 'NN': [1e-0, 0.9999, 10, 16]}
+MAXSTEPS = 100000
+=======
+PARAMETERS = {'MLE': [1e-5, 0.98], 'SOFTZEROONE': [3e-5, 0.98, 2, 0], 'HINGE': [1e-2, 0.98], 'MAV': None, 'WAVG': None, 'NN': [1e-0, 0.9999, 10, 16]}
+MAXSTEPS = 10000
+>>>>>>> cbcbf64b62daedd7d663755f3026a438d6609492
 MAXNONCHANGINGSTEPS = 1000
 helperInstance = helper()
-
-logisticregressionHelper = None
-noLearn = False
 terminate = False
-startWeights = None
-learnMethod = CLASSIFIERS['NN'](CLASSES, MAXSTEPS, MAXNONCHANGINGSTEPS, PARAMETERS['NN'])
-logisticregressionHelper = logisticregression(learnMethod, helperInstance)
-print("Running " + str(learnMethod))
-#read the data
-originalData = logisticregressionHelper.helper.readData("../data/dataset-complete_90PercentTrainingSet_mini10Percent_standardized.arff")
-#originalData = logisticregressionHelper.helper.readData("../data/dataset-complete_90PercentTrainingSet_mini10Percent_normalized_only149.arff")
-#originalData = logisticregressionHelper.helper.readData("../data/dataset-complete_90PercentTrainingSet_normalized.arff")
-#originalData = logisticregressionHelper.helper.readData("../data/dataset-complete_90PercentTrainingSet_standardized.arff")
-print("Test reading: " + str(originalData[0]))
-#Train the model and print the run information
-if(not noLearn):
-    print("\n\n------------------------------")
-    print("Entering learning mode...")
-    print("------------------------------\n")
-    print(logisticregressionHelper.learnMethod.getParameterNameList())
-    print(logisticregressionHelper.learnMethod.getParameterList())
+logisticregressionHelper = None
+originalData = None
+def run():
+    noLearn = False
+    global terminate
+    terminate = False
+    startWeights = None
+    learnMethod = CLASSIFIERS['NN'](CLASSES, MAXSTEPS, MAXNONCHANGINGSTEPS, PARAMETERS['NN'])
+    global logisticregressionHelper
+    logisticregressionHelper = logisticregression(learnMethod, helperInstance)
+    print("Running " + str(learnMethod))
+    #read the data
+    global originalData
+    originalData = logisticregressionHelper.helper.readData("../data/dataset-complete_90PercentTrainingSet_mini10Percent_standardized.arff")
+    #originalData = logisticregressionHelper.helper.readData("../data/dataset-complete_90PercentTrainingSet_mini10Percent_normalized_only149.arff")
+    #originalData = logisticregressionHelper.helper.readData("../data/dataset-complete_90PercentTrainingSet_normalized.arff")
+    #originalData = logisticregressionHelper.helper.readData("../data/dataset-complete_90PercentTrainingSet_standardized.arff")
+    print("Test reading: " + str(originalData[0]))
+    #Train the model and print the run information
+    if(not noLearn):
+        print("\n\n------------------------------")
+        print("Entering learning mode...")
+        print("------------------------------\n")
+        print(logisticregressionHelper.learnMethod.getParameterNameList())
+        print(logisticregressionHelper.learnMethod.getParameterList())
 
-    logisticregressionHelper.train(originalData, startWeights)
+        logisticregressionHelper.train(originalData, startWeights)
 
 #logisticregressionHelper.printRunInformation()
-
-
+run()
 #CLASSES = ["sitting", "walking", "standing", "standingup", "sittingdown"]
 #CLASSIFIERS = {'MLE': mleonevsall, 'SOFTZEROONE': softzeroone, 'HINGE': hinge, 'MAV': majorityvote, 'WAVG': weightedclassifiers, 'NN': neuralnetwork}
 #PARAMETERS = {'MLE': [1e-5, 0.98], 'SOFTZEROONE': [3e-5, 0.98, 2, 0], 'HINGE': [1e-2, 0.98], 'MAV': None, 'WAVG': None, 'NN': [1e-5, 1, 5, 16]}
@@ -197,14 +206,11 @@ print("About to checking arguments...")
 #originalData = logisticregressionHelper.helper.readData("../data/dataset-complete_90PercentTrainingSet_mini10Percent_standardized.arff")
 #originalData = logisticregressionHelper.helper.readData("../data/dataset-complete_90PercentTrainingSet_mini10Percent_normalized_only149.arff")
 #originalData = logisticregressionHelper.helper.readData("../data/dataset-complete_90PercentTrainingSet_normalized.arff")
-<<<<<<< HEAD
 #originalData = logisticregressionHelper.helper.readData("../data/dataset-complete_90PercentTrainingSet_standardized.arff")
 #print("Test reading: " + str(originalData[0]))
-=======
-originalData = logisticregressionHelper.helper.readData("../data/dataset-complete_90PercentTrainingSet_standardized.arff")
+#originalData = logisticregressionHelper.helper.readData("../data/dataset-complete_90PercentTrainingSet_standardized.arff")
 
-print("Test reading: " + str(originalData[0]))
->>>>>>> e02ca1cfe10c1d24c5d2607298cf9820cd6c5993
+#print("Test reading: " + str(originalData[0]))
 
 #catch STRG+C to prevent loss of output.
 #def signal_handler(signal, frame):
