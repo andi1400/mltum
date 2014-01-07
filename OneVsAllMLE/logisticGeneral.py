@@ -89,7 +89,7 @@ class logisticregression():
 
 CLASSES = ["sitting", "walking", "standing", "standingup", "sittingdown"]
 CLASSIFIERS = {'MLE': mleonevsall, 'SOFTZEROONE': softzeroone, 'HINGE': hinge, 'MAV': majorityvote, 'WAVG': weightedclassifiers, 'NN': neuralnetwork}
-PARAMETERS = {'MLE': [1e-5, 0.98], 'SOFTZEROONE': [0.99993, 0.98, 2, 0], 'HINGE': [8e-5, 0.9995], 'MAV': None, 'WAVG': None, 'NN': [1e-0, 0.95, 5, 16]}
+PARAMETERS = {'MLE': [6e-5, 0.991], 'SOFTZEROONE': [0.99993, 0.98, 2, 0], 'HINGE': [8e-5, 0.9995], 'MAV': None, 'WAVG': None, 'NN': [1e-0, 0.95, 5, 16]}
 MAXSTEPS = 100000
 MAXNONCHANGINGSTEPS = 1000
 helper = helper()

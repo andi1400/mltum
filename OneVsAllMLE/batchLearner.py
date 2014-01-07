@@ -31,7 +31,7 @@ class batchLearner():
         timeStart = time.time()
 
         #the initial step size is set to the stepSize
-        stepSize = parRange[2]
+        stepSize = parRange[3]
 
         continueOptimizing = True
 
@@ -223,8 +223,8 @@ for i in range(len(sys.argv)):
         print("stop optimize: " + str(parRange[1]))
 
     elif sys.argv[i] == "-pSt" or sys.argv[i] == "--parameterStepSize":
-        parRange[2] = float(sys.argv[i+1])
-        print("step Size: " + str(parRange[2]))
+        parRange[3] = float(sys.argv[i+1])
+        print("step Size: " + str(parRange[3]))
 
     elif sys.argv[i] == "-f" or sys.argv[i] == "--folds":
         folds = int(sys.argv[i+1])
