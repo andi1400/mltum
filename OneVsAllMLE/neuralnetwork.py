@@ -148,6 +148,7 @@ class neuralnetwork:
         bestAccuracy = 0
 
         for step in range(self.MAX_STEPS):
+            #random.shuffle(trainingSamples)
             reducedLearningRate = self.LEARNING_RATE * self.SHRINKAGE ** step
             currentWeights, accuracyStep, confusionMatrix = self.performLearnStep(currentWeights, trainingSamples, reducedLearningRate)
             #print("Weights:")
@@ -158,7 +159,7 @@ class neuralnetwork:
                 self.helper.writeWeightsDebug(self.weightsFilenameTemplate + "_step" + str(step) + ".csv", currentWeights)
 #               print ("Finished " + str(step/percentageMax_steps) + "%.")
             self.accuracy.append(accuracyStep)
-            print("Accuracy step " + str(step) +": " + str(accuracyStep) + " confusion: " + str(confusionMatrix))
+            print("Accuracy step " + str(step) +": " + str(accuracyStep) + " confusion: " + str(confusionMatrix)) + self.runTime()
             if(accuracyStep > bestAccuracy):
                 #print("Found better accuracy: " + str(accuracyStep))
                 bestAccuracy = accuracyStep
@@ -166,6 +167,7 @@ class neuralnetwork:
 
 
         #print("Finished learning. Best Accuracy: " + str(bestAccuracy))
+
 
     #will do one step of learning. E.g. go from the end of the network to the front for every sample.
     def performLearnStep(self, currentWeights, trainingSamples, reducedLearningRate):
@@ -182,8 +184,11 @@ class neuralnetwork:
 
     def learnFromSample(self, currentWeights, sample, reducedLearningRate):
         lastError = None
-        modifiedWeights = copy.deepcopy(currentWeights)
-
+        #modifiedWeights = copy.deepcopy(currentWeights)
+        modifiedWeights = []
+        ## append the list for each layer.
+        for i in range(len(currentWeights)):
+            modifiedWeights.append([])
         #first do a forward run to get all the outputs on each layer
         finalOutput, outputsPerLayer = self.calcFinalOutput(sample[0], currentWeights)
 
@@ -195,22 +200,25 @@ class neuralnetwork:
         deltaW = self.calcDeltaWPerLayer(lastError, outputsPerLayer[-1], reducedLearningRate)
 
         #w_old + deltaW
-        for i in range(len(modifiedWeights[-1])):
-            for j in range(len(modifiedWeights[-1][i])):
-                modifiedWeights[-1][i][j] += deltaW[i][j]
+        for i in range(len(currentWeights[-1])):
+            modifiedWeights[-1].append([])
+            for j in range(len(currentWeights[-1][i])):
+                modifiedWeights[-1][i].append(currentWeights[-1][i][j] + deltaW[i][j])
 
-        for layerId in range(self.NUM_LAYERS - 2, 0, -1):
+        for layerId in range(self.NUM_LAYERS - 2, -1, -1):
             #calculate that layer's error - now different from the output error
             #needs the deltaKs as parameters
-            lastError = self.getInnerError(outputsPerLayer[layerId -1], lastError, currentWeights[layerId], currentWeights[layerId + 1])
+            #TODO test if layerID -1 or +1 for outputsperLayer
+            lastError = self.getInnerError(outputsPerLayer[layerId - 1], lastError, currentWeights[layerId], currentWeights[layerId + 1])
 
             # modify weights for the layer
-            deltaW = self.calcDeltaWPerLayer(lastError, outputsPerLayer[-1], reducedLearningRate)
+            deltaW = self.calcDeltaWPerLayer(lastError, outputsPerLayer[layerId -1], reducedLearningRate)
 
             #w_old + deltaW
-            for i in range(len(modifiedWeights[layerId])):
-                for j in range(len(modifiedWeights[layerId][i])):
-                    modifiedWeights[layerId][i][j] += deltaW[i][j]
+            for i in range(len(currentWeights[layerId])):
+                modifiedWeights[layerId].append([])
+                for j in range(len(currentWeights[layerId][i])):
+                    modifiedWeights[layerId][i].append(currentWeights[layerId][i][j] + deltaW[i][j])
 
         return modifiedWeights
 
@@ -244,7 +252,8 @@ class neuralnetwork:
             #calculate the error as the weighted errors of all successors
             summedWeightedError = 0
             for j in range(len(lastError)):
-                summedWeightedError += lastError[j] * nextLayerWeights[j][i+1]
+                #summedWeightedError += lastError[j] * nextLayerWeights[j][i+1]
+                summedWeightedError += lastError[j] * nextLayerWeights[i][j+1]
 
 
             #net_j
@@ -254,7 +263,6 @@ class neuralnetwork:
             errorSignal = sigmoidDerivative * summedWeightedError
 
             errors.append(errorSignal)
-
         return errors
 
 
@@ -301,3 +309,6 @@ class neuralnetwork:
 
     def getStartTime(self):
         return self.start
+
+    def runTime(self):
+        return str(time.time() - self.getStartTime())

@@ -148,6 +148,7 @@ class neuralnetwork:
         bestAccuracy = 0
 
         for step in range(self.MAX_STEPS):
+			trainingSamples = random.shuffle(trainingSamples)
             reducedLearningRate = self.LEARNING_RATE * self.SHRINKAGE ** step
             currentWeights, accuracyStep, confusionMatrix = self.performLearnStep(currentWeights, trainingSamples, reducedLearningRate)
             #print("Weights:")

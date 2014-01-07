@@ -1,0 +1,8 @@
+make:
+	python setupNN.py build_ext --inplace
+	cp -fv ./OneVsAllMLE/neuralnetworkCCode.so .
+
+	
+clean:
+	rm ./OneVsAllMLE/neuralnetworkCCode.so 
+	rm neuralnetworkCCode.so
