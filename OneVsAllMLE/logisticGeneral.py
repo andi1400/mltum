@@ -17,8 +17,9 @@ from helper import *
 from hingeLoss import hinge
 from majorityVoteTester import majorityvote
 from weightedClassifiers import weightedclassifiers
-#from neuralnetwork import neuralnetwork
-from neuralnetworkCCode import neuralnetwork
+from neuralnetwork import neuralnetwork
+from neuralnetworkNew import neuralnetworkNew
+#from neuralnetworkCCode import neuralnetwork
 
 class logisticregression():
     NOTES = "using approximated sigmoid, oneVSall, noBasis"
@@ -101,47 +102,17 @@ def signal_handler(signal, frame):
 
 signal.signal(signal.SIGINT, signal_handler)
 
-CLASSES = ["sitting", "walking", "standing", "standingup", "sittingdown"]
-CLASSIFIERS = {'MLE': mleonevsall, 'SOFTZEROONE': softzeroone, 'HINGE': hinge, 'MAV': majorityvote, 'WAVG': weightedclassifiers, 'NN': neuralnetwork}
-
-PARAMETERS = {'MLE': [6e-5, 0.991], 'SOFTZEROONE': [0.99993, 0.98, 2, 0], 'HINGE': [8e-5, 0.9995], 'MAV': None, 'WAVG': None, 'NN': [1e-0, 0.9999, 3, 16]}
 MAXSTEPS = 100000
 MAXNONCHANGINGSTEPS = 1000
 helperInstance = helper()
 terminate = False
 logisticregressionHelper = None
 originalData = None
-def run():
-    noLearn = False
-    global terminate
-    terminate = False
-    startWeights = None
-    learnMethod = CLASSIFIERS['NN'](CLASSES, MAXSTEPS, MAXNONCHANGINGSTEPS, PARAMETERS['NN'])
-    global logisticregressionHelper
-    logisticregressionHelper = logisticregression(learnMethod, helperInstance)
-    print("Running " + str(learnMethod))
-    #read the data
-    global originalData
-    originalData = logisticregressionHelper.helper.readData("../data/dataset-complete_90PercentTrainingSet_mini10Percent_standardized.arff")
-    #originalData = logisticregressionHelper.helper.readData("../data/dataset-complete_90PercentTrainingSet_mini10Percent_normalized_only149.arff")
-    #originalData = logisticregressionHelper.helper.readData("../data/dataset-complete_90PercentTrainingSet_normalized.arff")
-    #originalData = logisticregressionHelper.helper.readData("../data/dataset-complete_90PercentTrainingSet_standardized.arff")
-    print("Test reading: " + str(originalData[0]))
-    #Train the model and print the run information
-    if(not noLearn):
-        print("\n\n------------------------------")
-        print("Entering learning mode...")
-        print("------------------------------\n")
-        print(logisticregressionHelper.learnMethod.getParameterNameList())
-        print(logisticregressionHelper.learnMethod.getParameterList())
-
-        logisticregressionHelper.train(originalData, startWeights)
-
 
 #run()
 CLASSES = ["sitting", "walking", "standing", "standingup", "sittingdown"]
-CLASSIFIERS = {'MLE': mleonevsall, 'SOFTZEROONE': softzeroone, 'HINGE': hinge, 'MAV': majorityvote, 'WAVG': weightedclassifiers, 'NN': neuralnetwork}
-PARAMETERS = {'MLE': [1e-5, 0.98], 'SOFTZEROONE': [3e-5, 0.98, 2, 0], 'HINGE': [1e-2, 0.98], 'MAV': None, 'WAVG': None, 'NN': [1e-5, 1, 5, 16]}
+CLASSIFIERS = {'MLE': mleonevsall, 'SOFTZEROONE': softzeroone, 'HINGE': hinge, 'MAV': majorityvote, 'WAVG': weightedclassifiers, 'NN': neuralnetwork, 'NNNew': neuralnetworkNew}
+PARAMETERS = {'MLE': [1e-5, 0.98], 'SOFTZEROONE': [3e-5, 0.98, 2, 0], 'HINGE': [1e-2, 0.98], 'MAV': None, 'WAVG': None, 'NN': [1e-0, 1, 2, 16], 'NNNew': [1e-2, 0.99, 3, [16, 16, 5]]}
 MAXSTEPS = 100000
 MAXNONCHANGINGSTEPS = 1000
 helper = helper()
@@ -199,15 +170,13 @@ for i in range(len(sys.argv)):
 print("Running " + str(learnMethod))
 
 #read the data
-originalData = logisticregressionHelper.helper.readData("../data/dataset-complete_90PercentTrainingSet_mini10Percent_standardized.arff")
+#originalData = logisticregressionHelper.helper.readData("../data/dataset-complete_90PercentTrainingSet_mini10Percent_standardized.arff")
 originalData = logisticregressionHelper.helper.readData("../data/dataset-complete_90PercentTrainingSet_mini10Percent_normalized_only149.arff")
-originalData = logisticregressionHelper.helper.readData("../data/dataset-complete_90PercentTrainingSet_normalized.arff")
-originalData = logisticregressionHelper.helper.readData("../data/dataset-complete_90PercentTrainingSet_standardized.arff")
+#originalData = logisticregressionHelper.helper.readData("../data/dataset-complete_90PercentTrainingSet_normalized.arff")
+#originalData = logisticregressionHelper.helper.readData("../data/dataset-complete_90PercentTrainingSet_standardized.arff")
 print("Test reading: " + str(originalData[0]))
-originalData = logisticregressionHelper.helper.readData("../data/dataset-complete_90PercentTrainingSet_standardized.arff")
-
-print("Test reading: " + str(originalData[0]))
-
+#originalData = logisticregressionHelper.helper.readData("../data/dataset-complete_90PercentTrainingSet_standardized.arff")
+print("Total number of samples: " + str(len(originalData)))
 #catch STRG+C to prevent loss of output.
 def signal_handler(signal, frame):
    global terminate
