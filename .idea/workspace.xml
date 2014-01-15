@@ -5,10 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ccf599bb-0cde-4a30-9366-91b251e6242f" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/OneVsAllMLE/batchLearner.py" afterPath="$PROJECT_DIR$/OneVsAllMLE/batchLearner.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/output/experiments.csv" afterPath="$PROJECT_DIR$/output/experiments.csv" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/OneVsAllMLE/logisticGeneral.py" afterPath="$PROJECT_DIR$/OneVsAllMLE/logisticGeneral.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="MLProjektGitRepo.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -41,26 +39,28 @@
       <file leaf-file-name="neuralnetwork.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/OneVsAllMLE/neuralnetwork.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="155" column="49" selection-start="5555" selection-end="5555" vertical-scroll-proportion="0.0" vertical-offset="2635" max-vertical-offset="5253">
+            <state line="155" column="49" selection-start="5547" selection-end="5547" vertical-scroll-proportion="0.0" vertical-offset="2635" max-vertical-offset="5423">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="batchLearner.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="batchLearner.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/OneVsAllMLE/batchLearner.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="33" column="29" selection-start="1028" selection-end="1028" vertical-scroll-proportion="-3.0268621" vertical-offset="2853" max-vertical-offset="4284">
+            <state line="240" column="0" selection-start="8842" selection-end="8842" vertical-scroll-proportion="0.0" vertical-offset="3347" max-vertical-offset="4284">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="logisticGeneral.py" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="logisticGeneral.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/OneVsAllMLE/logisticGeneral.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="91" column="33" selection-start="3711" selection-end="3711" vertical-scroll-proportion="0.0" vertical-offset="1037" max-vertical-offset="2873">
-              <folding />
+            <state line="202" column="1" selection-start="8166" selection-end="8166" vertical-scroll-proportion="0.27415732" vertical-offset="3190" max-vertical-offset="4080">
+              <folding>
+                <element signature="e#24#34#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -158,16 +158,16 @@
         <option value="$PROJECT_DIR$/OneVsAllMLE/helper.py" />
         <option value="$PROJECT_DIR$/OneVsAllMLE/hingeLoss.py" />
         <option value="$PROJECT_DIR$/OneVsAllMLE/MLEOneVsAll.py" />
-        <option value="$PROJECT_DIR$/OneVsAllMLE/logisticGeneral.py" />
         <option value="$PROJECT_DIR$/OneVsAllMLE/batchLearner.py" />
+        <option value="$PROJECT_DIR$/OneVsAllMLE/logisticGeneral.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1918" />
+    <option name="x" value="-2" />
     <option name="y" value="-3" />
-    <option name="width" value="1284" />
-    <option name="height" value="1004" />
+    <option name="width" value="1924" />
+    <option name="height" value="1087" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -195,7 +195,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -230,16 +229,17 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="recentsLimit" value="5" />
     <property name="options.lastSelected" value="reference.settingsdialog.IDE.editor.colors.Font" />
+    <property name="recentsLimit" value="5" />
     <property name="FullScreen" value="false" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
   </component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
@@ -434,6 +434,9 @@
       <option name="PARAMETERS" value="" />
       <method />
     </configuration>
+    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug" singleton="true">
+      <method />
+    </configuration>
     <configuration default="true" type="tests" factoryName="Unittests">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -455,9 +458,6 @@
       <option name="PUREUNITTEST" value="true" />
       <option name="PARAMS" value="" />
       <option name="USE_PARAM" value="false" />
-      <method />
-    </configuration>
-    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug" singleton="true">
       <method />
     </configuration>
     <configuration default="true" type="tests" factoryName="Doctests">
@@ -544,8 +544,8 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1918" y="-3" width="1284" height="1004" extended-state="6" />
-    <editor active="false" />
+    <frame x="-2" y="-3" width="1924" height="1087" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -582,9 +582,9 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.111979164" sideWeight="0.6732365" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32676348" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.08020833" sideWeight="0.6701245" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.08020833" sideWeight="0.6701245" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32676348" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
     </layout-to-restore>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -670,7 +670,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/OneVsAllMLE/neuralnetwork.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="155" column="49" selection-start="5555" selection-end="5555" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="5185">
+        <state line="155" column="49" selection-start="5547" selection-end="5547" vertical-scroll-proportion="0.0" vertical-offset="2635" max-vertical-offset="5423">
           <folding />
         </state>
       </provider>
@@ -687,17 +687,19 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/OneVsAllMLE/logisticGeneral.py">
+    <entry file="file://$PROJECT_DIR$/OneVsAllMLE/batchLearner.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="91" column="33" selection-start="3711" selection-end="3711" vertical-scroll-proportion="0.0" vertical-offset="1037" max-vertical-offset="2873">
+        <state line="240" column="0" selection-start="8842" selection-end="8842" vertical-scroll-proportion="0.0" vertical-offset="3347" max-vertical-offset="4284">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/OneVsAllMLE/batchLearner.py">
+    <entry file="file://$PROJECT_DIR$/OneVsAllMLE/logisticGeneral.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="29" selection-start="1028" selection-end="1028" vertical-scroll-proportion="-3.0268621" vertical-offset="2853" max-vertical-offset="4284">
-          <folding />
+        <state line="202" column="1" selection-start="8166" selection-end="8166" vertical-scroll-proportion="0.27415732" vertical-offset="3190" max-vertical-offset="4080">
+          <folding>
+            <element signature="e#24#34#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
