@@ -95,7 +95,6 @@ class neuralnetworkNew:
         else:
             currentWeights = startWeights
             self.maxWeights = copy.deepcopy(startWeights)
-        #print("Cur weights: " + str(currentWeights))
         #Now, learn.
         self.setFilenames()
 
@@ -105,18 +104,6 @@ class neuralnetworkNew:
             for j in range(0, len(trainingSamples)):
                 #print str(j) + "/" + str(len(trainingSamples))
                 currentWeights = self.learnFromSample(currentWeights, trainingSamples[j], reducedLearningRate)
-                #if (j == 0):
-                #    print([X[0] for X in self.classifySample(trainingSamples[j][0], currentWeights)[2]])
-
-                #if (j == 0):
-                    #for k in range(len(currentWeights)):
-                        #print currentWeights[k][0][-1]
-                    #    print currentWeights[k]
-                    #raw_input()
-            #print "weights"
-            #for i in range(len(currentWeights)):
-            #    print currentWeights[i]
-            #raw_input()
             errorBefore, confusionMatrix = self.helper.calcTotalError(self, trainingSamples, currentWeights)
             accuracyStep = 1-errorBefore
             self.accuracy.append(accuracyStep)
@@ -125,9 +112,6 @@ class neuralnetworkNew:
             if (accuracyStep > self.accuracy[self.maxAccuracyIndex]):
                 self.maxAccuracyIndex = len(self.accuracy) - 1
                 self.maxWeights = currentWeights
-            #raw_input("Pause")
-
-        #print("Finished learning. Best Accuracy: " + str(bestAccuracy))
 
     def calcLayerOutputs(self, sample, currentWeights):
         #assign the input.
@@ -136,28 +120,15 @@ class neuralnetworkNew:
         sample.append(1)
         outputsPerLayer.append(np.array(sample))
         #then propagate forwards.
-        #print len(currentWeights)
-        #print currentWeights
         for k in range(0, len(currentWeights)): #All the same except for the output layer.
-            #print k
-            #print len(currentWeights)-1
             if (k == len(currentWeights)-1):
                 outputsPerLayer.append(np.ones((self.NEURONS_PER_LAYER[k+1], 1)))
             else:
                 outputsPerLayer.append(np.ones((self.NEURONS_PER_LAYER[k+1]+1, 1)))
 
             for i in range(0, len(currentWeights[k][0])): #do except for the bias:
-                #print("_______________________")
-                #print currentWeights[k][:, i]
-
-                #print outputsPerLayer[k]
                 tmp = np.sum(np.multiply(currentWeights[k][:, i], outputsPerLayer[k]))
                 outputsPerLayer[k+1][i] = self.SIGMOID(self.helper, tmp)
-        #print "out" + str(outputsPerLayer) + "end"
-        #print len(outputsPerLayer)
-        #print len(self.maxWeights)
-        #raw_input()
-
         return outputsPerLayer
 
 
@@ -168,10 +139,10 @@ class neuralnetworkNew:
 
         #Defined equivalent to outputsPerLayer.
         errorsPerLayer = []
+
         #afterwards, it will be necessary to get the error of the last layer first. But, before, set the right size for the error.
         #This actually introduces an error for the bias, which we just won't care about.
         for i in range(len(outputsPerLayer)):
-            #print len(outputsPerLayer[i])
             errorsPerLayer.append(np.zeros((len(outputsPerLayer[i]), 1)))
         for i in range(len(errorsPerLayer[self.NUM_LAYERS-1])):
             if (i < len(self.CLASSES) and sample[1] == self.CLASSES[i]): #In this case, the output should be 1.
@@ -180,71 +151,14 @@ class neuralnetworkNew:
                 errorsPerLayer[self.NUM_LAYERS-1][i] = (-outputsPerLayer[self.NUM_LAYERS-1][i])
         #now, it gets funny.: Calculate all of the errors.
         for k in range(len(currentWeights)-1, -1, -1):
-            for i in range(len(currentWeights[k])):
-                for j in range(0, min(len(errorsPerLayer[k+1]), len(currentWeights[k][i]))):
-                    # print "________________________________"
-                    # print "i: " + str(i)
-                    # print "j: " + str(j)
-                    # print currentWeights[k]
-                    # print len(errorsPerLayer[k+1])
-                    # print errorsPerLayer[k+1]
-                    # print errorsPerLayer[k+1][j]
-                    # print currentWeights[k][i][j]
-                    # print errorsPerLayer[k]
-                    #errorsPerLayer[k][i] += np.dot(errorsPerLayer[k+1].transpose(), currentWeights[k][:, i])
-                    errorsPerLayer[k][i] += errorsPerLayer[k+1][j] * currentWeights[k][i][j]
-        #print "________________________________"
-        #print sample
-        #print outputsPerLayer
-        #print errorsPerLayer
-        #raw_input()
-        #print "error " + str(errorsPerLayer) + "end"
-        #raw_input()
-        #Aaaaand calculate the deltaWs.
+            errorsPerLayer[k] = np.dot(currentWeights[k], errorsPerLayer[k+1])
         deltaW = []
         #First by appending 0-matrices equivalent to currentWeights.
-        for k in range(len(currentWeights)):
-            deltaW.append(np.zeros((len(currentWeights[k]), len(currentWeights[k][0]))))
-            #print "DeltaW: " + str(len(deltaW[k])) + " x " + str(len(deltaW[k][0]))
-            #print "c8rW: " + str(len(currentWeights[k])) + " x " + str(len(currentWeights[k][0]))
-        #Then, calculate it really. First, the outer as this is a special case.
-        #deltaW[-1] = errorsPerLayer[self.NUM_LAYERS].dot(outputsPerLayer[self.NUM_LAYERS-1]))
-        for i in range(len(deltaW[-1])):
-            for j in range(len(deltaW[-1][i])):
-                deltaW[-1][i][j] = errorsPerLayer[-1][j] * outputsPerLayer[-1][j] * (1-outputsPerLayer[-1][j]) * outputsPerLayer[-2][i]
-                #deltaW[-1][i][j] = errorsPerLayer[-1][j] * outputsPerLayer[-1][i]
-        #print "deltaW: \n" + str(deltaW) + "\n end"
-        #And for the rest.
         for k in range(len(currentWeights)-1, -1, -1):
-            if (k != len(deltaW)-1):
-                #deltaW[k] = np.zeros((self.NEURONS_PER_LAYER[k], self.NEURONS_PER_LAYER[k+1]))
-                #TODO MATRIX MULTIPLICATION
-                for i in range(0, self.NEURONS_PER_LAYER[k]):
-                    for j in range(0, self.NEURONS_PER_LAYER[k+1]):
-    #                    print errorsPerLayer[k+1][j]
-    #                    print outputsPerLayer[k+1][j]
-    #                    print (1-outputsPerLayer[k+1][j])
-    #                    print outputsPerLayer[k][i]
-
-                        deltaW[k][i][j] = errorsPerLayer[k+1][i] * outputsPerLayer[k+1][j] * (1-outputsPerLayer[k+1][j]) * outputsPerLayer[k][i]
-    #            print deltaW[k]
-    #            raw_input()
-
-        #print deltaW
-        #raw_input()
-        #print "______________________________________-"
-        #print ""
-        #print "_______________________________________"
-        #print "Errors:\n" + str(errorsPerLayer) + "\n end"
-        #print "Weights:\n" + str(currentWeights) + "\n end"
-        #print "out:\n" + str(outputsPerLayer) + "\n end"
-        #print "delta: \n" + str(deltaW) + "\n end"
+            deltaW.append((outputsPerLayer[k].transpose() * (np.multiply(np.multiply(errorsPerLayer[k+1], outputsPerLayer[k+1]), 1-outputsPerLayer[k+1]))).transpose())
         modifiedWeights = []
-
         for k in range(len(currentWeights)):
             modifiedWeights.append(currentWeights[k] + reducedLearningRate * deltaW[k])
-        #print modifiedWeights
-        #raw_input()
         return modifiedWeights
 
 
