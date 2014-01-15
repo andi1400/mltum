@@ -1,3 +1,5 @@
+__author__ = 'frederik'
+
 # cython: profile=True
 
 import csv
@@ -21,7 +23,7 @@ from neuralnetwork import neuralnetwork
 from neuralnetworkNew import neuralnetworkNew
 #from neuralnetworkCCode import neuralnetwork
 
-class logisticregression():
+class neuralNetworkHelper():
     NOTES = "using approximated sigmoid, oneVSall, noBasis"
     TEST_AND_PLOT_FITNESS = False
     STORERESULTS = True
@@ -110,9 +112,9 @@ logisticregressionHelper = None
 originalData = None
 
 #run()
-CLASSES = ["sitting", "walking", "standing", "standingup", "sittingdown"]
+CLASSES = ["A", "B", "C", "D"]
 CLASSIFIERS = {'MLE': mleonevsall, 'SOFTZEROONE': softzeroone, 'HINGE': hinge, 'MAV': majorityvote, 'WAVG': weightedclassifiers, 'NN': neuralnetwork, 'NNNew': neuralnetworkNew}
-PARAMETERS = {'MLE': [1e-5, 0.98], 'SOFTZEROONE': [3e-5, 0.98, 2, 0], 'HINGE': [1e-2, 0.98], 'MAV': None, 'WAVG': None, 'NN': [1e-0, 1, 2, 16], 'NNNew': [1e-2, 1, 2, [16, 5]]}
+PARAMETERS = {'MLE': [1e-5, 0.98], 'SOFTZEROONE': [3e-5, 0.98, 2, 0], 'HINGE': [1e-2, 0.98], 'MAV': None, 'WAVG': None, 'NN': [1e-0, 1, 2, 16], 'NNNew': [1e-2, 1, 2, [2, 4]]}
 MAXSTEPS = 100000
 MAXNONCHANGINGSTEPS = 1000
 helper = helper()
@@ -150,7 +152,7 @@ for i in range(len(sys.argv)):
 
            learnMethod.setClassifiers(classifiersWithWeightsForMav)
 
-       logisticregressionHelper = logisticregression(learnMethod, helper)
+       logisticregressionHelper = neuralNetworkHelper(learnMethod, helper)
        print(logisticregressionHelper)
 
    elif sys.argv[i] == "-w" or sys.argv[i] == "--weights":
@@ -170,8 +172,10 @@ for i in range(len(sys.argv)):
 print("Running " + str(learnMethod))
 
 #read the data
-originalData = logisticregressionHelper.helper.readData("../data/dataset-complete_90PercentTrainingSet_mini10Percent_standardized.arff")
+#originalData = logisticregressionHelper.helper.readData("../data/dataset-complete_90PercentTrainingSet_mini10Percent_standardized.arff")
 #originalData = logisticregressionHelper.helper.readData("../data/dataset-complete_90PercentTrainingSet_mini10Percent_normalized_only149.arff")
+originalData = logisticregressionHelper.helper.readData("../data/neuralNetworkTestSet.arff")
+print originalData
 #originalData = logisticregressionHelper.helper.readData("../data/dataset-complete_90PercentTrainingSet_normalized.arff")
 #originalData = logisticregressionHelper.helper.readData("../data/dataset-complete_90PercentTrainingSet_standardized.arff")
 print("Test reading: " + str(originalData[0]))

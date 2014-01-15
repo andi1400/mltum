@@ -127,7 +127,7 @@ class helper():
         return 0.5 * (x/(1+abs(x)) + 1)
 
     def sigmoid(self, x):
-        return 1 / (1 - np.exp(-x))
+        return 1 / (1 + np.exp(-x))
 
     def strRuntime(self, starttime):
         return " runtime(s): " + str(time.time() - starttime)
