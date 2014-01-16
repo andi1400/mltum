@@ -5,7 +5,7 @@ import copy
 import time
 import random
 
-class neuralnetworkNew:
+class neuralnetwork:
     CLASSES = None
 
     MAX_STEPS = 1000000
@@ -134,16 +134,25 @@ class neuralnetworkNew:
 
         for k in range(0, len(currentWeights)): #All the same except for the output layer.
             if (k == len(currentWeights)-1):
-                outputsPerLayer.append(np.ones((self.NEURONS_PER_LAYER[k+1], 1)))
+                outputsPerLayer.append(self.SIGMOID(self.helper, np.dot(currentWeights[k].transpose(), outputsPerLayer[k])))
             else:
                 outputsPerLayer.append(np.ones((self.NEURONS_PER_LAYER[k+1]+1, 1)))
-            for i in range(0, currentWeights[k].shape[1]): #do except for the bias:
-                tmp = np.sum(np.multiply(currentWeights[k][:, i], outputsPerLayer[k]))
-                outputsPerLayer[k+1][i] = self.SIGMOID(self.helper, tmp)
+                #print outputsPerLayer[-1]
+                outputsPerLayer[k+1][:-1] = self.SIGMOID(self.helper, np.dot(currentWeights[k].transpose(), outputsPerLayer[k]))
+                #print outputsPerLayer[-1]
+                #raw_input()
+            #if (k == len(currentWeights)-1):
+            #    outputsPerLayer.append(np.ones((self.NEURONS_PER_LAYER[k+1], 1)))
+            #else:
+            #    outputsPerLayer.append(np.ones((self.NEURONS_PER_LAYER[k+1]+1, 1)))
+            #for i in range(0, currentWeights[k].shape[1]): #do except for the bias:
+            #    tmp = np.sum(np.multiply(currentWeights[k][:, i], outputsPerLayer[k]))
+            #    outputsPerLayer[k+1][i] = self.SIGMOID(self.helper, tmp)
             #print np.matrix(outputsPerLayer[k]).shape
             #print np.matrix(outputsPerLayer[k])
             #print outputsPerLayer[k]
-            outputsPerLayer[k+1] = np.matrix(outputsPerLayer[k+1])
+        #raw_input()
+            #outputsPerLayer[k+1] = np.matrix(outputsPerLayer[k+1])
             #print (outputsPerLayer[k]).shape
         return outputsPerLayer
 
