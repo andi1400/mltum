@@ -121,7 +121,7 @@ originalData = None
 #run()
 CLASSES = ["sitting", "walking", "standing", "standingup", "sittingdown"]
 CLASSIFIERS = {'MLE': mleonevsall, 'SOFTZEROONE': softzeroone, 'HINGE': hinge, 'MAV': majorityvote, 'WAVG': weightedclassifiers, 'NN': neuralnetwork, 'NNNew': neuralnetworkNew}
-PARAMETERS = {'MLE': [1e-5, 0.98], 'SOFTZEROONE': [3e-5, 0.98, 2, 0], 'HINGE': [1e-2, 0.98], 'MAV': None, 'WAVG': None, 'NN': [1e-0, 1, 2, 16], 'NNNew': [1e-2, 1, 3, [16, 20, 5]]}
+PARAMETERS = {'MLE': [6e-5, 0.991], 'SOFTZEROONE': [0.0001, 0.99993, 2.5, 1e-7], 'HINGE': [8e-5, 0.9995], 'MAV': None, 'WAVG': None, 'NN': [1e-0, 1, 2, 16], 'NNNew': [1e-2, 1, 3, [16, 20, 5]]}
 MAXSTEPS = 100000
 MAXNONCHANGINGSTEPS = 1000
 helper = helper()
@@ -180,13 +180,15 @@ print("Running " + str(learnMethod))
 
 #read the data
 #dsfilename = "../data/dataset-complete_90PercentTrainingSet_mini10Percent_standardized.arff"
-dsfilename = "../data/testDataSetTraining_5percent_standardized.arff"
+#dsfilename = "../data/testDataSetTraining_5percent_standardized.arff"
 #dsfilename = "../data/dataset-complete_90PercentTrainingSet_mini10Percent_normalized_only149.arff"
 #dsfilename = "../data/dataset-complete_90PercentTrainingSet_normalized.arff"
 #dsfilename = "../data/dataset-complete_90PercentTrainingSet_standardized.arff"
+dsfilename = "../data/TRAINING.arff"
 
 #testFilename = "../data/dataset-complete_10PercentTestSet_standardized.arff"
-testFilename = "../data/testDataSetTest_5percent_standardized.arff"
+testFilename = "../data/TEST.arff"
+#testFilename = "../data/testDataSetTest_5percent_standardized.arff"
 
 originalData = logisticregressionHelper.helper.readData(dsfilename)
 testData = logisticregressionHelper.helper.readData(testFilename)
