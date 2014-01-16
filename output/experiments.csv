@@ -917,3 +917,7 @@
 <neuralnetworkNew.neuralnetworkNew instance at 0x36693b0>;0.01;1;3;[16, 20, 5];getXDirectly;sigmoid
  ;0.24832214765100669;0.24832214765100669;0.41610738255033564
 
+2014-01-16 18:53:07.903092;Alpha;Shrinkage;BASIS_FUNCTION;SIGMOID
+<hingeLoss.hinge instance at 0x1c57830>;8e-05;0.9995;getXDirectly;pseudoSigmoid
+ ;0.6655933454081975;0.7106057556852485;0.7456228617428053
+
