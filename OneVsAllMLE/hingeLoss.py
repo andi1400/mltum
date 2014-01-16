@@ -15,6 +15,7 @@ class hinge():
     endTime = None
 
     accuracy = []
+    accuracyTestSet = []
     maxAccuracyIndex = 0
     maxWeights = None
 
