@@ -17,6 +17,7 @@ class mleonevsall():
     defaultWeights = None
 
     accuracy = []
+    accuracyTestSet = []
     maxAccuracyIndex = 0
     maxWeights = None
 

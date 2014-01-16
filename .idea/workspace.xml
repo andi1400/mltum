@@ -5,8 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ccf599bb-0cde-4a30-9366-91b251e6242f" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/TRAINING.arff" afterPath="$PROJECT_DIR$/data/TRAINING.arff" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/OneVsAllMLE/logisticGeneral.py" afterPath="$PROJECT_DIR$/OneVsAllMLE/logisticGeneral.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/OneVsAllMLE/MLEOneVsAll.py" afterPath="$PROJECT_DIR$/OneVsAllMLE/MLEOneVsAll.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/OneVsAllMLE/hingeLoss.py" afterPath="$PROJECT_DIR$/OneVsAllMLE/hingeLoss.py" />
     </list>
     <ignored path="MLProjektGitRepo.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -36,15 +36,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="neuralnetwork.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/OneVsAllMLE/neuralnetwork.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="155" column="49" selection-start="5547" selection-end="5547" vertical-scroll-proportion="0.0" vertical-offset="2635" max-vertical-offset="5423">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="neuralnetwork.pyx" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/OneVsAllMLE/neuralnetwork.pyx">
           <provider selected="true" editor-type-id="text-editor">
@@ -72,10 +63,48 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="logisticGeneral.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="logisticGeneral.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/OneVsAllMLE/logisticGeneral.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="122" column="176" selection-start="5065" selection-end="5065" vertical-scroll-proportion="0.05730337" vertical-offset="1717" max-vertical-offset="3536">
+            <state line="122" column="176" selection-start="5065" selection-end="5065" vertical-scroll-proportion="0.0" vertical-offset="1717" max-vertical-offset="3536">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="hingeLoss.py" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/OneVsAllMLE/hingeLoss.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="17" column="24" selection-start="284" selection-end="284" vertical-scroll-proportion="0.2483146" vertical-offset="0" max-vertical-offset="3689">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="oneVsAllMLE.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/OneVsAllMLE/oneVsAllMLE.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="5168">
+              <folding>
+                <element signature="e#0#10#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MLEOneVsAll.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/OneVsAllMLE/MLEOneVsAll.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="19" column="24" selection-start="318" selection-end="318" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3383">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="softZeroOneLoss.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/OneVsAllMLE/softZeroOneLoss.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="17" column="4" selection-start="270" selection-end="290" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4505">
               <folding />
             </state>
           </provider>
@@ -85,15 +114,6 @@
         <entry file="file://$PROJECT_DIR$/OneVsAllMLE/neuralnetworkNew.py">
           <provider selected="true" editor-type-id="text-editor">
             <state line="42" column="79" selection-start="923" selection-end="923" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3757">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="neuralnetworkCCode.c" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/OneVsAllMLE/neuralnetworkCCode.c">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="223380">
               <folding />
             </state>
           </provider>
@@ -136,10 +156,10 @@
         <option value="$PROJECT_DIR$/OneVsAllMLE/softZeroOneLoss.py" />
         <option value="$PROJECT_DIR$/OneVsAllMLE/neuralnetwork.py" />
         <option value="$PROJECT_DIR$/OneVsAllMLE/helper.py" />
-        <option value="$PROJECT_DIR$/OneVsAllMLE/hingeLoss.py" />
-        <option value="$PROJECT_DIR$/OneVsAllMLE/MLEOneVsAll.py" />
         <option value="$PROJECT_DIR$/OneVsAllMLE/batchLearner.py" />
         <option value="$PROJECT_DIR$/OneVsAllMLE/logisticGeneral.py" />
+        <option value="$PROJECT_DIR$/OneVsAllMLE/MLEOneVsAll.py" />
+        <option value="$PROJECT_DIR$/OneVsAllMLE/hingeLoss.py" />
       </list>
     </option>
   </component>
@@ -599,28 +619,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/OneVsAllMLE/helper.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="51" selection-start="1078" selection-end="1078" vertical-scroll-proportion="0.0" vertical-offset="165" max-vertical-offset="2070">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/OneVsAllMLE/hingeLoss.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="48" column="115" selection-start="1178" selection-end="1338" vertical-scroll-proportion="0.0" vertical-offset="816" max-vertical-offset="3604" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/OneVsAllMLE/MLEOneVsAll.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="43" column="43" selection-start="1115" selection-end="1115" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3230" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/OneVsAllMLE/softZeroOneLoss.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="48" column="8" selection-start="1183" selection-end="1319" vertical-scroll-proportion="0.0" vertical-offset="816" max-vertical-offset="4335" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/OneVsAllMLE/neuralnetworkCCode.c">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="223380">
@@ -695,7 +693,37 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/OneVsAllMLE/logisticGeneral.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="122" column="176" selection-start="5065" selection-end="5065" vertical-scroll-proportion="0.05730337" vertical-offset="1717" max-vertical-offset="3536">
+        <state line="122" column="176" selection-start="5065" selection-end="5065" vertical-scroll-proportion="0.0" vertical-offset="1717" max-vertical-offset="3536">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/OneVsAllMLE/softZeroOneLoss.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="4" selection-start="270" selection-end="290" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4505">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/OneVsAllMLE/oneVsAllMLE.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="5168">
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/OneVsAllMLE/MLEOneVsAll.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="19" column="24" selection-start="318" selection-end="318" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3383">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/OneVsAllMLE/hingeLoss.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="24" selection-start="284" selection-end="284" vertical-scroll-proportion="0.2483146" vertical-offset="0" max-vertical-offset="3689">
           <folding />
         </state>
       </provider>
