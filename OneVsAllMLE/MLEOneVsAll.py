@@ -98,7 +98,7 @@ class mleonevsall():
 
         return 0, regressionResult
 
-    def learn(self, trainingSamples, startWeights=None):
+    def learn(self, trainingSamples, startWeights=None, testSet = None):
         if (startWeights is None):
             startWeights = self.defaultWeights
 
@@ -112,7 +112,7 @@ class mleonevsall():
         self.maxWeights = copy.deepcopy(startWeights)
 
         for i in range(self.MAX_STEPS):
-            curWeights = self.optimizeAllWeights(curWeights, trainingSamples, i)
+            curWeights = self.optimizeAllWeights(curWeights, trainingSamples, i, testSet)
 
             if(i % 10 == 0):
                 self.helper.writeWeightsDebug(self.weightsFilenameTemplate + "_step" + str(i) + ".csv", curWeights)
@@ -124,7 +124,7 @@ class mleonevsall():
 
 
     #Will optimize all the weights for every class. Thereby it does one step for every class and then contiues to the next step.
-    def optimizeAllWeights(self, currentWeights, trainingSamples, step):
+    def optimizeAllWeights(self, currentWeights, trainingSamples, step, testSet):
 
         for c in range(len(self.CLASSES)):
             currentWeights[c] = self.updateWeightsPerClasStep(currentWeights[c], trainingSamples, self.CLASSES[c], self.LEARNING_RATE * (self.SHRINKAGE ** step))
@@ -135,6 +135,14 @@ class mleonevsall():
         currentAccuracy = 1- currentGeneralError
         print("Progress Global Weight: " + str(step) + " Right: " + str(1-currentGeneralError) + self.helper.strRuntime(self.start))
         self.accuracy.append(currentAccuracy) #save accuracy for later result printing
+
+        if (testSet != None):
+            errorBeforeTest, confusionMatrixTest = self.helper.calcTotalError(self, testSet, currentWeights)
+            accuracyStepTest = 1-errorBeforeTest
+
+            self.accuracyTestSet.append(accuracyStepTest)
+
+            print("\tAcc: " + str("%.4f" % accuracyStepTest))# + " confusion: " + str(confusionMatrixTest) + " Test")
 
         #check if we need to store the new accuracy as the new best one
         if(currentAccuracy > self.accuracy[self.maxAccuracyIndex]):

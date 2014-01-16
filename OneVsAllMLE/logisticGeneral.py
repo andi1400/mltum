@@ -57,6 +57,8 @@ class logisticregression():
 
     def printRunInformation(self):
         plt.clf()
+        if (self.learnMethod.accuracyTestSet != None):
+            plt.plot(self.learnMethod.accuracyTestSet)
         plt.plot(self.learnMethod.getAccuracy())
         plt.axis([0,len(self.learnMethod.getAccuracy()),0,1])
         plt.draw()
@@ -64,8 +66,11 @@ class logisticregression():
 
         print("Evaluating Model - Please wait...")
         currentError, confusionMatrix = self.helper.calcTotalError(self.learnMethod, originalData, self.learnMethod.getWeights())
+        currentErrorTest, confusionMatrixTest = self.helper.calcTotalError(self.learnMethod, testData, self.learnMethod.getWeights())
         print("Last Error on training: " + str(currentError))
         print("Last Accuracy on training: " + str(1-currentError))
+        print("Last Error on test: " + str(currentErrorTest))
+        print("Last Accuracy on test: " + str(1-currentErrorTest))
 
         print("____________________________")
         print(self.learnMethod.getWeights())
@@ -77,17 +82,21 @@ class logisticregression():
             self.writeToCSV(self.csvRunFilename)
             self.helper.writeWeightsDebug(self.csvWeightsFilename + str(self.learnMethod.getStartTime()) + str(self.learnMethod) +".csv", self.learnMethod.getWeights())
             #create a plot
+
             plt.savefig("../output/plots/run_" + str(self.learnMethod.__class__.__name__) + "_" + str(date.datetime.fromtimestamp(self.learnMethod.getStartTime())) + ".png")
             plt.savefig("../output/plots/run_" + str(self.learnMethod.__class__.__name__) + "_" + str(date.datetime.fromtimestamp(self.learnMethod.getStartTime())) + ".pdf")
-            self.helper.writeConfusionMatrixToFile(confusionMatrix, self.CLASSES, self.learnMethod.confusionFilenameTemplate + "_FINAL_confusion.txt")
+            self.helper.writeConfusionMatrixToFile(confusionMatrix, self.CLASSES, self.learnMethod.confusionFilenameTemplate + "_FINAL_confusionTraining.txt")
+            self.helper.writeConfusionMatrixToFile(confusionMatrixTest, self.CLASSES, self.learnMethod.confusionFilenameTemplate + "_FINAL_confusionTest.txt")
+
+            self.helper.writeAccuracies("../output/accuracies/run_" + str(self.learnMethod.__class__.__name__) + "_" + str(date.datetime.fromtimestamp(self.learnMethod.getStartTime())) + ".csv", self.learnMethod.getAccuracy(), self.learnMethod.accuracyTestSet)
 
         plt.show(block=True)
 
-    def train(self, trainingSamples, startWeights):
+    def train(self, trainingSamples, startWeights, testData=None):
         if startWeights is None:
-            self.learnMethod.learn(trainingSamples)
+            self.learnMethod.learn(trainingSamples, None, testData)
         else:
-            self.learnMethod.learn(trainingSamples, startWeights)
+            self.learnMethod.learn(trainingSamples, startWeights, testData)
 
 ################################
 #general control flow section
@@ -171,12 +180,16 @@ print("Running " + str(learnMethod))
 
 #read the data
 #dsfilename = "../data/dataset-complete_90PercentTrainingSet_mini10Percent_standardized.arff"
-dsfilename = "../data/dataset-complete_90PercentTrainingSet_mini10Percent_normalized_only149.arff"
+dsfilename = "../data/testDataSetTraining_5percent_standardized.arff"
+#dsfilename = "../data/dataset-complete_90PercentTrainingSet_mini10Percent_normalized_only149.arff"
 #dsfilename = "../data/dataset-complete_90PercentTrainingSet_normalized.arff"
 #dsfilename = "../data/dataset-complete_90PercentTrainingSet_standardized.arff"
 
-originalData = logisticregressionHelper.helper.readData(dsfilename)
+#testFilename = "../data/dataset-complete_10PercentTestSet_standardized.arff"
+testFilename = "../data/testDataSetTest_5percent_standardized.arff"
 
+originalData = logisticregressionHelper.helper.readData(dsfilename)
+testData = logisticregressionHelper.helper.readData(testFilename)
 print("Using dataset: " + dsfilename)
 print("Test reading: " + str(originalData[0]))
 
@@ -198,7 +211,7 @@ if(not noLearn):
    print(logisticregressionHelper.learnMethod.getParameterNameList())
    print(logisticregressionHelper.learnMethod.getParameterList())
 
-   logisticregressionHelper.train(originalData, startWeights)
+   logisticregressionHelper.train(originalData, startWeights, testData)
 
 logisticregressionHelper.printRunInformation()
 

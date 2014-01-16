@@ -23,6 +23,18 @@ class helper():
 
         return 1-float(curRight)/len(trainingSamples), confusionMatrix
 
+    def writeAccuracies(self, filename, accuracyTraining, accuracyTest=None):
+        if not os.path.exists(os.path.dirname(filename)):
+            os.makedirs(os.path.dirname(filename))
+        file = open(filename, "a+")
+        for i in range(min(len(accuracyTest), len(accuracyTraining))):
+            string = str(i) + ";"
+            string += str(accuracyTraining[i]) + ";"
+            string += str(accuracyTest[i]) + "\n"
+            file.write(string)
+
+
+
     def writeWeightsCSV(self, filename, weights):
         if not os.path.exists(os.path.dirname(filename)):
             os.makedirs(os.path.dirname(filename))

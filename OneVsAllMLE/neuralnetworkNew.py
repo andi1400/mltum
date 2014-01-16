@@ -17,7 +17,7 @@ class neuralnetworkNew:
 
     accuracy = []
     maxAccuracyIndex = 0
-
+    accuracyTestSet = []
 
     #hyper parameters for neural network
     LEARNING_RATE = 1e-4
@@ -91,8 +91,7 @@ class neuralnetworkNew:
 
 
     #learning with backpropagation
-    def learn(self, trainingSamples, startWeights=None):
-
+    def learn(self, trainingSamples, startWeights=None, testSet=None):
         self.start = time.time()
         if (startWeights == None):
             currentWeights = self.maxWeights #in that case, no starting weights have been set.  use the zero-initialized maxWeights as start, then.
@@ -111,8 +110,16 @@ class neuralnetworkNew:
             errorBefore, confusionMatrix = self.helper.calcTotalError(self, trainingSamples, currentWeights)
             accuracyStep = 1-errorBefore
             self.accuracy.append(accuracyStep)
-            print("Epoch " + str(step) +" Acc: " + str(accuracyStep) + " confusion: " + str(confusionMatrix)) + self.runTime()
+            print("Epoch " + str(step) + "\t time: " + self.runTime())
+            print("\tAcc: " + str("%.4f" % accuracyStep) + " confusion: " + str(confusionMatrix) + " Training")
 
+            if (testSet != None):
+                errorBeforeTest, confusionMatrixTest = self.helper.calcTotalError(self, testSet, currentWeights)
+                accuracyStepTest = 1-errorBeforeTest
+
+                self.accuracyTestSet.append(accuracyStepTest)
+
+                print("\tAcc: " + str("%.4f" % accuracyStepTest) + " confusion: " + str(confusionMatrixTest) + " Test")
             if (accuracyStep > self.accuracy[self.maxAccuracyIndex]):
                 self.maxAccuracyIndex = len(self.accuracy) - 1
                 self.maxWeights = currentWeights
