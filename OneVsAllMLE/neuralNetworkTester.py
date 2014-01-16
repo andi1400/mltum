@@ -114,7 +114,7 @@ originalData = None
 #run()
 CLASSES = ["A", "B", "C", "D"]
 CLASSIFIERS = {'MLE': mleonevsall, 'SOFTZEROONE': softzeroone, 'HINGE': hinge, 'MAV': majorityvote, 'WAVG': weightedclassifiers, 'NN': neuralnetwork, 'NNNew': neuralnetworkNew}
-PARAMETERS = {'MLE': [1e-5, 0.98], 'SOFTZEROONE': [3e-5, 0.98, 2, 0], 'HINGE': [1e-2, 0.98], 'MAV': None, 'WAVG': None, 'NN': [1e-0, 1, 2, 16], 'NNNew': [1e-2, 1, 2, [2, 4]]}
+PARAMETERS = {'MLE': [1e-5, 0.98], 'SOFTZEROONE': [3e-5, 0.98, 2, 0], 'HINGE': [1e-2, 0.98], 'MAV': None, 'WAVG': None, 'NN': [1e-0, 1, 2, 16], 'NNNew': [1e-2, 1, 3, [2, 8, 4]]}
 MAXSTEPS = 100000
 MAXNONCHANGINGSTEPS = 1000
 helper = helper()
