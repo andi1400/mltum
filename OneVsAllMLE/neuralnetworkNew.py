@@ -31,6 +31,9 @@ class neuralnetworkNew:
     parameterNames = ["Alpha", "SHRINKAGE", "NUM_LAYERS", "NEURONS_PER_LAYER", "BASIS_FUNCTION", "SIGMOID"]
     parameters = None
 
+    timeArray = None
+    timeLastTime = None
+
     helper = None
 
     debugFolderName = None
@@ -45,6 +48,7 @@ class neuralnetworkNew:
     defaultWeights = None
 
     def __init__(self, classes, maxSteps, maxNonChangingSteps, parameters):
+        self.timeArray = [0] * 10
         self.helper = helper()
         self.CLASSES = classes
         self.MAX_STEPS = maxSteps
@@ -118,17 +122,22 @@ class neuralnetworkNew:
         outputsPerLayer = []
         sample = copy.deepcopy(sample)
         sample.append(1)
-        outputsPerLayer.append(np.array(sample))
+        outputsPerLayer.append(np.matrix(sample).transpose())
         #then propagate forwards.
+
         for k in range(0, len(currentWeights)): #All the same except for the output layer.
             if (k == len(currentWeights)-1):
                 outputsPerLayer.append(np.ones((self.NEURONS_PER_LAYER[k+1], 1)))
             else:
                 outputsPerLayer.append(np.ones((self.NEURONS_PER_LAYER[k+1]+1, 1)))
-
-            for i in range(0, len(currentWeights[k][0])): #do except for the bias:
+            for i in range(0, currentWeights[k].shape[1]): #do except for the bias:
                 tmp = np.sum(np.multiply(currentWeights[k][:, i], outputsPerLayer[k]))
                 outputsPerLayer[k+1][i] = self.SIGMOID(self.helper, tmp)
+            #print np.matrix(outputsPerLayer[k]).shape
+            #print np.matrix(outputsPerLayer[k])
+            #print outputsPerLayer[k]
+            outputsPerLayer[k+1] = np.matrix(outputsPerLayer[k+1])
+            #print (outputsPerLayer[k]).shape
         return outputsPerLayer
 
 
@@ -143,25 +152,34 @@ class neuralnetworkNew:
         #afterwards, it will be necessary to get the error of the last layer first. But, before, set the right size for the error.
         #This actually introduces an error for the bias, which we just won't care about.
         for i in range(len(outputsPerLayer)):
-            errorsPerLayer.append(np.zeros((len(outputsPerLayer[i]), 1)))
+            errorsPerLayer.append(np.zeros((outputsPerLayer[i].shape[0], 1)))
+
+        #Set the error for the output layer.
         for i in range(len(errorsPerLayer[self.NUM_LAYERS-1])):
             if (i < len(self.CLASSES) and sample[1] == self.CLASSES[i]): #In this case, the output should be 1.
                 errorsPerLayer[self.NUM_LAYERS-1][i] = (1-outputsPerLayer[self.NUM_LAYERS-1][i])
             else: #In this, 0.
                 errorsPerLayer[self.NUM_LAYERS-1][i] = (-outputsPerLayer[self.NUM_LAYERS-1][i])
+
         #now, it gets funny.: Calculate all of the errors.
         for k in range(len(currentWeights)-1, -1, -1):
-            errorsPerLayer[k] = np.dot(currentWeights[k], errorsPerLayer[k+1])
+            if (k == len(currentWeights)-1):
+                errorsPerLayer[k] = np.dot(currentWeights[k], errorsPerLayer[k+1])
+            else:
+                errorsPerLayer[k] = np.dot(currentWeights[k], errorsPerLayer[k+1][0:-1])
         deltaW = []
-        #First by appending 0-matrices equivalent to currentWeights.
+        for k in range(len(currentWeights)):
+            deltaW.append(np.zeros(shape=currentWeights[k].shape))
         for k in range(len(currentWeights)-1, -1, -1):
-            deltaW.append((outputsPerLayer[k].transpose() * (np.multiply(np.multiply(errorsPerLayer[k+1], outputsPerLayer[k+1]), 1-outputsPerLayer[k+1]))).transpose())
+            if (k == len(currentWeights)-1):
+                tmp = np.multiply(np.multiply(errorsPerLayer[k+1], outputsPerLayer[k+1]), 1-outputsPerLayer[k+1]).transpose()
+            else:
+                tmp = (np.multiply(np.multiply(errorsPerLayer[k+1], outputsPerLayer[k+1]), 1-outputsPerLayer[k+1]))[0:-1].transpose()
+            deltaW[k] = np.dot(outputsPerLayer[k], tmp)
         modifiedWeights = []
         for k in range(len(currentWeights)):
             modifiedWeights.append(currentWeights[k] + reducedLearningRate * deltaW[k])
         return modifiedWeights
-
-
 
 
     def setFilenames(self):
@@ -170,6 +188,11 @@ class neuralnetworkNew:
         self.confusionFilenameTemplate = self.debugFolderName + str(self.start)
 
         print("Writing DEBUG Information to " + str(self.debugFolderName) + "...")
+
+    def timeCheck(self, n):
+        #if (self.timeCheck())
+        None
+
 
     def getAccuracy(self):
         return self.accuracy
