@@ -23,6 +23,19 @@ from neuralnetwork import neuralnetwork
 from neuralnetworkNew import neuralnetworkNew
 #from neuralnetworkCCode import neuralnetwork
 
+
+"""
+
+A temporary file to test neural network on toy problems. Do not use.
+"""
+
+
+
+
+"""
+
+DEPRECATED --- DEPRECATED --- DEPRECATED --- DEPRECATED --- DEPRECATED --- DEPRECATED --- DEPRECATED --- DEPRECATED --- DEPRECATED
+"""
 class neuralNetworkHelper():
     NOTES = "using approximated sigmoid, oneVSall, noBasis"
     TEST_AND_PLOT_FITNESS = False

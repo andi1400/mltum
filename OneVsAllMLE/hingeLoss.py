@@ -174,7 +174,6 @@ class hinge():
                 deltaW += np.multiply(-1 * target, phi)
 
         #update w with learning rate of its gradient.
-        #change1 weights can only be updated with complete gradient
         newWeights = newWeights - deltaW * shrinkedLearningRate
 
         return newWeights

@@ -4,6 +4,10 @@ import math
 from helper import helper
 import copy
 
+
+"""
+Implements maximum likelihood one vs all classifier.
+"""
 class mleonevsall():
     CLASSES = None
 
@@ -88,10 +92,7 @@ class mleonevsall():
     def classifySampleSingleClass(self, x, ClassWeight):
         currentFeatureVector = self.helper.getPhi(x, self.BASIS_FUNCTION)
 
-        #print "currentFeatureVec" + str(currentFeatureVector)
-        #print "ClassWeights" + str(ClassWeight)
         wTimesPhi = np.dot(np.transpose(ClassWeight), currentFeatureVector)
-        #print "wTimesPhi" + str(wTimesPhi)
         regressionResult = self.SIGMOID(self.helper, wTimesPhi)
 
         if(regressionResult >= 0.5):
@@ -117,8 +118,6 @@ class mleonevsall():
 
             if(i % 10 == 0):
                 self.helper.writeWeightsDebug(self.weightsFilenameTemplate + "_step" + str(i) + ".csv", curWeights)
-
-            #print(curWeights)
             #termination check on no improvement
             if(i - self.maxAccuracyIndex >= self.MAX_NONCHANGING_STEPS and self.maxWeights != None):
                 break
@@ -143,7 +142,7 @@ class mleonevsall():
 
             self.accuracyTestSet.append(accuracyStepTest)
 
-            print("\tAcc: " + str("%.4f" % accuracyStepTest))# + " confusion: " + str(confusionMatrixTest) + " Test")
+            print("\tAcc: " + str("%.4f" % accuracyStepTest))
 
         #check if we need to store the new accuracy as the new best one
         if(currentAccuracy > self.accuracy[self.maxAccuracyIndex]):
@@ -177,7 +176,6 @@ class mleonevsall():
                 deltaW[j] += (target - prediction[0]) * self.BASIS_FUNCTION(self.helper, sampleInput, j)
 
         #update w with learning rate of its gradient.
-        #change1 weights can only be updated with complete gradient
         newWeights = newWeights + deltaW * shrinkedLearningRate
 
         return newWeights
