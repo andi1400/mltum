@@ -218,11 +218,11 @@ if trainingDataFilename == None:
     trainingDataFilename = "../data/TRAINING.arff"
 
 if testDataFilename == None:
-    testFilename = "../data/TEST.arff"
+    testDataFilename = "../data/TEST.arff"
 
 
 trainingData = classifierGeneralInstance.helper.readData(trainingDataFilename)
-testData = classifierGeneralInstance.helper.readData(testFilename)
+testData = classifierGeneralInstance.helper.readData(testDataFilename)
 print("Using dataset: " + trainingDataFilename)
 print("Test reading: " + str(trainingData[0]))
 
