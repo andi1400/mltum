@@ -127,7 +127,7 @@ class mleonevsall():
     def optimizeAllWeights(self, currentWeights, trainingSamples, step, testSet):
 
         for c in range(len(self.CLASSES)):
-            currentWeights[c] = self.updateWeightsPerClasStep(currentWeights[c], trainingSamples, self.CLASSES[c], self.LEARNING_RATE * (self.SHRINKAGE ** step))
+            currentWeights[c] = self.updateWeightsPerClassStep(currentWeights[c], trainingSamples, self.CLASSES[c], self.LEARNING_RATE * (self.SHRINKAGE ** step))
 
 
         #check the current error and compute accuracy, then do a debug output to see the progress
@@ -160,7 +160,7 @@ class mleonevsall():
 
     #Will optimize the weights for one class only. Thereby this will only do one step of gradient decent.
     #CurrentWeightsPerClass is the vector contining the weights for this class logistic regression. Training Samples is a list of training samples. Current Class is nominal (string) class value.
-    def updateWeightsPerClasStep(self, currentWeightsPerClass, trainingSamples, currentClass, shrinkedLearningRate):
+    def updateWeightsPerClassStep(self, currentWeightsPerClass, trainingSamples, currentClass, shrinkedLearningRate):
         newWeights = currentWeightsPerClass
         deltaW = np.zeros(len(currentWeightsPerClass))
 
