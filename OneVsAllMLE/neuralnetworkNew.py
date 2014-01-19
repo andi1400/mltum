@@ -4,8 +4,10 @@ import numpy as np
 import copy
 import time
 import random
+from profilehooks import profile
 
-class neuralnetwork:
+class neuralnetworkNew:
+    #Implementing stochastic bit variance
     CLASSES = None
 
     MAX_STEPS = 1000000
@@ -26,7 +28,7 @@ class neuralnetwork:
     NEURONS_PER_LAYER = 16
 
     BASIS_FUNCTION = helper.getXDirectly
-    SIGMOID = helper.sigmoid
+    SIGMOID = helper.pseudoSigmoid
 
     parameterNames = ["Alpha", "SHRINKAGE", "NUM_LAYERS", "NEURONS_PER_LAYER", "BASIS_FUNCTION", "SIGMOID"]
     parameters = None
@@ -102,7 +104,6 @@ class neuralnetwork:
         self.setFilenames()
 
         for step in range(self.MAX_STEPS):
-
             reducedLearningRate = self.LEARNING_RATE * self.SHRINKAGE ** step
             for j in range(0, len(trainingSamples)):
                 #print str(j) + "/" + str(len(trainingSamples))
@@ -124,7 +125,7 @@ class neuralnetwork:
                 self.maxAccuracyIndex = len(self.accuracy) - 1
                 self.maxWeights = currentWeights
 
-    def calcLayerOutputs(self, sample, currentWeights):
+    def calcLayerOutputs(self, sample, currentWeights, dropoutVectors=None):
         #assign the input.
         outputsPerLayer = []
         sample = copy.deepcopy(sample)
@@ -132,6 +133,7 @@ class neuralnetwork:
         outputsPerLayer.append(np.matrix(sample).transpose())
         #then propagate forwards.
 
+        # set outputs randomly to 0, except for the input and output neurons.
         for k in range(0, len(currentWeights)): #All the same except for the output layer.
             if (k == len(currentWeights)-1):
                 outputsPerLayer.append(self.SIGMOID(self.helper, np.dot(currentWeights[k].transpose(), outputsPerLayer[k])))
@@ -139,6 +141,15 @@ class neuralnetwork:
                 outputsPerLayer.append(np.ones((self.NEURONS_PER_LAYER[k+1]+1, 1)))
                 #print outputsPerLayer[-1]
                 outputsPerLayer[k+1][:-1] = self.SIGMOID(self.helper, np.dot(currentWeights[k].transpose(), outputsPerLayer[k]))
+                #print outputsPerLayer[k+1]
+                if (dropoutVectors != None):
+                    outputsPerLayer[k+1] = np.multiply(outputsPerLayer[k+1], dropoutVectors[k+1])
+                else:
+                    outputsPerLayer[k+1] *= 0.5
+
+                #print outputsPerLayer[k+1]
+                #raw_input()
+
                 #print outputsPerLayer[-1]
                 #raw_input()
             #if (k == len(currentWeights)-1):
@@ -156,11 +167,24 @@ class neuralnetwork:
             #print (outputsPerLayer[k]).shape
         return outputsPerLayer
 
-
     def learnFromSample(self, currentWeights, sample, reducedLearningRate):
         #This is a list of vectors, with the kth entry in the list representing the following:
         #its ith entry is the output of the ith Neuron in the kth layer. Layers as defined under self.maxWeights.
-        outputsPerLayer = self.calcLayerOutputs(sample[0], currentWeights)
+
+        dropoutVectors =  []
+        for k in range(len(self.NEURONS_PER_LAYER)):
+            if (k != len(self.NEURONS_PER_LAYER)-1):
+                dropoutVectors.append(np.ones((self.NEURONS_PER_LAYER[k]+1, 1)))
+            else:
+                dropoutVectors.append(np.ones((self.NEURONS_PER_LAYER[k], 1)))
+            if k != 0 and k != len(self.NEURONS_PER_LAYER)-1: # Not for input and output.
+                for i in range(self.NEURONS_PER_LAYER[k]):
+                    if random.random < 0.5:
+                        dropoutVectors[k][i] = 0
+            dropoutVectors[k] = np.matrix(dropoutVectors[k])
+
+        outputsPerLayer = self.calcLayerOutputs(sample[0], currentWeights, dropoutVectors)
+
 
         #Defined equivalent to outputsPerLayer.
         errorsPerLayer = []
@@ -181,8 +205,12 @@ class neuralnetwork:
         for k in range(len(currentWeights)-1, -1, -1):
             if (k == len(currentWeights)-1):
                 errorsPerLayer[k] = np.dot(currentWeights[k], errorsPerLayer[k+1])
+                errorsPerLayer[k] = np.multiply(errorsPerLayer[k], dropoutVectors[k])
             else:
                 errorsPerLayer[k] = np.dot(currentWeights[k], errorsPerLayer[k+1][0:-1])
+                errorsPerLayer[k] = np.multiply(errorsPerLayer[k], dropoutVectors[k])
+
+
         deltaW = []
         for k in range(len(currentWeights)):
             deltaW.append(np.zeros(shape=currentWeights[k].shape))
@@ -191,7 +219,9 @@ class neuralnetwork:
                 tmp = np.multiply(np.multiply(errorsPerLayer[k+1], outputsPerLayer[k+1]), 1-outputsPerLayer[k+1]).transpose()
             else:
                 tmp = (np.multiply(np.multiply(errorsPerLayer[k+1], outputsPerLayer[k+1]), 1-outputsPerLayer[k+1]))[0:-1].transpose()
-            deltaW[k] = np.dot(outputsPerLayer[k], tmp)
+
+            deltaW[k] = np.dot(np.multiply(outputsPerLayer[k], dropoutVectors[k]), tmp)
+
         modifiedWeights = []
         for k in range(len(currentWeights)):
             modifiedWeights.append(currentWeights[k] + reducedLearningRate * deltaW[k])

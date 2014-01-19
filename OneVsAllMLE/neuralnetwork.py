@@ -26,7 +26,7 @@ class neuralnetwork:
     NEURONS_PER_LAYER = 16
 
     BASIS_FUNCTION = helper.getXDirectly
-    SIGMOID = helper.sigmoid
+    SIGMOID = helper.pseudoSigmoid
 
     parameterNames = ["Alpha", "SHRINKAGE", "NUM_LAYERS", "NEURONS_PER_LAYER", "BASIS_FUNCTION", "SIGMOID"]
     parameters = None
