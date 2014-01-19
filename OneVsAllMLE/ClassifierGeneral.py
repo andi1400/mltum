@@ -68,7 +68,7 @@ class classifierGeneral():
 
         # Print errors on test and data set.
         print("Evaluating Model - Please wait...")
-        currentError, confusionMatrix = self.helper.calcTotalError(self.classifierMethod, originalData, self.classifierMethod.getWeights())
+        currentError, confusionMatrix = self.helper.calcTotalError(self.classifierMethod, testData, self.classifierMethod.getWeights())
         currentErrorTest, confusionMatrixTest = self.helper.calcTotalError(self.classifierMethod, testData, self.classifierMethod.getWeights())
         print("Last Error on training: " + str(currentError))
         print("Last Accuracy on training: " + str(1-currentError))
@@ -93,7 +93,7 @@ class classifierGeneral():
             self.helper.writeConfusionMatrixToFile(confusionMatrix, self.CLASSES, self.classifierMethod.confusionFilenameTemplate + "_FINAL_confusionTraining.txt")
             self.helper.writeConfusionMatrixToFile(confusionMatrixTest, self.CLASSES, self.classifierMethod.confusionFilenameTemplate + "_FINAL_confusionTest.txt")
 
-            self.helper.writeAccuracies("../output/accuracies/run_" + str(self.classifierMethod.__class__.__name__) + "_" + str(date.datetime.fromtimestamp(self.classifierMethod.getStartTime())) + ".csv", self.learnMethod.getAccuracy(), self.learnMethod.accuracyTestSet)
+            self.helper.writeAccuracies("../output/accuracies/run_" + str(self.classifierMethod.__class__.__name__) + "_" + str(date.datetime.fromtimestamp(self.classifierMethod.getStartTime())) + ".csv", self.classifierMethod.getAccuracy(), self.classifierMethod.accuracyTestSet)
 
         #And show the plot, blocking all inputs.
         plt.show(block=True)
@@ -130,7 +130,7 @@ CLASSES = ["sitting", "walking", "standing", "standingup", "sittingdown"]
 CLASSIFIERS = {'MLE': mleonevsall, 'SOFTZEROONE': softzeroone, 'HINGE': hinge, 'MAV': majorityvote, 'WAVG': weightedclassifiers, 'NN': neuralnetwork, 'NND': neuralnetworkDropout}
 
 #This defines the parameters they will be given.
-PARAMETERS = {'MLE': [6e-5, 0.991], 'SOFTZEROONE': [0.0001, 0.99993, 2.5, 1e-7], 'HINGE': [8e-5, 0.9995], 'MAV': None, 'WAVG': None, 'NN': [1e-2, 1, 4, [16, 50, 50, 5]], 'NND': [1e-3, 1, 4, [16, 1000, 1000, 5]]}
+PARAMETERS = {'MLE': [6e-5, 0.991], 'SOFTZEROONE': [0.0001, 0.99993, 2.5, 1e-7], 'HINGE': [8e-5, 0.9995], 'MAV': None, 'WAVG': None, 'NN': [1e-2, 1, 4, [16, 50, 50, 5]], 'NND': [1e-2, 1, 4, [16, 50, 50, 5]]}
 
 MAXSTEPS = 100000
 MAXNONCHANGINGSTEPS = 1000
