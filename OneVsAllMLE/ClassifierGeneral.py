@@ -11,6 +11,8 @@ from majorityVoteTester import majorityvote
 from weightedClassifiers import weightedclassifiers
 from neuralnetwork import neuralnetwork
 from neuralnetworkDropout import neuralnetworkDropout
+from neuralnetworkDropoutBatch import neuralnetworkDropoutBatch
+from neuralnetworkBatch import neuralnetworkBatch
 
 
 """
@@ -127,10 +129,10 @@ signal.signal(signal.SIGINT, signal_handler)
 CLASSES = ["sitting", "walking", "standing", "standingup", "sittingdown"]
 
 #This defines the available classifiers and the console parameter it can be started with.
-CLASSIFIERS = {'MLE': mleonevsall, 'SOFTZEROONE': softzeroone, 'HINGE': hinge, 'MAV': majorityvote, 'WAVG': weightedclassifiers, 'NN': neuralnetwork, 'NND': neuralnetworkDropout}
+CLASSIFIERS = {'MLE': mleonevsall, 'SOFTZEROONE': softzeroone, 'HINGE': hinge, 'MAV': majorityvote, 'WAVG': weightedclassifiers, 'NN': neuralnetwork, 'NND': neuralnetworkDropout, 'NNDB': neuralnetworkDropoutBatch, 'NNB': neuralnetworkBatch}
 
 #This defines the parameters they will be given.
-PARAMETERS = {'MLE': [6e-5, 0.991], 'SOFTZEROONE': [0.0001, 0.99993, 2.5, 1e-7], 'HINGE': [8e-5, 0.9995], 'MAV': None, 'WAVG': None, 'NN': [1e-2, 1, 4, [16, 50, 50, 5]], 'NND': [1e-2, 1, 4, [16, 50, 50, 5]]}
+PARAMETERS = {'MLE': [6e-5, 0.991], 'SOFTZEROONE': [0.0001, 0.99993, 2.5, 1e-7], 'HINGE': [8e-5, 0.9995], 'MAV': None, 'WAVG': None, 'NN': [1e-2, 1, 3, [16, 50, 5]], 'NND': [1e-2, 1, 4, [16, 50, 50, 5]], 'NNDB': [1e-2, 1, 3, [16, 50, 5], 100], 'NNB': [1e-2, 1, 3, [16, 50, 5], 100]}
 
 MAXSTEPS = 100000
 MAXNONCHANGINGSTEPS = 1000
