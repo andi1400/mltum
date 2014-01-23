@@ -84,7 +84,7 @@ class classifierGeneral():
 
         #Print the confusion matrix.
         print(self.helper.getConfusionMatrixAsString(confusionMatrix, self.CLASSES))
-        
+
         #Store the results.
         if self.STORERESULTS:
             self.writeToRunFile()

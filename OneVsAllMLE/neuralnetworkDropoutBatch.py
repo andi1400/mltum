@@ -5,7 +5,6 @@ import numpy as np
 import copy
 import time
 import random
-from profilehooks import profile
 
 """
 This class implements a feed forward neural network learning via stochastic back propagation with droput regularization.
