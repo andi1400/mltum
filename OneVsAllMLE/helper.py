@@ -4,7 +4,13 @@ import time
 import os
 import pickle
 
+
+"""
+Helper class. does all we need to do for every class.
+"""
 class helper():
+
+    #calculates the total error, and the confusion matrix.
     def calcTotalError(self, classifier, trainingSamples, currentWeights):
         curRight = 0
         confusionMatrix = []
@@ -23,6 +29,7 @@ class helper():
 
         return 1-float(curRight)/len(trainingSamples), confusionMatrix
 
+    #Writes accuracies to file.
     def writeAccuracies(self, filename, accuracyTraining, accuracyTest=None):
         if not os.path.exists(os.path.dirname(filename)):
             os.makedirs(os.path.dirname(filename))
@@ -34,13 +41,14 @@ class helper():
             file.write(string)
 
 
-
+    #Write weights to file.
     def writeWeightsCSV(self, filename, weights):
         if not os.path.exists(os.path.dirname(filename)):
             os.makedirs(os.path.dirname(filename))
 
         np.savetxt(filename, weights, delimiter=";")
 
+    #Write weights as pickled file (to eb able to save more things."
     def writeWeightsDebug(self, filename, weights):
         if not os.path.exists(os.path.dirname(filename)):
             os.makedirs(os.path.dirname(filename))
@@ -59,19 +67,7 @@ class helper():
 
         return weights
 
-    # def writeWeights(self, filename, classes, weights, writeClassNames):
-    #     if weights is None:
-    #         return
-    #
-    #     with open(filename, "a") as file:
-    #         csvwriter = csv.writer(file, delimiter=";", quotechar='"')
-    #
-    #         for i in range(len(classes)):
-    #             if writeClassNames:
-    #                 csvwriter.writerow([classes[i]] + weights[i].tolist())
-    #             else:
-    #                 csvwriter.writerow(weights[i].tolist())
-
+    #Writes the confusion matrix to file.
     def writeConfusionMatrixToFile(self, confusionMatrix, CLASSES, filename):
         toWrite = self.getConfusionMatrixAsString(confusionMatrix, CLASSES)
 
@@ -80,6 +76,7 @@ class helper():
         file = open(filename, "a+")
         file.write(toWrite)
 
+    #Writes the confusion matrix nicely.
     def getConfusionMatrixAsString(self, confusionMatrix, CLASSES):
         printing = ""
 
@@ -135,6 +132,7 @@ class helper():
             return 1
         return x[i-1]
 
+    #Pseudo sigmoid function. Uses the "fast sigmoid" function.
     def pseudoSigmoid(self, x):
         return 0.5 * (x/(1+abs(x)) + 1)
 

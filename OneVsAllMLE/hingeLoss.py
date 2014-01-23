@@ -4,6 +4,10 @@ import copy
 import math
 from helper import helper
 
+
+"""
+This class implements a hinge loss learning logistic regression classifier.
+"""
 class hinge():
     CLASSES = None
 
@@ -58,14 +62,6 @@ class hinge():
         for i in range(len(self.CLASSES)):
             dummyWeight = np.zeros(17)
             self.defaultWeights.append(dummyWeight)
-
-
-    def setFilenames(self):
-        self.debugFolderName = "../output/weights/debug/" + str(self.start) + "_" + str(self.__class__.__name__) + "/"
-        self.weightsFilenameTemplate = self.debugFolderName + str(self.start)
-        self.confusionFilenameTemplate = self.debugFolderName + str(self.start)
-
-        print("Writing DEBUG Information to " + str(self.debugFolderName) + "...")
 
     def classifySample(self, x, ClassWeights):
         classPercentages = np.zeros(len(self.CLASSES))
@@ -140,7 +136,7 @@ class hinge():
 
             self.accuracyTestSet.append(accuracyStepTest)
 
-            print("\tAcc: " + str("%.4f" % accuracyStepTest))# + " confusion: " + str(confusionMatrixTest) + " Test")
+            print("\tAcc: " + str("%.4f" % accuracyStepTest))
 
         #check if we need to store the new accuracy as the new best one
         if(currentAccuracy > self.accuracy[self.maxAccuracyIndex]):
@@ -161,43 +157,34 @@ class hinge():
         newWeights = currentWeightsPerClass
         deltaW = np.zeros(len(currentWeightsPerClass))
 
+        #do for all samples,
         for sample in trainingSamples:
             sampleInput = sample[0]
             sampleTarget = sample[1]
-            prediction = self.classifySampleSingleClass(sampleInput, newWeights)
-
+            #The target number is either -1 (this class is not the real one) or 1.
             target = -1
             if sampleTarget == currentClass:
                 target = 1
 
             phi = self.helper.getPhi(sampleInput, self.BASIS_FUNCTION)
+            #See paper for more beautiful formulas.
             wTimesPhi = np.dot(np.transpose(currentWeightsPerClass), phi) * target
 
             if wTimesPhi < 1:
                 deltaW += np.multiply(-1 * target, phi)
 
-
-        #print(deltaW)
-
-#        deltaW += 0.5 * self.REGULARIZER * currentWeightsPerClass
-
         #update w with learning rate of its gradient.
-        #change1 weights can only be updated with complete gradient
         newWeights = newWeights - deltaW * shrinkedLearningRate
 
         return newWeights
 
-    #calculates the error for one input, the one with the result target.
-    def calcError(self, target, inputVector, weights, regParameter):
-        basis = self.BASIS_FUNCTION
-        currentFeatureVector = self.helper.getPhi(inputVector, basis)
+    def setFilenames(self):
+        self.debugFolderName = "../output/weights/debug/" + str(self.start) + "_" + str(self.__class__.__name__) + "/"
+        self.weightsFilenameTemplate = self.debugFolderName + str(self.start)
+        self.confusionFilenameTemplate = self.debugFolderName + str(self.start)
 
-        #calc (sigmoid(BETA* (w * phi) - target))^2 + lambda * w^2
-        wTimesPhi = np.dot(np.transpose(weights), currentFeatureVector)
-        result = (self.SIGMOID(self.helper, self.BETA * wTimesPhi) - target)**2
-        result += regParameter * np.dot(np.transpose(weights), weights)
+        print("Writing DEBUG Information to " + str(self.debugFolderName) + "...")
 
-        return result
 
     def getAccuracy(self):
         return self.accuracy

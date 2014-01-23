@@ -3,6 +3,7 @@ import numpy as np
 import time
 
 
+#Implements a majority vote classifier.
 class majorityvote:
     CLASSES = None
 
@@ -24,8 +25,9 @@ class majorityvote:
     debugFolderName = None
     weightsFilenameTemplate = None
     confusionFilenameTemplate = None
-
+    #Initializes it. Only the classes are important.
     def __init__(self, CLASSES, maxSteps, maxNonChangingSteps, parameters):
+
         self.helper = helper()
         self.CLASSES = CLASSES
 

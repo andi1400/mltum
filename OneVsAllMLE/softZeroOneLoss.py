@@ -4,6 +4,10 @@ import copy
 import math
 from helper import helper
 
+
+"""
+This class implements soft zero one loss for logistic regression.
+"""
 class softzeroone():
     CLASSES = None
 
@@ -59,17 +63,6 @@ class softzeroone():
         for i in range(len(self.CLASSES)):
             dummyWeight = np.zeros(17)
             self.defaultWeights.append(dummyWeight)
-
-
-
-
-    def setFilenames(self):
-        self.debugFolderName = "../output/weights/debug/" + str(self.start) + "_" + str(self.__class__.__name__) + "/"
-        self.weightsFilenameTemplate = self.debugFolderName + str(self.start)
-        self.confusionFilenameTemplate = self.debugFolderName + str(self.start)
-
-        #TODO back in.
-        #print("Writing DEBUG Information to " + str(self.debugFolderName) + "...")
 
     def classifySample(self, x, ClassWeights):
         classPercentages = np.zeros(len(self.CLASSES))
@@ -128,7 +121,7 @@ class softzeroone():
     #Will optimize all the weights for every class. Thereby it does one step for every class and then contiues to the next step.
     def optimizeAllWeights(self, currentWeights, trainingSamples, step, testSet=None):
         for c in range(len(self.CLASSES)):
-            currentWeights[c] = self.updateWeightsPerClasStep(currentWeights[c], trainingSamples, self.CLASSES[c], self.LEARNING_RATE * (self.SHRINKAGE ** step))
+            currentWeights[c] = self.updateWeightsPerClassStep(currentWeights[c], trainingSamples, self.CLASSES[c], self.LEARNING_RATE * (self.SHRINKAGE ** step))
 
 
         #check the current error and compute accuracy, then do a debug output to see the progress
@@ -160,7 +153,7 @@ class softzeroone():
 
     #Will optimize the weights for one class only. Thereby this will only do one step of gradient decent.
     #CurrentWeightsPerClass is the vector contining the weights for this class logistic regression. Training Samples is a list of training samples. Current Class is nominal (string) class value.
-    def updateWeightsPerClasStep(self, currentWeightsPerClass, trainingSamples, currentClass, shrinkedLearningRate):
+    def updateWeightsPerClassStep(self, currentWeightsPerClass, trainingSamples, currentClass, shrinkedLearningRate):
         newWeights = currentWeightsPerClass
         deltaW = np.zeros(len(currentWeightsPerClass))
 
@@ -174,7 +167,6 @@ class softzeroone():
                 target = 1
 
             #a = e^(Beta * w^T * x)
-
             phi = self.helper.getPhi(sampleInput, self.BASIS_FUNCTION)
             dotprd = np.dot(np.transpose(currentWeightsPerClass), phi)
             a = np.exp(self.BETA * dotprd)
@@ -186,52 +178,12 @@ class softzeroone():
                 deltaWScalars /= ((a+1)**3)
             else:
                 deltaWScalars = 0 #Correction for overflows.
-            #print(deltaWScalars)
-            #print(a)
             deltaW += -1 * np.multiply(deltaWScalars, phi)
-
-        #print(deltaW)
 
         deltaW += 0.5 * self.REGULARIZER * currentWeightsPerClass
 
         #update w with learning rate of its gradient.
-        #change1 weights can only be updated with complete gradient
         newWeights = newWeights - deltaW * shrinkedLearningRate
-
-        return newWeights
-
-        #Will optimize the weights for one class only. Thereby this will only do one step of gradient decent.
-    #CurrentWeightsPerClass is the vector contining the weights for this class logistic regression. Training Samples is a list of training samples. Current Class is nominal (string) class value.
-    def updateWeightsPerClasStepHMethod(self, currentWeightsPerClass, trainingSamples, currentClass, shrinkedLearningRate):
-        newWeights = currentWeightsPerClass
-        deltaW = np.zeros(len(currentWeightsPerClass))
-
-        for sample in trainingSamples:
-            sampleInput = sample[0]
-            sampleTarget = sample[1]
-
-            #Done to get from  multiclass to binary target. 0 is not class, 1 is class.
-            target = 0
-            if sampleTarget == currentClass:
-                target = 1
-
-            #Use the h method to get the gradient in all dimensions
-            weightsPlusH = copy.deepcopy(newWeights)
-            regParameter = float(self.REGULARIZER)/len(trainingSamples)
-            errorOriginal = self.calcError(target, sampleInput, newWeights, regParameter)
-
-
-            for j in range(len(currentWeightsPerClass)):
-                weightsPlusH[j] += self.GRADIENTSTEPSIZE
-                errorNew = self.calcError(target, sampleInput, weightsPlusH, regParameter)
-                deltaW[j] += (errorOriginal - errorNew)/self.GRADIENTSTEPSIZE #TODO Minus right?
-
-                weightsPlusH[j] -= self.GRADIENTSTEPSIZE
-
-
-        #update w with learning rate of its gradient.
-        #change1 weights can only be updated with complete gradient
-        newWeights = newWeights + deltaW * float(shrinkedLearningRate)
 
         return newWeights
 
@@ -246,6 +198,13 @@ class softzeroone():
         result += regParameter * np.dot(np.transpose(weights), weights)
 
         return result
+
+
+    def setFilenames(self):
+        self.debugFolderName = "../output/weights/debug/" + str(self.start) + "_" + str(self.__class__.__name__) + "/"
+        self.weightsFilenameTemplate = self.debugFolderName + str(self.start)
+        self.confusionFilenameTemplate = self.debugFolderName + str(self.start)
+
 
     def getAccuracy(self):
         return self.accuracy
