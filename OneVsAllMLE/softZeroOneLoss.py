@@ -141,7 +141,7 @@ class softzeroone():
         #check if we need to store the new accuracy as the new best one
         if(currentAccuracy > self.accuracy[self.maxAccuracyIndex]):
             self.maxAccuracyIndex = step
-            self.maxWeights = currentWeights
+            self.maxWeights = copy.deepcopy(currentWeights)
 
         #Check if we print the confusion matrix
         if(step % 10 == 0):
