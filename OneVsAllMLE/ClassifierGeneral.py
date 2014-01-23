@@ -70,7 +70,7 @@ class classifierGeneral():
 
         # Print errors on test and data set.
         print("Evaluating Model - Please wait...")
-        currentError, confusionMatrix = self.helper.calcTotalError(self.classifierMethod, testData, self.classifierMethod.getWeights())
+        currentError, confusionMatrix = self.helper.calcTotalError(self.classifierMethod, trainingData, self.classifierMethod.getWeights())
         currentErrorTest, confusionMatrixTest = self.helper.calcTotalError(self.classifierMethod, testData, self.classifierMethod.getWeights())
         print("Last Error on training: " + str(currentError))
         print("Last Accuracy on training: " + str(1-currentError))
