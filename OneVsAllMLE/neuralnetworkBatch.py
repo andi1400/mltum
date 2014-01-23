@@ -32,11 +32,12 @@ class neuralnetworkBatch:
     SHRINKAGE = 1
     NUM_LAYERS = 5
     NEURONS_PER_LAYER = 16
+    MOMENTUM = 0
 
     #Which sigmoid function to use.
     SIGMOID = helper.pseudoSigmoid
 
-    parameterNames = ["Alpha", "SHRINKAGE", "NUM_LAYERS", "NEURONS_PER_LAYER", "SIGMOID", "Batchsize"]
+    parameterNames = ["Alpha", "SHRINKAGE", "NUM_LAYERS", "NEURONS_PER_LAYER", "SIGMOID", "Batchsize", "Momentum"]
     parameters = None
 
     timeLastTime = None
@@ -68,8 +69,9 @@ class neuralnetworkBatch:
         self.NUM_LAYERS = int(parameters[2])
         self.NEURONS_PER_LAYER = parameters[3] #NEURONSPERLAYER is a list of the number of neurons that exist per layer - excluding the bias neuron.
         self.batchSize = parameters[4]
+        self.MOMENTUM = parameters[5]
         random.seed()
-        self.parameters = [self.LEARNING_RATE, self.SHRINKAGE, self.NUM_LAYERS, self.NEURONS_PER_LAYER, self.SIGMOID.__name__, self.batchSize]
+        self.parameters = [self.LEARNING_RATE, self.SHRINKAGE, self.NUM_LAYERS, self.NEURONS_PER_LAYER, self.SIGMOID.__name__, self.batchSize, self.MOMENTUM]
 
         self.maxWeights = []
         for k in range(len(self.NEURONS_PER_LAYER)-1):
@@ -112,10 +114,13 @@ class neuralnetworkBatch:
         batchFeatures, batchTargets = self.batchify(trainingSamples, self.batchSize)
 
         testFeatures, testTargets = self.batchify(testSet, 0)
-
+        lastDelta = None
         #do for each step until the maximum steps:
         for step in range(self.MAX_STEPS):
             reducedLearningRate = self.LEARNING_RATE * self.SHRINKAGE ** step
+
+
+
 
             #do stochastic gradient descent.
             #The following is just outputs and tests.
@@ -137,10 +142,15 @@ class neuralnetworkBatch:
                 self.maxAccuracyIndex = len(self.accuracy) - 1
                 self.maxWeights = currentWeights
 
+
             for j in range(len(batchFeatures)):
                 deltaW = self.learnFromBatch(currentWeights, batchFeatures[j], batchTargets[j])
+                if (lastDelta == None):
+                        lastDelta = deltaW
                 for k in range(len(currentWeights)):
-                    currentWeights[k] += reducedLearningRate * deltaW[k]
+                    lastDelta[k] = ((1-self.MOMENTUM) * deltaW[k] + self.MOMENTUM * lastDelta[k])
+                    currentWeights[k] = currentWeights[k] + reducedLearningRate * lastDelta[k]
+
 
 
 

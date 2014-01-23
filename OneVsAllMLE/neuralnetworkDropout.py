@@ -1,5 +1,4 @@
 __author__ = 'frederik'
-__author__ = 'frederik'
 from helper import helper
 import numpy as np
 import copy
@@ -10,7 +9,7 @@ from profilehooks import profile
 """
 This class implements a feed forward neural network learning via stochastic back propagation with droput regularization.
 """
-class neuralnetworkDropoutBatch:
+class neuralnetworkDropout:
     CLASSES = None
 
     MAX_STEPS = 1000000
@@ -31,10 +30,11 @@ class neuralnetworkDropoutBatch:
     NUM_LAYERS = 5
     NEURONS_PER_LAYER = 16
     MOMENTUM = 0
+
     #Which sigmoid function to use.
     SIGMOID = helper.pseudoSigmoid
 
-    parameterNames = ["Alpha", "SHRINKAGE", "NUM_LAYERS", "NEURONS_PER_LAYER", "SIGMOID", "Batchsize", "Momentum"]
+    parameterNames = ["Alpha", "SHRINKAGE", "NUM_LAYERS", "NEURONS_PER_LAYER", "SIGMOID", "Momentum"]
     parameters = None
 
     timeLastTime = None
@@ -52,7 +52,6 @@ class neuralnetworkDropoutBatch:
 
     defaultWeights = None
 
-    batchSize = None
 
     # Sets the parameters and the starting weights.
     def __init__(self, classes, maxSteps, maxNonChangingSteps, parameters):
@@ -65,10 +64,10 @@ class neuralnetworkDropoutBatch:
         self.SHRINKAGE = parameters[1]
         self.NUM_LAYERS = int(parameters[2])
         self.NEURONS_PER_LAYER = parameters[3] #NEURONSPERLAYER is a list of the number of neurons that exist per layer - excluding the bias neuron.
-        self.batchSize = parameters[4]
-        self.MOMENTUM = parameters[5]
+        self.MOMENTUM = parameters[4]
         random.seed()
-        self.parameters = [self.LEARNING_RATE, self.SHRINKAGE, self.NUM_LAYERS, self.NEURONS_PER_LAYER, self.SIGMOID.__name__, self.batchSize, self.MOMENTUM]
+
+        self.parameters = [self.LEARNING_RATE, self.SHRINKAGE, self.NUM_LAYERS, self.NEURONS_PER_LAYER, self.SIGMOID.__name__, self.MOMENTUM]
 
         self.maxWeights = []
         for k in range(len(self.NEURONS_PER_LAYER)-1):
@@ -95,10 +94,10 @@ class neuralnetworkDropoutBatch:
         return predictedClass, confidenceOfPredicted, classPercentagesNormalized
 
 
+
     #learning with backpropagation
     def learn(self, trainingSamples, startWeights=None, testSet=None):
         self.start = time.time()
-        currentWeights = None
         if (startWeights == None):
             currentWeights = self.maxWeights #in that case, no starting weights have been set.  use the zero-initialized maxWeights as start, then.
         else:
@@ -108,95 +107,37 @@ class neuralnetworkDropoutBatch:
         #Now, learn.
         self.setFilenames()
 
-        batchFeatures, batchTargets = self.batchify(trainingSamples, self.batchSize)
-
-        testFeatures, testTargets = self.batchify(testSet, 0)
-        lastDelta = None
         #do for each step until the maximum steps:
+        lastDelta = None
         for step in range(self.MAX_STEPS):
             reducedLearningRate = self.LEARNING_RATE * self.SHRINKAGE ** step
-            if (step > 50):
-                reducedLearningRate = 1e-4
             #do stochastic gradient descent.
+            for j in range(0, len(trainingSamples)):
+                deltaW = self.learnFromSample(currentWeights, trainingSamples[j], reducedLearningRate)
+                modifiedWeights = []
+                for k in range(len(currentWeights)):
+                    lastDelta[k] = reducedLearningRate * ((1-self.MOMENTUM) * deltaW[k] + self.MOMENTUM * lastDelta[k])
+                    currentWeights[k] = currentWeights[k] + lastDelta[k]
+
             #The following is just outputs and tests.
-            errorBefore, confusionMatrix = self.calcTotalErrorBatches(batchFeatures, batchTargets, currentWeights)
+            errorBefore, confusionMatrix = self.helper.calcTotalError(self, trainingSamples, currentWeights)
             accuracyStep = 1-errorBefore
             self.accuracy.append(accuracyStep)
             print("Epoch " + str(step) + "\t time: " + self.runTime())
             print("\tAcc: " + str("%.4f" % accuracyStep) + " confusion: " + str(confusionMatrix) + " Training")
 
             if (testSet != None):
-                errorBeforeTest, confusionMatrixTest = self.calcTotalErrorBatches(testFeatures, testTargets, currentWeights)
+                errorBeforeTest, confusionMatrixTest = self.helper.calcTotalError(self, testSet, currentWeights)
                 accuracyStepTest = 1-errorBeforeTest
 
                 self.accuracyTestSet.append(accuracyStepTest)
 
                 print("\tAcc: " + str("%.4f" % accuracyStepTest) + " confusion: " + str(confusionMatrixTest) + " Test")
 
+
             if (accuracyStep > self.accuracy[self.maxAccuracyIndex]):
                 self.maxAccuracyIndex = len(self.accuracy) - 1
                 self.maxWeights = currentWeights
-
-            for j in range(len(batchFeatures)):
-                deltaW = self.learnFromBatch(currentWeights, batchFeatures[j], batchTargets[j])
-                if (lastDelta == None):
-                        lastDelta = deltaW
-                for k in range(len(currentWeights)):
-                    lastDelta[k] = ((1-self.MOMENTUM) * deltaW[k] + self.MOMENTUM * lastDelta[k])
-                    currentWeights[k] = currentWeights[k] + reducedLearningRate * lastDelta[k]
-
-
-
-
-    def calcTotalErrorBatches(self, batchFeatures, batchTargets, currentWeights):
-        curRight = 0
-        confusionMatrix = []
-        totalExamples = 0
-        for i in range(len(self.CLASSES)):
-            confusionMatrix.append([])
-            for j in range(len(self.CLASSES)):
-                confusionMatrix[i].append(0)
-        for k in range(len(batchFeatures)):
-            numExamples = batchFeatures[k].shape[1]
-            totalExamples += numExamples
-            outputsLast = self.calcLayerOutputsBatch(batchFeatures[k], currentWeights, None)[-1]
-            results = outputsLast.argmax(axis=0)
-            targets = batchTargets[k].argmax(axis=0)
-            for i in range(numExamples):
-                result = results[0, i]
-                target = targets[i]
-                if (result == target):
-                    curRight += 1
-                confusionMatrix[result][target] += 1
-        return 1-float(curRight)/totalExamples, confusionMatrix
-
-
-    def batchify(self, samples, batchSize):
-        #first, set the batches.
-        #A list of feature matrixes, with the ith column representing the ith example of said feature.
-        index = 0
-        batchFeatures = []
-        #A list of matrices in the one of k coding scheme.
-        batchTargets = []
-
-        while index < len(samples):
-            if batchSize != 0:
-                numberExamples = min(batchSize, len(samples) - index)
-            else:
-                numberExamples = len(samples)
-            batchFeatures.append(np.ones(shape=(self.NEURONS_PER_LAYER[0]+1, numberExamples)))
-            batchTargets.append(np.zeros(shape=(self.NEURONS_PER_LAYER[-1], numberExamples)))
-            for i in range(numberExamples):
-                for j in range(self.NEURONS_PER_LAYER[0]):
-                    batchFeatures[-1][j, i] = samples[index][0][j]
-
-                #Now, set the one out of k training scheme
-                for j in range(self.NEURONS_PER_LAYER[-1]):
-                    if (j < len(self.CLASSES) and samples[index][1] == self.CLASSES[j]):
-                        batchTargets[-1][j, i] = 1
-                index += 1
-
-        return batchFeatures, batchTargets
 
 
     #Calculates the outputs for all layers. This is a list of vectors, with [0] representing the input layer, [1] the first hidden layer and so on.
@@ -221,56 +162,43 @@ class neuralnetworkDropoutBatch:
                     outputsPerLayer[k+1] *= 0.5
         return outputsPerLayer
 
+    def learnFromSample(self, currentWeights, sample, reducedLearningRate):
 
-    def calcLayerOutputsBatch(self, batchFeatures, currentWeights, dropoutVectors):
-        numExamples = batchFeatures.shape[1]
-        outputsPerLayer = []
-        outputsPerLayer.append(batchFeatures)
-        for k in range(0, len(currentWeights)): #All the same except for the output layer.
-            if (k == len(currentWeights)-1): # Do not append the bias.
-                outputsPerLayer.append(np.matrix(self.SIGMOID(self.helper, np.dot(currentWeights[k].transpose(), outputsPerLayer[k]))))
-            else: #Do append the bias neuron.
-                outputsPerLayer.append(np.ones((self.NEURONS_PER_LAYER[k+1]+1, numExamples)))
-                outputsPerLayer[k+1][:-1] = self.SIGMOID(self.helper, np.dot(currentWeights[k].transpose(), outputsPerLayer[k]))
-                if (dropoutVectors != None):
-                    outputsPerLayer[k+1] = np.multiply(outputsPerLayer[k+1], dropoutVectors[k+1])
-                else:
-                    outputsPerLayer[k+1] *= 0.5
-        return outputsPerLayer
-
-    def learnFromBatch(self, currentWeights, batchFeatures, batchTargets):
         #dropoutVectors is a list of len(NEURONS_PER_LAYER) length, representing all neurons. Its length is as long as the "official" neurons per layer.
         #The bias node is _always_ active.
-        numExamples = batchFeatures.shape[1]
         dropoutVectors =  []
         for k in range(len(self.NEURONS_PER_LAYER)):
             if (k != len(self.NEURONS_PER_LAYER)-1):
                 #if a bias neuron exists.
-                dropoutVectors.append(np.ones((self.NEURONS_PER_LAYER[k]+1, numExamples)))
+                dropoutVectors.append(np.ones((self.NEURONS_PER_LAYER[k]+1, 1)))
             else:
                 #else.
-                dropoutVectors.append(np.ones((self.NEURONS_PER_LAYER[k], numExamples)))
+                dropoutVectors.append(np.ones((self.NEURONS_PER_LAYER[k], 1)))
             if k != 0 and k != len(self.NEURONS_PER_LAYER)-1: # Not for input and output.
                 for i in range(self.NEURONS_PER_LAYER[k]):
-                    for j in range(numExamples):
                     #note that, due to the above for-loop, the values corresponding to bias, input and output neurons are always 1.
-                        if random.random() < 0.5:
+                    if random.random < 0.5:
+                        dropoutVectors[k][i] = 0
+            dropoutVectors[k] = np.matrix(dropoutVectors[k])
 
-                            dropoutVectors[k][i, j] = 0
+        outputsPerLayer = self.calcLayerOutputs(sample[0], currentWeights, dropoutVectors)
 
-        #Batch output generation.
-        outputsPerLayer = self.calcLayerOutputsBatch(batchFeatures, currentWeights, dropoutVectors)
 
         #Defined equivalent to outputsPerLayer.
         errorsPerLayer = []
 
         #afterwards, it will be necessary to get the error of the last layer first. But, before, set the right size for the error.
         #This actually introduces an error for the bias, which we just won't care about.
-        for i in range(len(outputsPerLayer)-1):
-            errorsPerLayer.append(np.zeros((outputsPerLayer[i].shape[0], len(batchTargets))))
+        for i in range(len(outputsPerLayer)):
+            errorsPerLayer.append(np.zeros((outputsPerLayer[i].shape[0], 1)))
 
         #Set the error for the output layer.
-        errorsPerLayer.append(batchTargets - outputsPerLayer[-1])
+        for i in range(len(errorsPerLayer[self.NUM_LAYERS-1])):
+            if (i < len(self.CLASSES) and sample[1] == self.CLASSES[i]): #In this case, the output should be 1.
+                errorsPerLayer[self.NUM_LAYERS-1][i] = (1-outputsPerLayer[self.NUM_LAYERS-1][i])
+            else: #In this, 0.
+                errorsPerLayer[self.NUM_LAYERS-1][i] = (0-outputsPerLayer[self.NUM_LAYERS-1][i])
+
         #now, it gets funny.: Calculate all of the errors. In both cases. dropout applies to the errorsPerLayer, too. A neuron that isn't 'active' will have no error.
         for k in range(len(currentWeights)-1, -1, -1):
             if (k == len(currentWeights)-1):
@@ -279,6 +207,7 @@ class neuralnetworkDropoutBatch:
             else:
                 errorsPerLayer[k] = np.dot(currentWeights[k], errorsPerLayer[k+1][0:-1])
                 errorsPerLayer[k] = np.multiply(errorsPerLayer[k], dropoutVectors[k])
+
         #Calculate the deltaW.
         deltaW = []
         for k in range(len(currentWeights)):
@@ -291,8 +220,8 @@ class neuralnetworkDropoutBatch:
 
             #And again, a neuron which doesn't exist won't cause deltaWs.
             deltaW[k] = np.dot(np.multiply(outputsPerLayer[k], dropoutVectors[k]), tmp)
-        return deltaW
 
+        return deltaW[k]
 
     def setFilenames(self):
         self.debugFolderName = "../output/weights/debug/" + str(self.start) + "_" + str(self.__class__.__name__) + "/"
