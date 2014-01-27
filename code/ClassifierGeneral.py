@@ -62,7 +62,7 @@ class classifierGeneral():
     def printRunInformation(self):
         #Initialize and draw plot.
         plt.clf()
-        if (self.classifierMethod.accuracyTestSet != None):
+        if(hasattr(self.classifierMethod, 'accuracyTestSet') and self.classifierMethod != None):
             plt.plot(self.classifierMethod.accuracyTestSet)
         plt.plot(self.classifierMethod.getAccuracy())
         plt.axis([0,len(self.classifierMethod.getAccuracy()),0,1])

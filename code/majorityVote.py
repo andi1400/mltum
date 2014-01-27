@@ -19,6 +19,7 @@ class majorityvote:
     endTime = None
 
     accuracy = []
+    accuracyTestSet = None
     maxAccuracyIndex = 0
     maxWeights = None
 
