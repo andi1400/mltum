@@ -136,7 +136,7 @@ CLASSES = ["sitting", "walking", "standing", "standingup", "sittingdown"]
 CLASSIFIERS = {'MLE': mleonevsall, 'SOFTZEROONE': softzeroone, 'HINGE': hinge, 'MAV': majorityvote, 'WAVG': weightedclassifiers, 'NN': neuralnetwork, 'NND': neuralnetworkDropout, 'NNDB': neuralnetworkDropoutBatch, 'NNB': neuralnetworkBatch}
 
 #This defines the parameters they will be given.
-PARAMETERS = {'MLE': [6e-5, 0.991], 'SOFTZEROONE': [0.0001, 0.99993, 2.5, 1e-7], 'HINGE': [8e-5, 0.9995], 'MAV': None, 'WAVG': None, 'NN': [1e-2, 1, 3, [16, 50, 5]], 'NND': [1e-2, 1, 4, [16, 50, 50, 5]], 'NNDB': [1e-2, 0.97, 5, [16, 1000, 1000, 1000, 5], 100, 0.7], 'NNB': [1e-2, 0.97, 5, [16, 1000, 1000, 1000, 5], 100, 0.7]}
+PARAMETERS = {'MLE': [6e-5, 0.991], 'SOFTZEROONE': [0.0001, 0.99993, 2.5, 1e-7], 'HINGE': [8e-5, 0.9995], 'MAV': None, 'WAVG': None, 'NN': [1e-2, 1, 3, [16, 50, 5]], 'NND': [1e-2, 1, 4, [16, 50, 50, 5], 0.7], 'NNDB': [1e-2, 0.97, 7, [16, 50, 50, 50, 50, 50, 5], 100, 0.8], 'NNB': [1e-2, 0.97, 7, [16, 50, 50, 50, 50, 50, 5], 100, 0.7]}
 
 MAXSTEPS = 100000
 MAXNONCHANGINGSTEPS = 1000
