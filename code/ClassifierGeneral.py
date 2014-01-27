@@ -7,7 +7,7 @@ from MLEOneVsAll import mleonevsall
 from softZeroOneLoss import softzeroone
 from helper import *
 from hingeLoss import hinge
-from majorityVoteTester import majorityvote
+from majorityVote import majorityvote
 from weightedClassifiers import weightedclassifiers
 from neuralnetwork import neuralnetwork
 from neuralnetworkDropout import neuralnetworkDropout
