@@ -85,6 +85,11 @@ class classifierGeneral():
         #Print the confusion matrix.
         print(self.helper.getConfusionMatrixAsString(confusionMatrix, self.CLASSES))
 
+        confusionMatrixTestFilename = "../output/confusion/" + str(time.time()) + "_" + str(self.classifierMethod) + "_FINAL_confusionTest.txt"
+        self.helper.writeConfusionMatrixToFile(confusionMatrixTest, self.CLASSES, confusionMatrixTestFilename)
+        print "Wrote confusion matrix to :" + confusionMatrixTestFilename
+
+
         #Store the results.
         if self.STORERESULTS:
             self.writeToRunFile()
@@ -93,7 +98,6 @@ class classifierGeneral():
             plt.savefig("../output/plots/run_" + str(self.classifierMethod.__class__.__name__) + "_" + str(date.datetime.fromtimestamp(self.classifierMethod.getStartTime())) + ".png")
             plt.savefig("../output/plots/run_" + str(self.classifierMethod.__class__.__name__) + "_" + str(date.datetime.fromtimestamp(self.classifierMethod.getStartTime())) + ".pdf")
             self.helper.writeConfusionMatrixToFile(confusionMatrix, self.CLASSES, self.classifierMethod.confusionFilenameTemplate + "_FINAL_confusionTraining.txt")
-            self.helper.writeConfusionMatrixToFile(confusionMatrixTest, self.CLASSES, self.classifierMethod.confusionFilenameTemplate + "_FINAL_confusionTest.txt")
 
             self.helper.writeAccuracies("../output/accuracies/run_" + str(self.classifierMethod.__class__.__name__) + "_" + str(date.datetime.fromtimestamp(self.classifierMethod.getStartTime())) + ".csv", self.classifierMethod.getAccuracy(), self.classifierMethod.accuracyTestSet)
 
