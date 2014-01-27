@@ -114,6 +114,8 @@ class neuralnetworkDropout:
             for j in range(0, len(trainingSamples)):
                 deltaW = self.learnFromSample(currentWeights, trainingSamples[j], reducedLearningRate)
                 modifiedWeights = []
+                if (lastDelta == None):
+                    lastDelta = deltaW
                 for k in range(len(currentWeights)):
                     lastDelta[k] = reducedLearningRate * ((1-self.MOMENTUM) * deltaW[k] + self.MOMENTUM * lastDelta[k])
                     currentWeights[k] = currentWeights[k] + lastDelta[k]
@@ -220,7 +222,7 @@ class neuralnetworkDropout:
             #And again, a neuron which doesn't exist won't cause deltaWs.
             deltaW[k] = np.dot(np.multiply(outputsPerLayer[k], dropoutVectors[k]), tmp)
 
-        return deltaW[k]
+        return deltaW
 
     def setFilenames(self):
         self.debugFolderName = "../output/weights/debug/" + str(self.start) + "_" + str(self.__class__.__name__) + "/"
