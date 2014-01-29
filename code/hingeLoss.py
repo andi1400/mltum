@@ -11,7 +11,7 @@ This class implements a hinge loss learning logistic regression classifier.
 class hinge():
     CLASSES = None
 
-    MAX_STEPS = 3500
+    MAX_STEPS = 10000
     UPDATE_THRESHOLD = None
     MAX_NONCHANGING_STEPS = 100000
 
