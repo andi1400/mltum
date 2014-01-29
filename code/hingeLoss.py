@@ -111,7 +111,7 @@ class hinge():
             curWeights = self.optimizeAllWeights(curWeights, trainingSamples, i, testSet)
 
             if(i % 10 == 0):
-                self.helper.writeWeightsDebug(self.weightsFilenameTemplate + "_step" + str(i) + ".csv", curWeights)
+                self.helper.writeWeightsDebug(self.weightsFilenameTemplate + "_step" + str(i) + ".csv", self.maxWeights)
 
             #termination check on no improvement
             if(i - self.maxAccuracyIndex >= self.MAX_NONCHANGING_STEPS and self.maxWeights != None):
@@ -127,7 +127,7 @@ class hinge():
         #check the current error and compute accuracy, then do a debug output to see the progress
         currentGeneralError, currentConfusionMatrix = self.helper.calcTotalError(self, trainingSamples, currentWeights)
         currentAccuracy = 1- currentGeneralError
-        print("Progress Global Weight: " + str(step) + " Right: " + str(1-currentGeneralError) + self.helper.strRuntime(self.start))
+        print("Pr obal Weight: " + str(step) + " Right: " + str(1-currentGeneralError) + self.helper.strRuntime(self.start))
         self.accuracy.append(currentAccuracy) #save accuracy for later result printing
 
         if (testSet != None):
