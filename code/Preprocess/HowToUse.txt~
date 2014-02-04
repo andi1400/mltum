@@ -1,0 +1,6 @@
+0. Download weka from http://www.cs.waikato.ac.nz/ml/weka/downloading.html (The other platforms version will do it.)
+1. Compile with having current weka.jar in classpath
+	i.e. javac -cp "/home/ajauch/Downloads/weka-3-6-10/weka.jar:." Preprocessor.java
+
+2. Use it as follows (again you need the weka jar)
+	java -cp "/home/ajauch/Downloads/weka-3-6-10/weka.jar:." Preprocessor datasetWithoutNameGender20Percent.csv output
