@@ -1,7 +1,7 @@
 mltum
 =====
 
-This project implements various variants of logistic regression and various feed forward neural networks for use in a machine learning project at TU Munich.
+This project implements various variants of logistic regression and various feed forward neural networks together with some boilerplate code for use in a machine learning project at TU Munich.
 
 ##Code State##
 
